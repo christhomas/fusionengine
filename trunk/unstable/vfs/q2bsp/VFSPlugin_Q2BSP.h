@@ -1,7 +1,7 @@
 #ifndef _VFSPLUGIN_Q2H_
 	#define _VFSPLUGIN_Q2H_
 
-#include <virtualfs/VirtualFS.h>
+#include <vfs/VirtualFS.h>
 #include <mesh/Vertex.h>
 #include <Fusion.h>
 

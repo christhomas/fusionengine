@@ -1,7 +1,7 @@
 #ifndef _VFSPLUGIN_Q2WAL_H_
 	#define _VFSPLUGIN_Q2WAL_H_
 
-#include <virtualfs/VirtualFS.h>
+#include <vfs/VirtualFS.h>
 #include <Fusion.h>
 
 /**	@ingroup	VFSPlugin_Q2BSP_Group

@@ -1,6 +1,4 @@
 #include <VFSPlugin_Q3BSP.h>
-#include <VFSPlugin_TGA.h>
-#include <VFSPlugin_JPG.h>
 #include <Fusion.h>
 
 #include <fstream>
@@ -30,14 +28,6 @@ LIBQUAKE3_API VFSPlugin * CreatePlugin(Fusion *f)
 	switch(count){
 		case 0:{
 			p = new VFSPlugin_Q3BSP();
-		}break;
-
-		case 1:{
-			p = new VFSPlugin_TGA();
-		}break;
-
-		case 2:{
-			p = new VFSPlugin_JPEG();
 		}break;
 	};
 

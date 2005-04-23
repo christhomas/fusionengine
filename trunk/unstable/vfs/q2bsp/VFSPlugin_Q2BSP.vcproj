@@ -105,16 +105,6 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="VFSPlugin_PCX"
-			Filter="">
-			<File
-				RelativePath="..\pcx\VFSPlugin_PCX.cpp">
-			</File>
-			<File
-				RelativePath="..\pcx\VFSPlugin_PCX.h">
-			</File>
-		</Filter>
 		<File
 			RelativePath=".\VFSPlugin_Q2BSP.cpp">
 		</File>

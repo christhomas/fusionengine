@@ -32,7 +32,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeglib.lig libMaths_d.lib libFusionCore_d.lib"
+				AdditionalDependencies="libMaths_d.lib libFusionCore_d.lib"
 				OutputFile="$(OutDir)/$(ProjectName)_d.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external"/>
@@ -76,7 +76,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="jpeglib.lib libMaths.lib libFusionCore.lib"
+				AdditionalDependencies="libMaths.lib libFusionCore.lib"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external"/>

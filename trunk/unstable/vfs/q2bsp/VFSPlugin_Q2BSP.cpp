@@ -44,17 +44,6 @@ LIBQUAKE2_API VFSPlugin * CreatePlugin(Fusion *f)
 		case 1:{
 			p = new VFSPlugin_Q2WAL();
 		}break;
-
-		case 2:{
-			//	FIXME: 
-			//	Chris thomas: 14/04/2005
-			//	This shouldnt be statically included, it should be loaded like another plugin to use
-			//	Think of a new way this can happen, I'm not happy with this.
-			//
-			//	Also creates a nasty dependancy on the pcx code inside this project, you have to adjust
-			//	the project to include the pcx directory, things like that, shouldnt happen
-			p = new VFSPlugin_PCX();
-		}break;
 	};
 
 	count++;
@@ -471,7 +460,7 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 	BSPTexInfo			*t;
 	bool				NewTexture	= true;
 	Material			*m			= NULL;
-	IVertexBuffer		vb			= NULL;
+	IVertexBuffer		*vb			= NULL;
 
 	//	Build a list of Texture id codes to reference objects in the BSPTexInfo array
 	for(a=0;a<m_numfaces;a++){
