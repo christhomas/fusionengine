@@ -6,6 +6,7 @@ using namespace std;
 ofstream logfile("bsp.log");
 
 Fusion *fusion;
+std::string plugin_str = "VFSPlugin_Q3BSP: ";
 
 #ifdef _WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -25,13 +26,17 @@ LIBQUAKE3_API VFSPlugin * CreatePlugin(Fusion *f)
 
 	VFSPlugin *p = NULL;
 
-	switch(count){
-		case 0:{
+	if(count++ == 0){
+		if(fusion->vfs->FindPlugin("jpg") != NULL && fusion->vfs->FindPlugin("tga") != NULL){
 			p = new VFSPlugin_Q3BSP();
-		}break;
-	};
-
-	count++;
+		}else{
+			//	FIXME:	Perhaps here I should attempt to load the plugins 
+			//			required as opposed to dropping out with an error?
+			fusion->errlog << plugin_str << "Sorry I cannot load" << std::endl;
+			fusion->errlog << plugin_str << "I depend on VFSPlugin_JPEG and VFSPlugin_TGA to work correctly" << std::endl;
+			fusion->errlog << plugin_str << "and I can't work without them" << std::endl;
+		}
+	}
 
 	return p;
 }

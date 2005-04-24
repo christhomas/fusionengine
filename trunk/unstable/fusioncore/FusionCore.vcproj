@@ -115,6 +115,9 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
+				RelativePath="..\include\dbstream.h">
+			</File>
+			<File
 				RelativePath=".\Fusion.h">
 			</File>
 			<File

@@ -45,9 +45,6 @@ protected:
 	std::vector<VFSFilter *> m_filter;
 
 	virtual char *			FindExtension		(char *filename);
-	virtual VFSTransport *	FindTransport		(char *filename);
-	virtual VFSPlugin *		FindPlugin			(char *extension);
-	virtual VFSFilter *		FindFilter			(char *type);
 
 	virtual void			AddPlugin			(VFSPlugin::plugin_t			CreatePlugin);
 	virtual void			AddFilter			(VFSFilter::filter_t			CreateFilter);
@@ -69,6 +66,10 @@ public:
 	virtual VFSHandle *		Open			(char *filename, bool create=false);
 	virtual VFSHandle *		Open			(char *filename, char *ext, bool create=false);
 	virtual VFSHandle *		OpenLocation		(char *loc, bool create=false);
+	
+	virtual VFSTransport *	FindTransport		(char *filename);
+	virtual VFSPlugin *		FindPlugin			(char *extension);
+	virtual VFSFilter *		FindFilter			(char *type);	
 	
 	virtual bool			Close			(VFSHandle *handle);
 };

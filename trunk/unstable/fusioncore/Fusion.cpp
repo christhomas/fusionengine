@@ -17,6 +17,9 @@ void WindowDestroyEvent( void ){}
  */
 Fusion::Fusion()
 {
+	//	Setup the errlog system
+	errlog.enableFile("errlog.txt");
+
 #ifdef _WIN32
 	m_moduledb	= new Win32ModuleDB;
 	m_platform	= new Win32PlatformData;
@@ -137,6 +140,9 @@ void Fusion::Pause( bool active )
  */
 void Fusion::LoadConfig( char *configfile )
 {
+	//	FIXME:	Should probably move all this to use STL more
+	//			considering it's 2-3 years old, I didnt know STL then
+	//			should fix it now I know better
 	bool begin = false;
 	char buffer[ 2048 ];
 	std::ifstream config( configfile );
@@ -187,7 +193,7 @@ void Fusion::LoadConfig( char *configfile )
 				for ( int a = 0;a < numsystems;a++ )
 				{
 					if ( m_libfilename[ a ] == NULL ){
-						output << "m_filename[" << a << "] = " << ( int ) m_libfilename[ a ] << std::endl;
+						output << "m_filename[" << a << "] = " << (int *) m_libfilename[ a ] << std::endl;
 					}else{
 						output << "m_filename[" << a << "] = " << m_libfilename[ a ] << std::endl;
 					}

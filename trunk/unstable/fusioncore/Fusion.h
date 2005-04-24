@@ -1,6 +1,13 @@
 #ifndef _FUSION_H_
 	#define _FUSION_H_
 
+//	Fusion helper classes + data
+#include <PlatformData.h>
+#include <Rect.h>
+#include <IModuleDB.h>
+#include <dbstream.h>
+//	STL file stream to read the config file
+#include <fstream>
 //	Subsystem include files
 #include <font/IFont.h>
 #include <gui/gui.h>
@@ -12,12 +19,6 @@
 #include <sound/ISound.h>
 #include <INetworkCore.h>
 #include <FusionSubsystem.h>
-//	Fusion helper classes + data
-#include <PlatformData.h>
-#include <Rect.h>
-#include <IModuleDB.h>
-//	STL file stream to read the config file
-#include <fstream>
 
 /** @ingroup	Fusion_Group
  *	@brief		The core of the Fusion system
@@ -123,7 +124,16 @@ public:
 	INetworkCore		*Network;		/**< Handles communication between two machines across a LAN/Modem connection										*/
 	VirtualFS				*vfs;				/**< Loads files and handles their formats invisibly through the data held in the config file		*/
 	/**@}*/
-
+	
+	/** @var	Error logging class
+	 *	@brief	Uses a std::cout style class to control error output
+	 *
+	 *	This class provides advanced debugging to the entire fusion system
+	 *	in this specific case, it's used to report errors from anywhere
+	 *	in the system to a logging file
+	 */
+	dbg::debugstream errlog; 
+	
 	/**
 	 *	@enum Subsystem
 	 *	Enumerated identifiers for each supported subsystem
