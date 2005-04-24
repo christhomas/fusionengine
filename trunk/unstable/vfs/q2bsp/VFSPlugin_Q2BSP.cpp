@@ -3,6 +3,7 @@
 #include <VFSPlugin_PCX.h>
 
 Fusion *fusion;
+std::string plugin_str = "VFSPlugin_Q2BSP: ";
 
 #ifdef _WIN32
 	#define WIN32_LEAN_AND_MEAN
@@ -34,18 +35,19 @@ LIBQUAKE2_API VFSPlugin * CreatePlugin(Fusion *f)
 	fusion = f;
 
 	VFSPlugin *p = NULL;
-
-	switch(count){
-		//	Quake2 Plugins
-		case 0:{
-			p = new VFSPlugin_Q2BSP();
-		}break;
-
-		case 1:{
-			p = new VFSPlugin_Q2WAL();
-		}break;
-	};
-
+	
+	if(fusion->vfs->FindPlugin("pcx") != NULL){
+		//	Quake 2 Plugins
+		if(count == 0)	p = new VFSPlugin_Q2BSP();
+		if(count == 1)	p = new VFSPlugin_Q2WAL();
+	}else{
+		//	FIXME:	Perhaps here I should attempt to load the plugins 
+		//			required as opposed to dropping out with an error?
+		fusion->errlog << plugin_str << "Sorry I cannot load" << std::endl;
+		fusion->errlog << plugin_str << "I depend on VFSPlugin_PCX to work correctly" << std::endl;
+		fusion->errlog << plugin_str << "and I can't work without them" << std::endl;
+	}
+			
 	count++;
 
 	return p;

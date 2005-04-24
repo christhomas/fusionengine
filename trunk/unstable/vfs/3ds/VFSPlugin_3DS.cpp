@@ -31,8 +31,7 @@ LIB3DS_API VFSPlugin * CreatePlugin(Fusion *f)
 
 	fusion = f;
 
-	if(count == 0){
-		count++;
+	if(count++ == 0){
 		return new VFSPlugin_3DS();
 	}
 
