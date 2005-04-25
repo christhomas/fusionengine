@@ -167,8 +167,8 @@ void VirtualFS::LoadConfig(char *configfile)
 
 			//	Get the function ptr to create the filters
 			VFSTransport::transport_t	t = (VFSTransport::transport_t)	m_moduledb->GetFunction(module,"CreateTransport");
-			VFSPlugin::plugin_t				p = (VFSPlugin::plugin_t)				m_moduledb->GetFunction(module,"CreatePlugin");
-			VFSFilter::filter_t				f = (VFSFilter::filter_t)				m_moduledb->GetFunction(module,"CreateFilter");
+			VFSPlugin::plugin_t			p = (VFSPlugin::plugin_t)		m_moduledb->GetFunction(module,"CreatePlugin");
+			VFSFilter::filter_t			f = (VFSFilter::filter_t)		m_moduledb->GetFunction(module,"CreateFilter");
 
 			LoadPlugin(t,p,f);
 		}

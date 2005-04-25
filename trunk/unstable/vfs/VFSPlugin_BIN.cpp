@@ -15,7 +15,7 @@ VFSPlugin * CreateBinaryPlugin(Fusion *f)
 {
 	static int counter=0;
 
-	if(counter == 0){ counter++; return new VFSPlugin_BIN();	}
+	if(counter++ == 0){ return new VFSPlugin_BIN();	}
 
 	return NULL;
 }

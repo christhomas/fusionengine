@@ -32,15 +32,19 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libjpeg_d.lib"
+				AdditionalDependencies="libjpeg.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/$(ProjectName)_d.dll"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external\lib"
-				IgnoreAllDefaultLibraries="FALSE"/>
+				IgnoreAllDefaultLibraries="FALSE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)\$(TargetName).pdb"
+				ImportLibrary=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -77,14 +81,16 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libjpeg.lib"
+				AdditionalDependencies="libjpeg.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external\lib"/>
+				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external\lib"
+				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

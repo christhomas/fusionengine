@@ -1,6 +1,8 @@
 #ifndef _VECTOR_H_
 	#define _VECTOR_H_
 
+//	FIXME:	This shouldnt be here, just use the float x,y,z constructor
+//			and remove the Vertex3f constructor, just being lazy	
 #include <mesh/Vertex.h>
 
 namespace Maths{

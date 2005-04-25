@@ -5,12 +5,11 @@ var shell = new ActiveXObject("WScript.Shell");
 var cachefile = fso.CreateTextFile("cache.txt");
 
 //	The location of all the backup files
-var abspath		=	"C:\\Documents and Settings\\kosh\\My Documents\\Visual Studio Projects";
-var localdir	=	"FusionEngine";
-var backup		=	abspath+"\\"+localdir+"_Backup";
+var abspath		=	"..";
+var backup		=	abspath+"/backup";
 
 //	The current location of the directory navigation
-var curdir = "./";
+var curdir;
 
 //	Default function to call
 var func = donothing;
@@ -67,31 +66,37 @@ for(var i=0;i<args.length;i++){
 }
 
 WScript.echo("Processing, please wait");
+WScript.echo("Current dir = "+shell.CurrentDirectory);
+WScript.echo("parent = "+abspath);
+WScript.echo("backup = "+backup);
 
 //	Recursively list directories
-listDir(curdir);
+listDir("./");
 
 //	Function to recursively navigate a directory structure
 function listDir(dir)
 {
-	var f = fso.GetFolder(dir);
+	curdir = dir;
+	curdir = relativeFilename(curdir);
 	
-	listFiles(f);
+	cachefile.WriteLine("Dir = "+curdir);
+	if(printtree == true) WScript.echo(curdir);
+
+	var f = fso.GetFolder(curdir);
+	
+	listFiles();
 	
 	for(var fc = new Enumerator(f.SubFolders);!fc.atEnd();fc.moveNext()){
-		curdir = relativeFilename(fc.item());
-		
-		//	Cache the directory and recurse to the next subdirectory
-		cachefile.WriteLine("Dir = "+curdir);
-		if(printtree == true) WScript.echo(curdir);
-		listDir(curdir);
+		//	List the subdirectory
+		var str = fc.item().Path;
+		listDir(str);
 	}
 }
 
 //	iterates through a directory's files
-function listFiles(dir)
+function listFiles()
 {
-	var f = fso.GetFolder(dir);
+	var f = fso.GetFolder(curdir);
 
 	for(var fc = new Enumerator(f.Files);!fc.atEnd();fc.moveNext()){
 		//	Output the file to the cache and call the function to process it
@@ -99,7 +104,7 @@ function listFiles(dir)
 		if(printtree == true) WScript.echo("\t"+fc.item().Name);
 		
 		//	Is this a good idea? making all file Paths relative to the FusionEngine directory?
-		fn = relativeFilename(fc.item());
+		fn = relativeFilename(fc.item().Path);
 		func(fn);		
 	}
 }
@@ -272,9 +277,10 @@ function add_quotes(str, escape)
 //	This function chops off the part you dont really need (the part before the fusion engine directory)
 function relativeFilename(file)
 {
-	var str = file.Path.substr(file.Path.indexOf("\FusionEngine"));
-	str = str.substr(str.indexOf("\\")+1);
-	return str;
+	//WScript.echo("relativeFilename("+file+")");
+	if(file == "./") return file;
+	
+	return file.substr(shell.CurrentDirectory.length+1);
 }
 
 function sed_command(exp,file,cmd)

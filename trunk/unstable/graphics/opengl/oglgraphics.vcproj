@@ -32,14 +32,19 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libFusion.lib libGraphics.lib libMaths.lib opengl32.lib glu32.lib gdi32.lib user32.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib gdi32.lib user32.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/lib$(ProjectName)_d.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
+				AdditionalLibraryDirectories="$(SolutionDir)bin"
+				IgnoreAllDefaultLibraries="FALSE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)\$(TargetName).pdb"
+				ImportLibrary=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -76,14 +81,16 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libFusion.lib libGraphics.lib libMaths.lib opengl32.lib glu32.lib gdi32.lib user32.lib"
+				AdditionalDependencies="opengl32.lib glu32.lib gdi32.lib user32.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/lib$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
+				AdditionalLibraryDirectories="$(SolutionDir)bin"
+				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -155,6 +162,9 @@
 			</File>
 			<File
 				RelativePath=".\OGLTexture.h">
+			</File>
+			<File
+				RelativePath=".\OpenGL12.cpp">
 			</File>
 			<File
 				RelativePath=".\OpenGL12.h">

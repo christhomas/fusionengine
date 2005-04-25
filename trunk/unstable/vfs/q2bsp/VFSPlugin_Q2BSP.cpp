@@ -457,7 +457,6 @@ void VFSPlugin_Q2BSP::CentreMesh(void)
 
 void VFSPlugin_Q2BSP::CreateSurfaces(void)
 {
-	unsigned int		a,b;
 	std::vector<int>	TextureID;
 	BSPTexInfo			*t;
 	bool				NewTexture	= true;
@@ -465,9 +464,9 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 	IVertexBuffer		*vb			= NULL;
 
 	//	Build a list of Texture id codes to reference objects in the BSPTexInfo array
-	for(a=0;a<m_numfaces;a++){
+	for(int a=0;a<m_numfaces;a++){
 		if(m_face[a].num_edges > 4){
-			for(b=1;b<(m_face[a].num_edges-1);b++){
+			for(int b=1;b<(m_face[a].num_edges-1);b++){
 				TextureID.push_back(m_face[a].texture_info);
 			}
 		}else{
@@ -476,7 +475,7 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 	}
 
 	//	Now build the surfaces required to hold those textures..
-	for(a=0;a<TextureID.size();a++){
+	for(unsigned int a=0;a<TextureID.size();a++){
 		NewTexture = true;
 
 		t = &m_texinfo[TextureID[a]];

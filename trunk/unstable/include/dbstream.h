@@ -140,6 +140,9 @@ namespace dbg{
 	class debugstream: private debugbuf, public std::basic_ostream<char>{
 	public:
 		debugstream(): std::basic_ostream<char>(this){}
+		debugstream(std::string file): std::basic_ostream<char>(this){
+			enableFile(file);
+		}
 
 		//	Methods to append allow/deny filters to the debug strings
 		virtual void AddAllowFilter(std::string text){
@@ -158,15 +161,21 @@ namespace dbg{
 		virtual void enableConsole(void){
 			m_console = true;
 		}
+		
+		virtual void disableConsole(void){
+			m_console = false;
+		}
 
 		virtual void enableFile(std::string fn){
 			m_file = true;
 			m_outpfile.open(fn.c_str(),std::ios::out);
 			
-			if(m_outpfile.is_open() == false){
-				m_file = false;
-				m_outpfile.close();
-			}
+			if(m_outpfile.is_open() == false)	disableFile();
+		}
+		
+		virtual void disableFile(void){
+			m_file = false;
+			m_outpfile.close();
 		}
 
 		virtual void enableCustomFunc(dbg::callback func){
@@ -174,6 +183,11 @@ namespace dbg{
 				m_cbFunc = func;
 				m_callback = true;
 			}
+		}
+		
+		virtual void disableCustomFunc(void){
+			m_cbFunc = NULL;
+			m_callback = false;
 		}
 
 		//	Method to check the current state of the stream

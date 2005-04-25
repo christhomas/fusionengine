@@ -7,7 +7,7 @@
 
 #include <Fusion.h>
  
-Fusion *f;
+Fusion *fusion;
 
 #ifdef _WIN32
 	#include <win32/WGLGraphics.h>
@@ -19,29 +19,29 @@ void GetInstance(Fusion &f)
 {
 	fusion = &f;
 	
-	if(f.Graphics == NULL){
+	if(fusion->Graphics == NULL){
 #ifndef _WIN32		
-		f.Graphics		=	new GLXGraphics();
-#elseif
-		f.Graphics		=	new WGLGraphics();
+		fusion->Graphics		=	new GLXGraphics();
+#else
+		fusion->Graphics		=	new WGLGraphics();
 #endif
 
-		f.Mesh		=	new MeshDB();
-		f.Scene		=	new SceneGraphDB();
-		f.Interface	=	new UserInterfaceDB();
-		f.Font		=	new FontDB();
+		fusion->Mesh		=	new MeshDB();
+		fusion->Scene		=	new SceneGraphDB();
+		fusion->Interface	=	new UserInterfaceDB();
+		fusion->Font		=	new FontDB();
 
-		if(f.Graphics->Initialise()		==	false) delete f.Graphics;
-		if(f.Mesh->Initialise()		==	false) delete f.Mesh;
-		if(f.Scene->Initialise()		==	false) delete f.Scene;
-		if(f.Interface->Initialise()		==	false) delete f.Interface;
-		if(f.Font->Initialise()		==	false) delete f.Font;
+		if(fusion->Graphics->Initialise()		==	false) delete fusion->Graphics;
+		if(fusion->Mesh->Initialise()		==	false) delete fusion->Mesh;
+		if(fusion->Scene->Initialise()		==	false) delete fusion->Scene;
+		if(fusion->Interface->Initialise()		==	false) delete fusion->Interface;
+		if(fusion->Font->Initialise()		==	false) delete fusion->Font;
 	}
 }
 
  void DestroyInstance(void)
 {
-	if(f->Graphics != NULL){
+	if(fusion->Graphics != NULL){
 		delete fusion->Font;
 		delete fusion->Interface;
 		delete fusion->Scene;

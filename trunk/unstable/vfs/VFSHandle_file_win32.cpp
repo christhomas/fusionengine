@@ -9,7 +9,6 @@
  ***************************************************************************/
 
 #include <VFSHandle_file_win32.h>
-//#include <windows.h>
 #include <io.h>
 #include <sys/stat.h>
 #include <direct.h>
@@ -33,7 +32,7 @@ bool VFSHandle_file_win32::IsFile( char *filename )
 {
 	_finddata_t find;
 
-	long Filehandle = _findfirst( filename, &find );
+	intptr_t Filehandle = _findfirst( filename, &find );
 
 	if ( Filehandle == -1 )
 	{
@@ -55,7 +54,7 @@ bool VFSHandle_file_win32::IsDirectory( char *directory )
 	{
 		_finddata_t find;
 
-		long Filehandle = _findfirst( directory, &find );
+		intptr_t Filehandle = _findfirst( directory, &find );
 
 		if ( Filehandle == -1 )
 		{
@@ -139,7 +138,7 @@ bool VFSHandle_file_win32::CreateDir( char *directory )
 
 		if ( token != NULL )
 		{
-			int bytes = token - directory;
+			int bytes = (int)(token - directory);
 
 			char *temp = new char[ bytes + 1 ];
 
@@ -168,7 +167,7 @@ bool VFSHandle_file_win32::DeleteDir( char *directory, bool recurse )
 	{
 		_finddata_t find;
 
-		long Filehandle = _findfirst( path, &find );
+		intptr_t Filehandle = _findfirst( path, &find );
 
 		if ( Filehandle == -1 )
 		{

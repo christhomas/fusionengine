@@ -32,11 +32,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"/>
+				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -71,11 +73,14 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
+				AdditionalDependencies="$(NOINHERIT)"
+				OutputFile="$(OutDir)/lib$(ProjectName).lib"
+				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -112,16 +117,34 @@
 			Name="Mesh"
 			Filter="">
 			<File
+				RelativePath="..\include\mesh\Colour.h">
+			</File>
+			<File
 				RelativePath=".\mesh\Entity.cpp">
+			</File>
+			<File
+				RelativePath="..\include\mesh\Entity.h">
 			</File>
 			<File
 				RelativePath=".\mesh\Mesh.cpp">
 			</File>
 			<File
+				RelativePath="..\include\mesh\Mesh.h">
+			</File>
+			<File
 				RelativePath=".\mesh\MeshDB.cpp">
 			</File>
 			<File
+				RelativePath="..\include\mesh\MeshDB.h">
+			</File>
+			<File
 				RelativePath=".\mesh\Overlay.cpp">
+			</File>
+			<File
+				RelativePath="..\include\mesh\Overlay.h">
+			</File>
+			<File
+				RelativePath="..\include\mesh\Vertex.h">
 			</File>
 		</Filter>
 		<Filter

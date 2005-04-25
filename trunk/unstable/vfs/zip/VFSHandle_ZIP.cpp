@@ -6,13 +6,28 @@
 #define NO_COMPRESSION		0
 #define DEFLATE_COMPRESSION	8
 
-Fusion *fusion;
+/** Creates a ZIP Handle
+ *
+ */
+VFSHandle * CreateHandleZIP(VFSTransport *t)
+{
+	return new VFSHandle_ZIP(t);
+}
+
+/**	Creates a ZIP transport for the Virtual File system
+ *
+ */
+VFSTransport * CreateTransportZIP(Fusion *f)
+{
+	return new VFSTransport("zip",VFSTransport::ARCHIVE,CreateHandleZIP);	
+}
 
 /***************************************
 	Start of Debugging code
 ***************************************/
 #include <fstream>
-std::ofstream debug("zlib.txt");
+#include <dbstream.h>
+dbg::debugstream debug("zlib.txt");
 
 void VFSHandle_ZIP::CheckIOState(void)
 {
@@ -161,49 +176,6 @@ void VFSHandle_ZIP::CheckIOState(void)
 	End of Debugging code
 ***************************************/
 
-/**	Statically linked method of creating a ZIP transport
- *
- *	This function creates a ZIP transport object, to be used when statically linking
- */
-VFSTransport * CreateTransportZIP(Fusion *f)
-{
-	return new VFSTransport("zip",VFSTransport::ARCHIVE,CreateZipHandle);	
-}
-
-/**	Function to create a ZIP transport from a shared library
- *
- *	This function is needed when you want to dynamically load a shared library
- *	containing this code and create a ZIP transport from it.  If you have many transports
- *	you have to load, you simply load the appropriate transport from the shared library in the 
- *	same way, instead of having custom code load each transport which would add complexity
- *	where it doesnt need to be.
- *
- *	TODO:	Need to explain this better
- * 
- *	TODO:	Potential problem, if you link against two or more transport libraries statically
- *			each library will contain a CreateTransport(), therefore making a condition where
- *			multiple symbols will be found.  This would cause a compiler error.
- * 
- */
-VFSTransport * CreateTransport(Fusion *f)
-{
-	static int count = 0;
-
-	fusion = f;
-
-	if(count == 0){
-		count++;
-		return CreateTransportZIP(fusion);
-	}
-
-	return NULL;
-}
-
-VFSHandle * CreateZipHandle(VFSTransport *t)
-{
-	return new VFSHandle_ZIP(t);
-}
-
 VFSHandle_ZIP::VFSHandle_ZIP(VFSTransport *t): VFSHandle_file(t)
 {
 	m_filename	=	NULL;
@@ -260,21 +232,22 @@ bool VFSHandle_ZIP::OpenLocation(char *loc, bool create)
 	SetFilename(loc);
 
 	FindArchiveName();
-
-	if(VFSHandle_file::IsFile(m_archive) == false){
-		if(create == true){
-			VFSHandle_file::Createfile(m_archive);
-		}else{
-			return false;
-		}
+	
+	VFSHandle *h = fusion->vfs->Open(m_archive,"bin",false);
+	
+	if(h == NULL && create == true){
+		VFSHandle *h = fusion->vfs->Open(m_archive,"bin",true);
+		fusion->vfs->Close(h);
+	}else{
+		return false;
 	}
 
-	m_stream.clear();
-	m_stream.open(m_archive, std::ios::in | std::ios::out | std::ios::binary);
-
-	CreateCache();
-
-	return true;
+	if(VFSHandle_file::Open(m_archive,false) == true){
+		CreateCache();
+		return true;
+	}
+	
+	return false;	
 }
 
 bool VFSHandle_ZIP::Close(void)

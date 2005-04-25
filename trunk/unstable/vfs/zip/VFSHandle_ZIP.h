@@ -142,10 +142,8 @@ public:
 	virtual bool			DeleteDir			(char *directory, bool recurse);
 };
 
-VFSHandle *	CreateZipHandle(VFSTransport *t);
-
 /*	FOR STATIC LINKING */
-VFSTransport *	CreateZIP(Fusion *f);
+VFSTransport * CreateTransportZIP(Fusion *f);
 
 #endif // #ifndef _VFSHANDLE_ZIP_H_
 

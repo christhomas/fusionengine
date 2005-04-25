@@ -32,14 +32,19 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libMaths_d.lib"
+				AdditionalDependencies="libMaths.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/$(ProjectName)_d.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
+				AdditionalLibraryDirectories="$(SolutionDir)bin"
+				IgnoreAllDefaultLibraries="FALSE"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)\$(TargetName).pdb"
+				ImportLibrary=""/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -76,14 +81,16 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libMaths.lib"
+				AdditionalDependencies="libMaths.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)bin"/>
+				AdditionalLibraryDirectories="$(SolutionDir)bin"
+				IgnoreAllDefaultLibraries="FALSE"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool

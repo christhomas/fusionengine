@@ -37,7 +37,8 @@
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -72,11 +73,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="$(NOINHERIT)"
 				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -119,6 +122,9 @@
 			</File>
 			<File
 				RelativePath=".\Fusion.h">
+			</File>
+			<File
+				RelativePath="..\include\FusionPlugin.h">
 			</File>
 			<File
 				RelativePath=".\FusionSubsystem.h">

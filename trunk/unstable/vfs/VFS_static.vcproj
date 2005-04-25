@@ -32,11 +32,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="$(NOINHERIT)"
 				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -71,11 +73,13 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
+				AdditionalDependencies="$(NOINHERIT)"
 				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"/>
+				Name="VCPostBuildEventTool"
+				CommandLine="cscript &quot;$(SolutionDir)clean_build_dir.js&quot; &quot;$(SolutionDir)bin&quot; $(TargetExt) $(TargetName)"/>
 			<Tool
 				Name="VCPreBuildEventTool"/>
 			<Tool
@@ -118,20 +122,30 @@
 				RelativePath=".\VFSHandle_file_win32.h">
 			</File>
 		</Filter>
+		<Filter
+			Name="Plugin"
+			Filter="">
+			<File
+				RelativePath="..\include\vfs\VFSPlugin.h">
+			</File>
+			<File
+				RelativePath=".\VFSPlugin_BIN.cpp">
+			</File>
+			<File
+				RelativePath=".\VFSPlugin_BIN.h">
+			</File>
+			<File
+				RelativePath=".\VFSPlugin_TXT.cpp">
+			</File>
+			<File
+				RelativePath=".\VFSPlugin_TXT.h">
+			</File>
+		</Filter>
 		<File
 			RelativePath="..\include\vfs\FileInfo.h">
 		</File>
 		<File
 			RelativePath="..\include\vfs\VFSFilter.h">
-		</File>
-		<File
-			RelativePath="..\include\vfs\VFSPlugin.h">
-		</File>
-		<File
-			RelativePath=".\VFSPlugin_BIN.cpp">
-		</File>
-		<File
-			RelativePath=".\VFSPlugin_TXT.cpp">
 		</File>
 		<File
 			RelativePath=".\VFSTransport.cpp">

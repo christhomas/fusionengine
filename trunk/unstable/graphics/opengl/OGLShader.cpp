@@ -7,6 +7,9 @@
 OGLShader::OGLShader()
 {
 	OGLGraphics *g = (OGLGraphics *)fusion->Graphics;
+	
+	glActiveTexture			= (PFNGLACTIVETEXTUREARBPROC)		g->GetExtension("glActiveTexture");
+	glClientActiveTexture	= (PFNGLCLIENTACTIVETEXTUREARBPROC)	g->GetExtension("glClientActiveTexture");	
 }
 
 OGLShader::~OGLShader()

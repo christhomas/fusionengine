@@ -45,10 +45,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VFSPlugin_TGA", "vfs\tga\VF
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VFSPlugin_ZIP", "vfs\zip\VFSPlugin_ZIP.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE2B}"
 	ProjectSection(ProjectDependencies) = postProject
+		{147F7B68-AC15-4C75-A374-DAD72029BE2F} = {147F7B68-AC15-4C75-A374-DAD72029BE2F}
+		{147F7B68-AC15-4C75-A374-DAD72029BE30} = {147F7B68-AC15-4C75-A374-DAD72029BE30}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Graphics", "graphics\graphics.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE2C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{147F7B68-AC15-4C75-A374-DAD72029BE23} = {147F7B68-AC15-4C75-A374-DAD72029BE23}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VFS", "vfs\vfs.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE2D}"
@@ -65,6 +68,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OGLGraphics", "graphics\ope
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VFSPlugin_ZIP_static", "vfs\zip\VFSPlugin_ZIP_static.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE2F}"
 	ProjectSection(ProjectDependencies) = postProject
+		{147F7B68-AC15-4C75-A374-DAD72029BE30} = {147F7B68-AC15-4C75-A374-DAD72029BE30}
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VFS_Static", "vfs\VFS_static.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE30}"
