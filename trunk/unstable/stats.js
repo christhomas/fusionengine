@@ -59,9 +59,7 @@ function listFiles()
 
 function stats(file)
 {
-	if((file.Find(".cpp") == true && (file.Name().length == (file.Name().indexOf(".h")+2) ){
-	//if((file.Find(".cpp") == false && file.Name().length != (file.Name().indexOf(".h")+2)) || file.Find("backup") == true) return;
-		
+	if(fileExtension(file) == ".cpp" || fileExtension(file) == ".h"){
 		//	Count src and header files
 		if(file.Find(".cpp") == true)	cnt_src++;
 		if(file.Find(".h") == true)		cnt_hdr++;
@@ -97,4 +95,9 @@ function relativeFilename(file)
 	if(file == "./") return file;
 	
 	return file.substr(shell.CurrentDirectory.length+1);
+}
+
+function fileExtension(file)
+{
+	return file.Name().substr(file.Name().indexOf("."));
 }
