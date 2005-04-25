@@ -1,45 +1,6 @@
 #include <VFSPlugin_LWO.h>
 #include <Fusion.h>
 
-Fusion *fusion;
-
-#ifdef _WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	
-	#define LIBLWO_API extern "C" __declspec(dllexport)
-	
-	BOOL APIENTRY DllMain(HANDLE hModule,DWORD  ul_reason_for_call,LPVOID lpReserved){return TRUE;}
-#else
-	#define LIBLWO_API extern "C"
-#endif
-
-/**	Creates the LWO Plugin
- *	@ingroup	VFSPlugin_LWO_Group
- *
- *	@param	f	The Fusion object, if this plugin needs to call fusion for something
- *
- *	@returns	A VFSPlugin object for this plugin type
- *
- *	The plugin function is simple, each time called
- *	create the appropiate plugin, increment the counter
- *	so next time it's called, it'll create the NEXT plugin
- *	then when you have no more plugins to create, return NULL
- */
-LIBLWO_API VFSPlugin * CreatePlugin(Fusion *f)
-{
-	static int count = 0;
-
-	fusion = f;
-
-	if(count == 0){
-		count++;
-		return new VFSPlugin_LWO();
-	}
-
-	return NULL;
-}
-
 static void ReverseByteOrder(char *bp, int size, int count)
 {
 	int a,b,c,baseoffset;
@@ -79,8 +40,8 @@ FileInfo * VFSPlugin_LWO::Read(unsigned char *buffer, unsigned int length)
 	m_buffer	= buffer;
 	m_length	= length;
 
-	m_fileinfo							=	new MeshFileInfo();
-	m_fileinfo->mesh				=	fusion->Mesh->CreateMesh();
+	m_fileinfo					=	new MeshFileInfo();
+	m_fileinfo->mesh			=	fusion->Mesh->CreateMesh();
 	m_fileinfo->filelength	=	m_length;
 
 	//	Read the FORM tag

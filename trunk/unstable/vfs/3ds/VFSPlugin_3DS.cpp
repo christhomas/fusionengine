@@ -1,43 +1,5 @@
 #include <VFSPlugin_3DS.h>
 
-Fusion *fusion;
-
-#ifdef _WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-	
-	#define LIB3DS_API extern "C" __declspec(dllexport)
-	
-	BOOL APIENTRY DllMain(HANDLE hModule,DWORD  ul_reason_for_call,LPVOID lpReserved){return TRUE;}
-#else
-	#define LIB3DS_API extern "C"
-#endif
-
-/**	Creates the 3DS Plugin
- *	@ingroup	VFSPlugin_3DS_Group
- *
- *	@param	f	The Fusion object, if this plugin needs to call fusion for something
- *
- *	@returns	A VFSPlugin object for this plugin type
- *
- *	The plugin function is simple, each time called
- *	create the appropiate plugin, increment the counter
- *	so next time it's called, it'll create the NEXT plugin
- *	then when you have no more plugins to create, return NULL
- */
-LIB3DS_API VFSPlugin * CreatePlugin(Fusion *f)
-{
-	static int count = 0;
-
-	fusion = f;
-
-	if(count++ == 0){
-		return new VFSPlugin_3DS();
-	}
-
-	return NULL;
-}
-
 /**	3DS Mesh plugin Constructor
  *
  *	Set all the internal data to zero or NULL

@@ -118,6 +118,9 @@
 		<File
 			RelativePath=".\VFSPlugin_LWO.h">
 		</File>
+		<File
+			RelativePath=".\VFSPlugin_LWO_dll.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

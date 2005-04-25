@@ -5,43 +5,6 @@
 using namespace std;
 ofstream logfile("bsp.log");
 
-Fusion *fusion;
-std::string plugin_str = "VFSPlugin_Q3BSP: ";
-
-#ifdef _WIN32
-	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
-
-	BOOL APIENTRY DllMain(HANDLE hModule,DWORD  ul_reason_for_call,LPVOID lpReserved){return TRUE;}
-	#define LIBQUAKE3_API extern "C" __declspec(dllexport)
-#else
-	#define LIBQUAKE3_API extern "C"
-#endif
-
-LIBQUAKE3_API VFSPlugin * CreatePlugin(Fusion *f)
-{
-	static int count = 0;
-
-	fusion = f;
-
-	VFSPlugin *p = NULL;
-
-	if(count++ == 0){
-		if(fusion->vfs->FindPlugin("jpg") != NULL && fusion->vfs->FindPlugin("tga") != NULL){
-			p = new VFSPlugin_Q3BSP();
-		}else{
-			//	FIXME:	Perhaps here I should attempt to load the plugins 
-			//			required as opposed to dropping out with an error?
-			fusion->errlog << plugin_str << "Sorry I cannot load" << std::endl;
-			fusion->errlog << plugin_str << "I depend on VFSPlugin_JPEG and VFSPlugin_TGA to work correctly" << std::endl;
-			fusion->errlog << plugin_str << "and I can't work without them" << std::endl;
-		}
-	}
-
-	return p;
-}
-
-
 VFSPlugin_Q3BSP::VFSPlugin_Q3BSP()
 {
 	m_type	=	"bsp;";

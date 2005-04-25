@@ -134,6 +134,9 @@
 				RelativePath=".\OGLGraphics.h">
 			</File>
 			<File
+				RelativePath=".\OGLGraphics_dll.cpp">
+			</File>
+			<File
 				RelativePath=".\OGLImageTexture.cpp">
 			</File>
 			<File

@@ -119,6 +119,9 @@
 		<File
 			RelativePath=".\VFSPlugin_3DS.h">
 		</File>
+		<File
+			RelativePath=".\VFSPlugin_3DS_dll.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

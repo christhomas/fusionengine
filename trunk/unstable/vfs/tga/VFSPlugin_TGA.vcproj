@@ -119,6 +119,9 @@
 		<File
 			RelativePath=".\VFSPlugin_TGA.h">
 		</File>
+		<File
+			RelativePath=".\VFSPlugin_TGA_dll.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

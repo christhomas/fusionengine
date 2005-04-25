@@ -119,6 +119,9 @@
 			RelativePath=".\VFSPlugin_Q2BSP.h">
 		</File>
 		<File
+			RelativePath=".\VFSPlugin_Q2BSP_dll.cpp">
+		</File>
+		<File
 			RelativePath=".\VFSPlugin_Q2WAL.cpp">
 		</File>
 		<File

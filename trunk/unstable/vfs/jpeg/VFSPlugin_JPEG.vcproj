@@ -118,6 +118,9 @@
 		<File
 			RelativePath=".\VFSPlugin_JPEG.h">
 		</File>
+		<File
+			RelativePath=".\VFSPlugin_JPEG_dll.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

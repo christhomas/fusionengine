@@ -118,6 +118,9 @@
 		<File
 			RelativePath=".\VFSPlugin_PCX.h">
 		</File>
+		<File
+			RelativePath=".\VFSPlugin_PCX_dll.cpp">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>
