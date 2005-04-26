@@ -133,7 +133,7 @@ public:
 	}
 
 	inline void	RemoveEvent	(Socket *socket){
-		for(int a=0;a<m_number_events;a++){
+		for(unsigned int a=0;a<m_number_events;a++){
 			if(m_sockets[a] == socket){
 				WSACloseEvent(m_events[a]);
 				while(a < m_number_events){

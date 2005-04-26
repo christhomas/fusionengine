@@ -38,8 +38,13 @@
 				AdditionalLibraryDirectories="$(SolutionDir)bin"
 				IgnoreAllDefaultLibraries="FALSE"
 				GenerateDebugInformation="TRUE"
-				ProgramDatabaseFile="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)\$(TargetName).pdb"
-				ImportLibrary=""/>
+				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=""
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -76,16 +81,24 @@
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
-				DebugInformationFormat="3"/>
+				DebugInformationFormat="0"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="FALSE"
 				AdditionalDependencies="libMaths.lib $(NOINHERIT)"
 				OutputFile="$(OutDir)/$(ProjectName).dll"
 				LinkIncremental="1"
+				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(SolutionDir)bin"
-				IgnoreAllDefaultLibraries="FALSE"/>
+				IgnoreAllDefaultLibraries="FALSE"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				ImportLibrary=""
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
