@@ -5,11 +5,11 @@
 
 class OGLShader: public IShader{
 public:
-					OGLShader	();
-	virtual			~OGLShader	();
-	virtual void		AddLayer		(unsigned int layer, float *tc, ITexture *t);
+						OGLShader	();
+	virtual				~OGLShader	();
+	virtual void		AddLayer	(unsigned int layer, float *tc, ITexture *t);
 	virtual void		RemoveLayer	(unsigned int layer);
-	virtual TexLayer *	GetLayer		(unsigned int layer);
+	virtual TexLayer *	GetLayer	(unsigned int layer);
 	virtual void		Set			(void);
 };
 

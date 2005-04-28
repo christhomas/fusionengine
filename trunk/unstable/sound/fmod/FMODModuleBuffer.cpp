@@ -24,9 +24,9 @@ FMODModuleBuffer::~FMODModuleBuffer()
  *
  *	@returns boolean true or false, depending on whether the module loaded or not
  */
-bool FMODModuleBuffer::Load(char *filename)
+bool FMODModuleBuffer::Load(std::string filename)
 {
-	if((m_module = FMUSIC_LoadSong(filename)) != NULL)
+	if((m_module = FMUSIC_LoadSong(filename.c_str())) != NULL)
 	{
 		return true;
 	}else{

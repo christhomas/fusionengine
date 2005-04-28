@@ -15,16 +15,16 @@ IWindowComponent * Destroy(IWindowComponent *wc)
 	return NULL;
 }
 
-void update(LIBRARY *library)
+void update(library_t *library)
 {
 // get the number of components in the library, then push back the difference between that and the maximum
-	int difference = MAXIDCODE - library->size();
+	unsigned int difference = MAXIDCODE - (unsigned int)library->size();
 	struct WindowComponentFunctionPtrs *wc;
 
 // push back that many pad components
-	for(int a=0;a<difference;a++){
+	for(unsigned int a=0;a<difference;a++){
 		wc = new WindowComponentFunctionPtrs;
-		if(a == BUTTON)			wc->m_init	=	CreateButton;
+		if(a == BUTTON)				wc->m_init	=	CreateButton;
 		else if(a == TEXTBOX)		wc->m_init	=	CreateTextBox;
 		else if(a == PROGRESSBAR)	wc->m_init	=	CreateProgressBar;
 		else						wc->m_init	=	PadComponentFunction;

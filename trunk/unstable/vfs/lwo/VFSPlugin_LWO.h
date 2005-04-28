@@ -227,13 +227,13 @@ protected:
 	virtual	void	ReadPad	( long padlength = 1 );
 
 public:
-	VFSPlugin_LWO	();
-	virtual	~VFSPlugin_LWO	();
+						VFSPlugin_LWO	();
+	virtual				~VFSPlugin_LWO	();
 
 	virtual FileInfo *	Read	( unsigned char *buffer, unsigned int length );
-	virtual char *	Write	( FileInfo *data, unsigned int &length );
+	virtual char *		Write	( FileInfo *data, unsigned int &length );
 
-	virtual char *	Type	( void );
+	virtual std::string	Type	( void );
 };
 
 #endif // #ifndef _VFSPLUGIN_LWO_H_

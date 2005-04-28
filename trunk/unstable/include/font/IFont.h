@@ -10,30 +10,32 @@
 
 class IFont{
 protected:
-	char	*m_filename;
-	int		m_glyph_width,m_glyph_height;
+	std::string m_filename;
+	
+	int m_glyph_width,m_glyph_height;
 public:
-								IFont						(){}
-	virtual				~IFont					(){}
-	virtual bool	Initialise			(char *filename,Fusion *f)														=	0;
-	virtual int		GetGlyphWidth		(void)																								=	0;
-	virtual int		GetGlyphHeight	(void)																								=	0;
-	virtual void	SetScale				(float x, float y)																		=	0;
-	virtual void	SetColour				(float r, float g, float b, float a)									=	0;
-	virtual void	RenderString		(float x, float y, float depth, char *text, int len)	=	0;
+					IFont			(){}
+	virtual			~IFont			(){}
+	virtual bool	Initialise		(std::string filename)					= 0;
+	virtual int		GetGlyphWidth	(void)									= 0;
+	virtual int		GetGlyphHeight	(void)									= 0;
+	virtual void	SetScale		(float x, float y)						= 0;
+	virtual void	SetColour		(float r, float g, float b, float a)	= 0;
+	virtual void	RenderString	(float x, float y, float depth, 
+											std::string text, int len)		= 0;
 };
 
 class FontDB: public FusionSubsystem{
 protected:
-	std::vector<IFont *>	m_fontlist;
+	std::vector<IFont *> m_fontlist;
 public:
-									FontDB			();
-	virtual					~FontDB			();
+						FontDB		();
+	virtual				~FontDB		();
 	virtual bool		Initialise	(void);
-	virtual IFont	*	AddFont			(char *font, int font_type);
+	virtual IFont	*	AddFont		(std::string font, int font_type);
 	virtual void		RemoveFont	(IFont *font);
 	virtual void		RemoveFont	(unsigned int font_id);
-	virtual IFont *	operator[]	(unsigned int index);
+	virtual IFont *	operator[]		(unsigned int index);
 };
 
 #endif // #ifndef _IFONT_H_

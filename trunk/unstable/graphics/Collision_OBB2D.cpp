@@ -26,12 +26,12 @@ void Collision_OBB2D::CalculateBox(Entity *e, int id)
 	//	4.	translate the box to the entities position
 	//*********	
 	
-	Maths::Vector			axis;
-	Maths::Vector			*scale		= e->GetScale();
-	Maths::Vector			*position	=	e->GetPosition();
-	Maths::Vector			*rotation	=	e->GetRotation(axis);
+	Maths::Vector		axis;
+	Maths::Vector		*scale		= e->GetScale();
+	Maths::Vector		*position	= e->GetPosition();
+	Maths::Vector		*rotation	= e->GetRotation(axis);
 	Maths::Quaternion	q;
-	Maths::Matrix			m;
+	Maths::Matrix		m;
 
 	int	width_reduce	= (int)(m_reduce_x * (scale->x/100));
 	int	height_reduce	= (int)(m_reduce_y * (scale->y/100));
@@ -179,7 +179,7 @@ void Collision_OBB2D::def_VectorCorrection(Entity *e1,Entity *e2)
 		logfile << "Dest is being corrected" << std::endl;
 	}
 
-#define A	p[SRC][0]
+#define A p[SRC][0]
 #define B p[SRC][1]
 #define C p[DST][0]
 #define D p[DST][1]

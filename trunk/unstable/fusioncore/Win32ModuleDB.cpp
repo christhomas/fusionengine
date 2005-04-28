@@ -18,20 +18,11 @@
 #include "Win32Module.h"
 
 #include <windows.h>
-#include <cstdio>
 
 /**	Win32 ModuleDB Constructor
  *
- *	Sets all internal data to zero/NULL
  */
-Win32ModuleDB::Win32ModuleDB()
-{
-	m_nummodules			= 0;
-	m_numsearchpaths	= 0;
-
-	m_module					= NULL;
-	m_searchpath			= NULL;
-}
+Win32ModuleDB::Win32ModuleDB(){}
 
 /**	Win32 ModuleDB Deconstructor
  *
@@ -41,13 +32,11 @@ Win32ModuleDB::Win32ModuleDB()
  */
 Win32ModuleDB::~Win32ModuleDB()
 {
-	int a;
-
-	for(a=0;a<m_nummodules;a++)			delete m_module[a];
-	for(a=0;a<m_numsearchpaths;a++) delete m_searchpath[a];
-
-	delete[] m_module;
-	delete[] m_searchpath;
+	unsigned int a;
+	for(a=0;a<m_module.size();a++) delete m_module[a];
+	
+	m_module.clear();
+	m_searchpath.clear();
 }
 
 /**	Retrieves a DLL Module
@@ -56,10 +45,11 @@ Win32ModuleDB::~Win32ModuleDB()
  *	
  *	@returns	A IModule pointer or NULL is the module is not found
  */
-IModule * Win32ModuleDB::GetModule(char *name)
+IModule * Win32ModuleDB::GetModule(std::string name)
 {
-	for(int a=0;a<m_nummodules;a++){
-		if(strcmp(m_module[a]->GetFilename(), name) == 0) return m_module[a];
+	for(unsigned int a=0;a<m_module.size();a++){
+		IModule *m = m_module[a];
+		if(m->GetFilename() == name) return m;
 	}
 
 	return NULL;
@@ -78,19 +68,9 @@ IModule * Win32ModuleDB::GetModule(char *name)
  *		-#	Copy the new searchpath to the array
  *		-#	Increase the number of searchpaths by one
  */
-void Win32ModuleDB::AddPath(char *path){
-	char **temp = new char *[m_numsearchpaths+1];
-
-	for(int a=0;a<m_numsearchpaths;a++)	temp[a] = m_searchpath[a];
-
-	delete[] m_searchpath;
-
-	m_searchpath = temp;
-
-	m_searchpath[m_numsearchpaths] = new char[strlen(path)+1];
-	strcpy(m_searchpath[m_numsearchpaths],path);
-
-	m_numsearchpaths++;
+void Win32ModuleDB::AddPath(std::string path)
+{
+	m_searchpath.push_back(path);
 }
 
 /**	Adds a module to the database
@@ -107,17 +87,7 @@ void Win32ModuleDB::AddPath(char *path){
  */
 void Win32ModuleDB::AddModule(IModule *module)
 {
-	IModule **temp = new IModule *[m_nummodules+1];
-
-	for(int a=0;a<m_nummodules;a++) temp[a] = m_module[a];
-
-	delete[] m_module;
-
-	m_module = temp;
-
-	m_module[m_nummodules] = module;
-
-	m_nummodules++;
+	m_module.push_back(module);
 }
 
 /**	Loads a DLL Module
@@ -136,39 +106,33 @@ void Win32ModuleDB::AddModule(IModule *module)
  *		-#	If the attempt was successful, add the module to the Database and clear up, then return
  *		-#	clear up all temporary memory and try the next searchpath
  */
-IModule * Win32ModuleDB::LoadModule(char *name){
+IModule * Win32ModuleDB::LoadModule(std::string name){
 
 	Win32Module *m = NULL;
 
-	if(name!=NULL){
+	if(name.empty() == false){
 		m = (Win32Module *)GetModule(name);
 			
 		if(m==NULL){
-			for(int a=0;a<m_numsearchpaths;a++){
-				char *path = m_searchpath[a];
+			for(unsigned int a=0;a<m_searchpath.size();a++){
+				std::string path = m_searchpath[a];
 
-				m = new Win32Module(name,path,NULL);
-
-				char *filename	= new char[strlen(path) + strlen("/") + strlen(name) + 1];
-
-				sprintf(filename,"%s/%s",path,name);
+				m = new Win32Module(name,path,"");
+				
+				std::string filename = path + "/" + name;
 
 				if(m->Load(filename) != NULL){
 					AddModule(m);
-					
-					delete[] filename;
-					return m;
+					break;
 				}
-
-				delete[] filename;
+				
 				delete m;
+				m = NULL;
 			}
-		}else{
-			return m;
 		}
 	}
 	
-	return NULL;
+	return m;
 }
 
 /**	Unloads a DLL module
@@ -188,27 +152,11 @@ IModule * Win32ModuleDB::LoadModule(char *name){
  *		-#	Reassign the module array pointer to the temporary array
  *		-#	Reduce the number of modules in the database
  */
-bool Win32ModuleDB::UnloadModule(char *name)
+bool Win32ModuleDB::UnloadModule(std::string name)
 {
-	int a,b,c;
-
-	for(a=0;a<m_nummodules;a++){
-		if(strcmp(name,m_module[a]->GetFilename()) == 0){
-			IModule **temp = new IModule *[m_nummodules-1];
-
-			for(b=0,c=0;b<m_nummodules;b++){
-				if(b == a) continue;
-
-				temp[c++] = m_module[b];
-			}
-
-			delete m_module[a];
-
-			delete[] m_module;
-
-			m_module = temp;
-
-			m_nummodules--;
+	for(unsigned int a=0;a<m_module.size();a++){
+		if(m_module[a]->GetFilename() == name){
+			m_module.erase(m_module.begin()+a);
 
 			return true;
 		}
@@ -225,7 +173,7 @@ bool Win32ModuleDB::UnloadModule(char *name)
  */
 void Win32ModuleDB::UnloadAll(void)
 {
-	while(m_nummodules > 0){
+	while(m_module.size() > 0){
 		UnloadModule(m_module[0]->GetFilename());
 	}
 }
@@ -241,10 +189,11 @@ void Win32ModuleDB::UnloadAll(void)
  *		-#	Attempt to load the DLL Module
  *		-#	If successful, Attempt to retrieve a function pointer from that module
  */
-void * Win32ModuleDB::GetFunction(char *name,char *func){
+void * Win32ModuleDB::GetFunction(std::string name, std::string func)
+{
 	Win32Module *m;
 	
-	if((m = (Win32Module *)LoadModule(name)) == NULL)	return NULL;
+	if((m = (Win32Module *)LoadModule(name.c_str())) == NULL) return NULL;
 
-	return (void *)GetProcAddress((HINSTANCE)m->GetHandle(),TEXT(func));
+	return (void *)GetProcAddress((HINSTANCE)m->GetHandle(),TEXT(func.c_str()));
 }

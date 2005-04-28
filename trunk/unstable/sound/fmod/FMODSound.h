@@ -14,15 +14,15 @@
  */
 class FMODSound: public ISound{
 public:
-													FMODSound			();
-	virtual									~FMODSound		();
-	virtual bool						Initialise		(void);
-	virtual ISoundBuffer *	LoadStream		(char *filename);
-	virtual ISoundBuffer *	LoadSample		(char *filename);
-	virtual ISoundBuffer *	LoadModule		(char *filename);
-	virtual void						RemoveStream	(unsigned int index);
-	virtual void						RemoveSample	(unsigned int index);
-	virtual void						RemoveModule	(unsigned int index);
+							FMODSound		();
+	virtual					~FMODSound		();
+	virtual bool			Initialise		(void);
+	virtual ISoundBuffer *	LoadStream		(std::string filename);
+	virtual ISoundBuffer *	LoadSample		(std::string filename);
+	virtual ISoundBuffer *	LoadModule		(std::string filename);
+	virtual void			RemoveStream	(unsigned int index);
+	virtual void			RemoveSample	(unsigned int index);
+	virtual void			RemoveModule	(unsigned int index);
 };
 
 #endif // #ifndef _FMODSOUND_H_

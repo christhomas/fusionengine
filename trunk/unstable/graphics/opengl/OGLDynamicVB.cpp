@@ -8,9 +8,8 @@
  */
 OGLDynamicVB::OGLDynamicVB()
 {
-	m_index						= NULL;
-	m_name						= NULL;
-	m_state						=	STATERESET;
+	m_index				= NULL;
+	m_state				= STATERESET;
 
 	m_smoothingangle	= 0;
 
@@ -22,8 +21,6 @@ OGLDynamicVB::OGLDynamicVB()
  */
 OGLDynamicVB::~OGLDynamicVB()
 {
-	delete[] m_name;
-
 	ReleaseAll();
 }
 
@@ -51,15 +48,15 @@ OGLDynamicVB::~OGLDynamicVB()
  *		-#	Set the number of components for each position and texture coordinate
  *		-#	Set the vertexpool's initial state to IVertexBuffer::STATERESET
  */
-bool OGLDynamicVB::Initialise(int nv, int ni, int nc_p, int nc_t)
+bool OGLDynamicVB::Initialise(unsigned int nv, unsigned int ni, unsigned int nc_p, unsigned int nc_t)
 {
 	ReleaseAll();
 
 	m_num_vertex	= nv;
 	m_num_index		= ni;
 
-	m_index				= new int[ni];
-	memset(m_index,0,ni*sizeof(int));
+	m_index			= new unsigned int[ni];
+	memset(m_index,0,ni*sizeof(unsigned int));
 
 	SetComponents(nc_p, nc_t);
 
@@ -78,17 +75,17 @@ bool OGLDynamicVB::Initialise(int nv, int ni, int nc_p, int nc_t)
  */
 void OGLDynamicVB::ReleaseAll(void)
 {
-	m_num_vertex				=	0;
-	m_num_index					=	0;
+	m_num_vertex		= 0;
+	m_num_index			= 0;
 
 	m_numcomp_position	= 0;
 	m_numcomp_texcoord	= 0;
 
-	m_bytes_position		=	0;
-	m_bytes_texcoord		=	0;
+	m_bytes_position	= 0;
+	m_bytes_texcoord	= 0;
 
-	m_position					=	NULL;
-	m_normal						=	NULL;
+	m_position			= NULL;
+	m_normal			= NULL;
 
 	delete[] m_index;
 }
@@ -100,25 +97,21 @@ void OGLDynamicVB::ReleaseAll(void)
  *
  *	This method also pre-calculates the number of bytes in each position and texture coordinate too
  */
-void OGLDynamicVB::SetComponents(int p, int t)
+void OGLDynamicVB::SetComponents(unsigned int p, unsigned int t)
 {
 	m_numcomp_position	=	p;
 	m_numcomp_texcoord	=	t;
-	m_bytes_position		=	p	* sizeof(float);
-	m_bytes_texcoord		=	t	* sizeof(float);
+	m_bytes_position	=	p	* sizeof(float);
+	m_bytes_texcoord	=	t	* sizeof(float);
 }
 
 /**	Sets this VertexBuffer's identifiable name
  *
  *	@param n	A string containing the name of the vb
  */
-void OGLDynamicVB::SetName(char *n)
+void OGLDynamicVB::SetName(std::string name)
 {
-	delete[] m_name;
-
-	m_name = new char[strlen(n)+1];
-
-	strcpy(m_name,n);
+	m_name = name;
 }
 
 /**	Sets the position data
@@ -153,7 +146,7 @@ void OGLDynamicVB::SetNormal(float *n)
  *	that might occur, if texture layer 0 + 2 are setup, but 
  *	there is no layer 1, which *may* cause trouble
  */
-void OGLDynamicVB::SetTextureLayer(int layer, float *tc, ITexture *t)
+void OGLDynamicVB::SetTextureLayer(unsigned int layer, float *tc, ITexture *t)
 {
 	m_shader.AddLayer(layer,tc,t);
 }
@@ -166,9 +159,9 @@ void OGLDynamicVB::SetTextureLayer(int layer, float *tc, ITexture *t)
  *	The buffer to contain the index data was created when OGLDynamicVB::Initialise() was called
  *	So no buffer is created here, the data is simply copied into the buffer
  */
-void OGLDynamicVB::SetIndex(int *i)
+void OGLDynamicVB::SetIndex(unsigned int *i)
 {
-	memcpy(m_index,i,m_num_index*sizeof(int));
+	memcpy(m_index,i,m_num_index*sizeof(unsigned int));
 }
 
 /**	Sets the colour to render the mesh in
@@ -213,7 +206,7 @@ void OGLDynamicVB::SetSmoothingAngle(float angle)
  *
  *	@returns A string containing the name of the vb
  */
-char * OGLDynamicVB::GetName(void)
+std::string OGLDynamicVB::GetName(void)
 {
 	return m_name;
 }
@@ -240,7 +233,7 @@ float *	OGLDynamicVB::GetNormal(void)
  *
  *	@returns	A pointer to an array of floating point values, which represents the texture coordinate data
  */
-float * OGLDynamicVB::GetTexcoord(int layer)
+float * OGLDynamicVB::GetTexcoord(unsigned int layer)
 {
 	TexLayer *tl = m_shader.GetLayer(layer);
 
@@ -254,7 +247,7 @@ float * OGLDynamicVB::GetTexcoord(int layer)
  *
  *	@returns A pointer to an array of integers, which represent the index data
  */
-int * OGLDynamicVB::GetIndex(void)
+unsigned int * OGLDynamicVB::GetIndex(void)
 {
 	return m_index;
 }
@@ -263,7 +256,7 @@ int * OGLDynamicVB::GetIndex(void)
  *
  *	@returns A ITexture object if one has been assigned
  */
-ITexture * OGLDynamicVB::GetTexture(int layer)
+ITexture * OGLDynamicVB::GetTexture(unsigned int layer)
 {
 	TexLayer *tl = m_shader.GetLayer(layer);
 
@@ -308,7 +301,7 @@ float OGLDynamicVB::GetSmoothingAngle(void)
  *
  *	This incidentally is the same as the number of vertices this vertexbuffer is referencing
  */
-int OGLDynamicVB::GetNumIndex(void)
+unsigned int OGLDynamicVB::GetNumIndex(void)
 {
 	return m_num_index;
 }

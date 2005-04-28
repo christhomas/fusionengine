@@ -4,7 +4,7 @@
 ComponentLibrary UserInterfaceDB::m_library = ComponentLibrary();
 
 // This function prototype are for use with the standard objects compiled into this dll
-void update(LIBRARY *library);
+void update(library_t *library);
 
 UserInterfaceDB::UserInterfaceDB(){}
 
@@ -32,7 +32,7 @@ UserInterface * UserInterfaceDB::AddUI(SceneGraph *scene)
 
 void UserInterfaceDB::RemoveUI(UserInterface *ui)
 {
-	for(INTERFACELIST::iterator temp=m_interface_list.begin();temp!=m_interface_list.end();temp++)
+	for(interfacelist_t::iterator temp=m_interface_list.begin();temp!=m_interface_list.end();temp++)
 	{
 		if(*temp == ui){
 			delete *temp;
@@ -43,7 +43,7 @@ void UserInterfaceDB::RemoveUI(UserInterface *ui)
 
 void UserInterfaceDB::RemoveAllUI(void)
 {
-	for(INTERFACELIST::iterator ui=m_interface_list.begin();ui!=m_interface_list.end();ui++)
+	for(interfacelist_t::iterator ui=m_interface_list.begin();ui!=m_interface_list.end();ui++)
 	{
 		delete *ui;
 	}
@@ -52,7 +52,7 @@ void UserInterfaceDB::RemoveAllUI(void)
 
 bool UserInterfaceDB::Update(void)
 {
-	for(INTERFACELIST::iterator ui=m_interface_list.begin();ui!=m_interface_list.end();ui++){
+	for(interfacelist_t::iterator ui=m_interface_list.begin();ui!=m_interface_list.end();ui++){
 		if((*ui)->Update() == false){
 			return false;
 		}
@@ -61,7 +61,7 @@ bool UserInterfaceDB::Update(void)
 	return true;
 }
 
-bool UserInterfaceDB::AddComponentLibrary(char *libfilename)
+bool UserInterfaceDB::AddComponentLibrary(std::string libfilename)
 {
 	m_library.AddLibrary(libfilename);
 

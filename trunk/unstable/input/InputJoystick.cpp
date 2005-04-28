@@ -259,7 +259,7 @@ void InputJoystick::ConfinePositionToArea(void)
 	{
 		if(m_x < m_AxisArea->left)		m_x = m_AxisArea->left;
 		if(m_x > m_AxisArea->right)		m_x = m_AxisArea->right;
-		if(m_y < m_AxisArea->top)			m_y = m_AxisArea->top;
+		if(m_y < m_AxisArea->top)		m_y = m_AxisArea->top;
 		if(m_y > m_AxisArea->bottom)	m_y = m_AxisArea->bottom;
 	}
 }

@@ -4,52 +4,54 @@
 #include <Fusion.h>
 #include <fstream>
 
-bool BitmapFont::Initialise(char *fontfile,Fusion *f)
+bool BitmapFont::Initialise(std::string fontfile)
 {
-	m_glyph_width		=	0;
+	m_glyph_width	=	0;
 	m_glyph_height	=	0;
-	m_fusion			=	f;
 
 	//=======================================
 	// load the file, read it, grab the data
 	//=======================================
-	std::ifstream fontresource_file(fontfile);
+	std::ifstream file(fontfile.c_str());
 
-	char line[2048];
+	std::string line;
 
 // get the filename
-	fontresource_file.getline(line,2048);
-	m_filename = strdup((char *)&(strchr(line,'='))[1]);
+	file >> line;
+	m_filename = line.substr(0,line.find("=")+1);
 
 // get the font width
-	fontresource_file.getline(line,2048);
-	m_glyph_width = atoi(strdup((char *)&(strchr(line,'='))[1]));
+	file >> line;
+	line = line.substr(0,line.find("=")+1);
+	m_glyph_width = atoi(line.c_str());
 
 // get the font height
-	fontresource_file.getline(line,2048);
-	m_glyph_height = atoi(strdup((char *)&(strchr(line,'='))[1]));
+	file >> line;
+	line = line.substr(0,line.find("=")+1);
+	m_glyph_height = atoi(line.c_str());
 	
 	//=======================================
 	//	Build the list of texture coordinates
 	//	for the font to render from
 	//=======================================
-	if(m_fusion != NULL){
-		m_characters	=	m_fusion->Mesh->CreateOverlay(m_fusion->Graphics->CreateTexture(m_filename));
+	m_characters = fusion->Mesh->CreateOverlay(fusion->Graphics->CreateTexture(m_filename));
 
-		int num_keys_section[4] =	{	NUMBERNUMERICALKEYS,NUMBERUPPERCASELETTERS,NUMBERLOWERCASELETTERS,NUMBERSPECIALKEYS };
+	int num_keys_section[4] = {
+		NUMBERNUMERICALKEYS,
+		NUMBERUPPERCASELETTERS,
+		NUMBERLOWERCASELETTERS,
+		NUMBERSPECIALKEYS 
+	};
 
-		for(int a=0;a<4;a++) for(int b=0;b<num_keys_section[a];b++){
-			m_characters->AddFrame(new Rect(b*m_glyph_width,a*m_glyph_height,(b+1)*m_glyph_width,(a+1)*m_glyph_height));
-		}
-
-		m_entity = m_fusion->Mesh->CreateEntity((Mesh *)m_characters);
-		m_entity->SetActive(true);
-		m_entity->SetScale(m_glyph_width,m_glyph_height,1);
-
-		return true;
+	for(int a=0;a<4;a++) for(int b=0;b<num_keys_section[a];b++){
+		m_characters->AddFrame(new Rect(b*m_glyph_width,a*m_glyph_height,(b+1)*m_glyph_width,(a+1)*m_glyph_height));
 	}
 
-	return false;
+	m_entity = fusion->Mesh->CreateEntity((Mesh *)m_characters);
+	m_entity->SetActive(true);
+	m_entity->SetScale(m_glyph_width,m_glyph_height,1);
+
+	return true;
 }
 
 int BitmapFont::GetGlyphWidth(void)
@@ -72,7 +74,7 @@ void BitmapFont::SetColour(float r, float g, float b, float a)
 	m_entity->SetColour(a,r,g,b);
 }
 
-void BitmapFont::RenderString(float x, float y, float depth,char *text, int len)
+void BitmapFont::RenderString(float x, float y, float depth,std::string text, int len)
 {
 	for(int a=0;a<len;a++){
 		m_characters->SetFrame(AsciiMapping[text[a]]);

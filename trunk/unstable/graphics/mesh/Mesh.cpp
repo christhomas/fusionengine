@@ -11,9 +11,9 @@ Mesh::Mesh()
 	m_numvb			=	0;
 
 	m_position		=	NULL;
-	m_normal			=	NULL;
+	m_normal		=	NULL;
 	m_texcoord		=	NULL;
-	m_vertexbuffer		=	NULL;
+	m_vertexbuffer	=	NULL;
 }
 
 /**	Mesh Deconstructor
@@ -25,7 +25,7 @@ Mesh::Mesh()
  */
 Mesh::~Mesh()
 {
-	for(int a=0;a<m_numvb;a++) delete m_vertexbuffer[a];
+	for(unsigned int a=0;a<m_numvb;a++) delete m_vertexbuffer[a];
 	delete[] m_vertexbuffer;
 
 	delete[] m_position;
@@ -51,11 +51,11 @@ void Mesh::Initialise(int numvertex)
 	delete[] m_texcoord;
 
 	m_position	=	new Vertex3f[numvertex];
-	m_normal		=	new Vertex3f[numvertex];
+	m_normal	=	new Vertex3f[numvertex];
 	m_texcoord	=	new Vertex2f[numvertex];
 
 	memset(m_position,0,numvertex*sizeof(Vertex3f));
-	memset(m_normal,	0,numvertex*sizeof(Vertex3f));
+	memset(m_normal,0,numvertex*sizeof(Vertex3f));
 	memset(m_texcoord,0,numvertex*sizeof(Vertex2f));
 }
 
@@ -65,7 +65,7 @@ void Mesh::Initialise(int numvertex)
  */
 void Mesh::Render(void)
 {	
-	for(int a=0;a<m_numvb;a++) m_vertexbuffer[a]->Render();
+	for(unsigned int a=0;a<m_numvb;a++) m_vertexbuffer[a]->Render();
 }
 
 /**	Adds a VertexBuffer to the mesh object
@@ -293,24 +293,24 @@ int Mesh::GetNumVertex(void)
  */
 void Mesh::Finalise(void)
 {
-	int			a,b,c;
+	unsigned int a, b,c;
 	
-	int			totalvertex = 0;					//	Total number of vertices in this Surface object
+	unsigned int totalvertex = 0;					//	Total number of vertices in this Surface object
 	
-	int			*vc		=	new int[m_numvertex];	//	Array of vertex ctrs
+	unsigned int *vc =	new unsigned int[m_numvertex];	//	Array of vertex ctrs
 
-	int			nvb		=	m_numvb;			//	Number of Surface objects
+	unsigned int nvb =	m_numvb;			//	Number of Surface objects
 
-	int			*si		=	NULL;				//	Source Index list
-	int			*di		=	NULL;				//	Dest Index list
+	unsigned int *si =	NULL;				//	Source Index list
+	unsigned int *di =	NULL;				//	Dest Index list
 
-	int			sni		=	0;					//	Number of Source Indices
+	unsigned int sni =	0;					//	Number of Source Indices
 
-	IVertexBuffer	*src		=	NULL,				//	Source vb
-				*dest	=	NULL;				//	Destination vb
+	IVertexBuffer *src 	= NULL;				//	Source vb
+	IVertexBuffer *dest = NULL;				//	Destination vb
 
 	/*	See Explanation 1 */
-	memset(vc,0,m_numvertex*sizeof(int));
+	memset(vc,0,m_numvertex*sizeof(unsigned int));
 
 	for(a=0;a<nvb;a++){
 		src = m_vertexbuffer[a];
@@ -334,14 +334,14 @@ void Mesh::Finalise(void)
 		Vertex2f *tt = new Vertex2f[totalvertex];
 		
 		delete[] vc;
-		vc = new int[totalvertex];
+		vc = new unsigned int[totalvertex];
 
 		memset(tp,0,totalvertex*sizeof(Vertex3f));
 		memset(tn,0,totalvertex*sizeof(Vertex3f));
 		memset(tt,0,totalvertex*sizeof(Vertex2f));
 
 		if(m_position	!= NULL)	memcpy(tp,m_position,	m_numvertex	*	sizeof(Vertex3f));
-		if(m_normal	!= NULL)	memcpy(tn,m_normal,	m_numvertex	*	sizeof(Vertex3f));
+		if(m_normal	!= NULL)		memcpy(tn,m_normal,		m_numvertex	*	sizeof(Vertex3f));
 		if(m_texcoord	!= NULL)	memcpy(tt,m_texcoord,	m_numvertex	*	sizeof(Vertex2f));
 
 		delete[] m_position;
@@ -376,7 +376,7 @@ void Mesh::Finalise(void)
 		/*	See Explanation 5 */
 		for(b=0;b<sni;b++)	if(vc[si[b]] == 2){	//	if ctr == 2, vertex is cross surface shared
 			memcpy(&m_position[m_numvertex],	&m_position[si[b]],	sizeof(Vertex3f));
-			memcpy(&m_normal[m_numvertex],	&m_normal[si[b]],	sizeof(Vertex3f));
+			memcpy(&m_normal[m_numvertex],		&m_normal[si[b]],	sizeof(Vertex3f));
 			memcpy(&m_texcoord[m_numvertex],	&m_texcoord[si[b]],	sizeof(Vertex2f));
 
 			for(c=0;c<sni;c++)	if(si[b] == si[c])	si[c] = m_numvertex++;
@@ -391,7 +391,7 @@ void Mesh::Finalise(void)
 
 		for(b=0;b<sni;b++)	if(vc[si[b]] > 1){
 			memcpy(&m_position[m_numvertex],	&m_position[si[b]],	sizeof(Vertex3f));
-			memcpy(&m_normal[m_numvertex],	&m_normal[si[b]],	sizeof(Vertex3f));
+			memcpy(&m_normal[m_numvertex],		&m_normal[si[b]],	sizeof(Vertex3f));
 			memcpy(&m_texcoord[m_numvertex],	&m_texcoord[si[b]],	sizeof(Vertex2f));
 
 			vc[si[b]]--;
@@ -449,7 +449,7 @@ void Mesh::GenerateNormals(int i, int j, int k)
 
 	int			nvb	=	m_numvb;	//	Number of Surface objects
 
-	int			*si	=	NULL;		//	Source Index list
+	unsigned int			*si	=	NULL;		//	Source Index list
 
 	int			sni	=	0;			//	Number of Source Indices
 

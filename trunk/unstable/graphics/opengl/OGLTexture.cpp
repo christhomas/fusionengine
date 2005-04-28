@@ -1,13 +1,12 @@
 #include <OGLTexture.h>
 #include <OpenGL12.h>
 
-OGLTexture::OGLTexture(int width, int height, int numcomp, char *filename)
+OGLTexture::OGLTexture(int width, int height, int numcomp, std::string filename)
 {
 	m_tbid		=	-1;
 	m_width		=	width;
-	m_height		=	height;
+	m_height	=	height;
 	m_numcomp	=	numcomp;
-	m_filename	=	NULL;
 	
 	SetFilename(filename);
 }
@@ -15,18 +14,15 @@ OGLTexture::OGLTexture(int width, int height, int numcomp, char *filename)
 OGLTexture::~OGLTexture()
 {
 	DeleteTexture();
-	delete[] m_filename;
 }
 
 /**	Sets the filename of the texture
  *
  *	@param	filename	The filename of the texture
  */
-void OGLTexture::SetFilename(char *filename)
+void OGLTexture::SetFilename(std::string filename)
 {
-	delete[] m_filename;
-	m_filename	=	new char[strlen(filename)+1];
-	strcpy(m_filename,filename);
+	m_filename = filename;
 }
 
 /**	Creates the opengl texture object

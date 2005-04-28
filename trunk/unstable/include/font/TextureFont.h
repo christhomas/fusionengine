@@ -62,46 +62,46 @@ struct FontData{
   signed char		xoffset;
   signed char		yoffset;
   signed char		advance;
-  char			dummy;		//	Space holder for alignment reasons.
-  short			x;
-  short			y;
+  char				dummy;		//	Space holder for alignment reasons.
+  short				x;
+  short				y;
 };
 
 struct VertexData{
 	Vertex2f	texture[4];
 	Vertex2f	vertex[4];
-	float			advance;
+	float		advance;
 };
 
 class TextureFont: public IFont{
 protected:
 	FontData		*m_font_data;
-	VertexData	*m_vertex_data;
-	VertexData	**m_lut;
+	VertexData		*m_vertex_data;
+	VertexData		**m_lut;
 	ITexture		*m_texture;
 	IVertexBuffer	*m_vertexbuffer;
 
-	int			m_tex_width, m_tex_height;
-	int			m_max_ascent,m_max_descent;
-	int			m_num_glyphs,m_min_glyph,m_range;
+	int				m_tex_width, m_tex_height;
+	int				m_max_ascent,m_max_descent;
+	int				m_num_glyphs,m_min_glyph,m_range;
 	unsigned char	*m_teximage;
 	Colour4f		m_rgba;
 	float			m_scale[2];
 	Vertex2f		m_normal[4];
-	int			m_index[6];
+	unsigned int	m_index[6];
 
-	virtual VertexData *	GetGlyph			(int c);
+	virtual VertexData *	GetGlyph		(int c);
 public:
-						TextureFont		();
-	virtual				~TextureFont		();
-	virtual bool			Initialise			(char *filename,Fusion *f);
+							TextureFont		();
+	virtual					~TextureFont	();
+	virtual bool			Initialise		(std::string filename);
 	virtual char *			ErrorString		(void);
-	virtual int				GetGlyphWidth		(void);
+	virtual int				GetGlyphWidth	(void);
 	virtual int				GetGlyphHeight	(void);
-	virtual void			SetScale			(float x, float y);
-	virtual void			SetColour			(float r, float g, float b, float a);
+	virtual void			SetScale		(float x, float y);
+	virtual void			SetColour		(float r, float g, float b, float a);
 	virtual void			RenderGlyph		(int c);
-	virtual void			RenderString		(float x, float y, float depth, char *string,int len);
+	virtual void			RenderString	(float x, float y, float depth, std::string string,int len);
 };
 
 #endif // #ifndef _TEXTUREFONT_H_

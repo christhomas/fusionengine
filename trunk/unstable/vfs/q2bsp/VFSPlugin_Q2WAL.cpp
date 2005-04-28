@@ -16,7 +16,7 @@ VFSPlugin_Q2WAL::~VFSPlugin_Q2WAL()
 	delete[] m_palette;
 }
 
-char * VFSPlugin_Q2WAL::Type(void)
+std::string VFSPlugin_Q2WAL::Type(void)
 {
 	return m_type;
 }

@@ -57,7 +57,7 @@ bool SceneGraph::Render(void)
 //===================================
 //	Camera Methods
 //===================================
-Camera * SceneGraph::AddCamera(char *name)
+Camera * SceneGraph::AddCamera(std::string name)
 {
 	Camera *c = new Camera;
 
@@ -73,10 +73,10 @@ void SceneGraph::RemoveCamera(Camera *c)
 	RemoveCamera(c->GetName());
 }
 
-void SceneGraph::RemoveCamera(char *name)
+void SceneGraph::RemoveCamera(std::string name)
 {
 	for(unsigned int a=0;a<m_camera.size();a++){
-		if(strcmp(m_camera[a]->GetName(),name) == 0){
+		if(m_camera[a]->GetName() == name){
 			delete m_camera[a];
 			m_camera.erase(m_camera.begin()+a);
 			return;

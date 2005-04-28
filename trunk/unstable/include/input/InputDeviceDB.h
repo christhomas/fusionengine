@@ -47,11 +47,11 @@ protected:
 
 	virtual void			StoreDevice		(IInputDevice *device);
 public:
-						InputDeviceDB		();
-	virtual				~InputDeviceDB	();
-	virtual bool			Initialise			(void);
-	virtual IInputDevice *	GetDevicePtr		(IInputDevice::DeviceType type,unsigned int DeviceID=0);
-	virtual void			FlushAll			(void);
+							InputDeviceDB	();
+	virtual					~InputDeviceDB	();
+	virtual bool			Initialise		(void);
+	virtual IInputDevice *	GetDevicePtr	(IInputDevice::DeviceType type,unsigned int DeviceID=0);
+	virtual void			FlushAll		(void);
 	virtual bool			Update			(void);
 
 	/**	Adds an input device to the database
@@ -61,7 +61,7 @@ public:
 	 *	@returns	An IInputDevice object or NULL, depending on whether the device created successfully or not
 	 */
 	virtual IInputDevice *	AddDevice		(IInputDevice::DeviceType type) = 0;
-	virtual void			RemoveDevice		(IInputDevice **id);
+	virtual void			RemoveDevice	(IInputDevice **id);
 };
 
 #endif // #ifndef _INPUTDEVICEDB_H_

@@ -21,7 +21,7 @@ bool FontDB::Initialise(void)
 	return true;
 }
 
-IFont * FontDB::AddFont(char *font, int font_type)
+IFont * FontDB::AddFont(std::string font, int font_type)
 {
 	IFont *fnt = NULL;
 
@@ -30,7 +30,7 @@ IFont * FontDB::AddFont(char *font, int font_type)
 		case TEXTUREFONT:	{	fnt = new TextureFont();	}break;
 	};
 
-	if(fnt->Initialise(font,fusion) == false){
+	if(fnt->Initialise(font) == false){
 		delete fnt;
 	}else{
 		m_fontlist.push_back(fnt);

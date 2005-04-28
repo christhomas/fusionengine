@@ -24,9 +24,9 @@ FMODSampleBuffer::~FMODSampleBuffer()
  *
  *	@returns boolean true or false, depending on whether the sample loaded or not
  */
-bool FMODSampleBuffer::Load(char *filename)
+bool FMODSampleBuffer::Load(std::string filename)
 {
-	if((m_sample = FSOUND_Sample_Load(FSOUND_FREE,filename, FSOUND_NORMAL, 0)) != NULL){
+	if((m_sample = FSOUND_Sample_Load(FSOUND_FREE,filename.c_str(), FSOUND_NORMAL, 0)) != NULL){
 		return true;
 	}else{
 		return false;

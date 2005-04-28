@@ -15,9 +15,8 @@ VFSTransport * CreateFileTransport( Fusion *f )
 {
 	static int count = 0;
 
-	if ( count == 0 )
+	if ( count++ == 0 )
 	{
-		count++;
 		return new VFSTransport( "file://", VFSTransport::LOCALFS, CreateFileHandle );
 	}
 
@@ -44,7 +43,6 @@ VFSHandle * CreateFileHandle( VFSTransport *t )
  */
 VFSHandle_file::VFSHandle_file( VFSTransport *t )
 {
-	m_filename	= NULL;
 	m_length	= 0;
 	m_plugin	= NULL;
 	m_fileinfo	= NULL;
@@ -71,17 +69,18 @@ VFSHandle_file::~VFSHandle_file()
  *
  *	@param filename	The name of the file being opened
  */
-void VFSHandle_file::SetFilename( char *filename )
+void VFSHandle_file::SetFilename(std::string filename )
 {
-	delete[] m_filename;
-	m_filename = NULL;
+	if(filename.empty() == false){
+		std::string ftype = "file://";
+		
+		int pos = (int)filename.find(ftype);
+				
+		if(pos != std::string::npos){
+			filename = filename.substr(pos+ftype.length()+1);
+		}
 
-	if ( filename != NULL )
-	{
-		if ( strncmp( "file://", filename, strlen( "file://" ) ) == 0 ) filename += strlen( "file://" );
-
-		m_filename = new char[ strlen( filename ) + 1 ];
-		strcpy( m_filename, filename );
+		m_filename = filename;
 	}
 }
 
@@ -110,7 +109,7 @@ void VFSHandle_file::SetFilename( char *filename )
  *
  *	@todo	Add functionality to decide whether to create a new file, if the file requested does not exist
  */
-bool VFSHandle_file::Open( char *filename, bool create )
+bool VFSHandle_file::Open(std::string filename, bool create )
 {
 	SetFilename( filename );
 
@@ -119,7 +118,7 @@ bool VFSHandle_file::Open( char *filename, bool create )
 	if ( IsFile( m_filename ) == true )
 	{
 		m_stream.clear();
-		m_stream.open( m_filename, std::ios::in | std::ios::out | std::ios::binary );
+		m_stream.open( m_filename.c_str(), std::ios::in | std::ios::out | std::ios::binary );
 
 		Length();
 
@@ -129,7 +128,7 @@ bool VFSHandle_file::Open( char *filename, bool create )
 	return false;
 }
 
-bool VFSHandle_file::OpenLocation( char *loc, bool create )
+bool VFSHandle_file::OpenLocation(std::string loc, bool create )
 {
 	SetFilename( loc );
 
@@ -147,9 +146,7 @@ bool VFSHandle_file::OpenLocation( char *loc, bool create )
  */
 bool VFSHandle_file::Close( void )
 {
-	delete[] m_filename;
-
-	m_filename	= NULL;
+	m_filename.clear();
 	m_length	= 0;
 
 	m_stream.close();
@@ -253,7 +250,7 @@ void VFSHandle_file::Write( char *data, unsigned int length )
  *
  *	@returns	A string containing the name of the file open
  */
-char * VFSHandle_file::Filename( void )
+std::string VFSHandle_file::Filename( void )
 {
 	return m_filename;
 }

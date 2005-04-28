@@ -22,29 +22,12 @@
  *	@param	p		The path of the DLL Module
  *	@param	ab	The about string to set this module with
  */
-Win32Module::Win32Module(char *fn,char *p,char *ab)
+Win32Module::Win32Module(std::string fn,std::string p,std::string ab)
 {
-	filename	= NULL;
-	path			= NULL;
-	about			= NULL;
-
-	if(fn!=NULL){
-		filename = new char[strlen(fn)+1];
-		strcpy(filename,fn);
-	}
-	
-	if(p!=NULL){
-		path = new char[strlen(p)+1];
-		strcpy(path,p);
-	}
-
-	if(ab!=NULL){
-		about = new char[strlen(ab)+1];
-		strcpy(about,ab);
-		delete ab;
-	}
-
-	handle = NULL;
+	filename	= fn;
+	path		= p;
+	about		= ab;
+	handle		= NULL;
 }
 
 /**	Win32 Module Destructor
@@ -53,10 +36,6 @@ Win32Module::Win32Module(char *fn,char *p,char *ab)
  */
 Win32Module::~Win32Module()
 {
-	delete[] filename;
-	delete[] path;
-	delete[] about;
-
 	if(handle != NULL)	FreeLibrary(handle);
 }
 
@@ -66,9 +45,9 @@ Win32Module::~Win32Module()
  *
  *	@returns	The platform dependant handle to the DLL Module
  */
-void * Win32Module::Load(char *filename)
+void * Win32Module::Load(std::string filename)
 {
-	handle = LoadLibrary(filename);
+	handle = LoadLibrary(filename.c_str());
 
 	return handle;
 }
@@ -86,7 +65,7 @@ void * Win32Module::GetHandle(void)
  *
  *	@returns	A String containing filename for the DLL Module
  */
-char * Win32Module::GetFilename(void)
+std::string Win32Module::GetFilename(void)
 {
 	return filename;
 }
@@ -95,7 +74,7 @@ char * Win32Module::GetFilename(void)
  *
  *	@returns	A String containing the path for the DLL Module
  */
-char * Win32Module::GetPath(void)
+std::string Win32Module::GetPath(void)
 {
 	return path;
 }
@@ -104,7 +83,7 @@ char * Win32Module::GetPath(void)
  *
  *	@returns	A String containing the about information for the DLL Module
  */
-char * Win32Module::GetAbout(void)
+std::string Win32Module::GetAbout(void)
 {
 	return about;
 }

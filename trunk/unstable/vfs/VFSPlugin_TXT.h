@@ -23,7 +23,7 @@ public:
 	virtual FileInfo *	Read			(unsigned char *buffer, unsigned int length);
 	virtual char *		Write			(FileInfo *data, unsigned int &length);
 
-	virtual char *		Type				(void);
+	virtual std::string Type				(void);
 };
 
 #endif // #ifndef _VFSPLUGIN_TXT_H_

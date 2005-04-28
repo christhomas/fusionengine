@@ -193,25 +193,25 @@ Quaternion Quaternion::operator* (const Quaternion &q) const
 {
 	Quaternion quat;
 
-	quat.m_w	=		m_w * q.m_w
-							- m_x * q.m_x
-							- m_y * q.m_y
-							- m_z * q.m_z;
+	quat.m_w	= m_w * q.m_w
+				- m_x * q.m_x
+				- m_y * q.m_y
+				- m_z * q.m_z;
 
-	quat.m_x	=		m_w * q.m_x
-							+ m_x * q.m_w
-							+ m_y * q.m_z
-							- m_z * q.m_y;
+	quat.m_x	= m_w * q.m_x
+				+ m_x * q.m_w
+				+ m_y * q.m_z
+				- m_z * q.m_y;
 
-	quat.m_y	=		m_w * q.m_y
-							- m_x * q.m_z
-							+ m_y * q.m_w
-							+ m_z * q.m_x;
+	quat.m_y	= m_w * q.m_y
+				- m_x * q.m_z
+				+ m_y * q.m_w
+				+ m_z * q.m_x;
 
-	quat.m_z	=		m_w * q.m_z
-							+ m_x * q.m_y
-							- m_y * q.m_x
-							+ m_z * q.m_w;
+	quat.m_z	= m_w * q.m_z
+				+ m_x * q.m_y
+				- m_y * q.m_x
+				+ m_z * q.m_w;
 
 	return quat;	
 }
@@ -226,25 +226,25 @@ Quaternion & Quaternion::operator*= (Quaternion &q)
 {
 	Quaternion quat = *this;
 
-	m_w	=		quat.m_w * q.m_w 
-				- quat.m_x * q.m_x
-				- quat.m_y * q.m_y
-				- quat.m_z * q.m_z;
+	m_w	= quat.m_w * q.m_w 
+		- quat.m_x * q.m_x
+		- quat.m_y * q.m_y
+		- quat.m_z * q.m_z;
 
-	m_x	=		quat.m_w * q.m_x
-				+ quat.m_x * q.m_w
-				+ quat.m_y * q.m_z
-				- quat.m_z * q.m_y;
+	m_x	= quat.m_w * q.m_x
+		+ quat.m_x * q.m_w
+		+ quat.m_y * q.m_z
+		- quat.m_z * q.m_y;
 
-	m_y	=		quat.m_w * q.m_y
-				- quat.m_x * q.m_z
-				+ quat.m_y * q.m_w
-				+ quat.m_z * q.m_x;
+	m_y	= quat.m_w * q.m_y
+		- quat.m_x * q.m_z
+		+ quat.m_y * q.m_w
+		+ quat.m_z * q.m_x;
 
-	m_z	=		quat.m_w * q.m_z
-				+ quat.m_x * q.m_y
-				- quat.m_y * q.m_x
-				+ quat.m_z * q.m_w;
+	m_z	= quat.m_w * q.m_z
+		+ quat.m_x * q.m_y
+		- quat.m_y * q.m_x
+		+ quat.m_z * q.m_w;
 
 	return *this;
 }

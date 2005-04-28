@@ -3,26 +3,17 @@
 #include <cstring>
 #include <Fusion.h>
 
-Camera::Camera()
+Camera::Camera(){}
+Camera::~Camera(){}
+
+void Camera::SetName(std::string name)
 {
-	m_Name = NULL;
+	m_name = name;
 }
 
-Camera::~Camera()
+std::string Camera::GetName(void)
 {
-	delete m_Name;
-}
-
-void Camera::SetName(char *n)
-{
-	delete m_Name;
-	m_Name = new char[strlen(n)+1];
-	strcpy(m_Name,n);
-}
-
-char * Camera::GetName(void)
-{
-	return m_Name;
+	return m_name;
 }
 
 void Camera::Zoom(float z)

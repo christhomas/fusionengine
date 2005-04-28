@@ -4,7 +4,7 @@ ProgressBar::ProgressBar()
 {
 	m_component_type	= PROGRESSBAR;
 	m_active			= true;
-	m_Finalise		= false;
+	m_Finalise			= false;
 }
 
 ProgressBar::~ProgressBar(){}
@@ -12,7 +12,7 @@ ProgressBar::~ProgressBar(){}
 void ProgressBar::Initialise(WndComponentSetup *e, SceneGraph *scenegraph)
 {
 	ProgressBarSetup *p	=	reinterpret_cast<ProgressBarSetup *>(e);
-	m_entity				=	p->m_entity;
+	m_entity			=	p->m_entity;
 	m_width				=	p->m_width;
 
 	
@@ -45,7 +45,7 @@ bool ProgressBar::Update(void)
 }
 
 bool ProgressBar::Highlight(int hx, int hy)	{	return false;	}
-bool ProgressBar::Click(void)			{	return false;	}
+bool ProgressBar::Click(void)				{	return false;	}
 
 void ProgressBar::AddPercentageMeter(int *meter)
 {

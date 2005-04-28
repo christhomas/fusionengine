@@ -20,7 +20,7 @@ Overlay::Overlay()
 	
 	Initialise(4);
 	v->Initialise(GetNumVertex(),6,3,2);
-	int *index = v->GetIndex();
+	unsigned int *index = v->GetIndex();
 
 	//	Assign all the m_position data
 	m_position[0].x	= 0;	m_position[0].y	= 0;	m_position[0].z	= 0;

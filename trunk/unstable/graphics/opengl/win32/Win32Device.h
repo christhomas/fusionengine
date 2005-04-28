@@ -17,20 +17,20 @@ protected:
 	 */
 	Win32PlatformData	*m_platform;
 
-	/**	@var		char *m_windowname
+	/**	@var	std::string m_windowname
 	 *	@brief	The name of the window class
 	 *
 	 *	This is the name of the class which win32 uses to identify the window within it's system
 	 */
-	char *m_windowname;
+	std::string m_windowname;
 
-	/**	@var		char *m_apptitle
+	/**	@var	std::string m_apptitle
 	 *	@brief	The window title
 	 *
 	 *	NOTE: This is NOT the same as a UserInterface window structure, which contains it's own window title, 
 	 *	this is a SYSTEM WINDOW TITLE, which if you like, is the root level window of the whole application
 	 */
-	char *m_apptitle;
+	std::string m_apptitle;
 
 	/** @var		Timer fps
 	 *	@brief	Allows a frames per second counter to be displayed in the title
@@ -39,24 +39,24 @@ protected:
 	
 	virtual bool	RegisterWindow	(void);
 public:
-								Win32Device			();
-	virtual				~Win32Device		();
+					Win32Device		();
+	virtual			~Win32Device	();
 
-	virtual bool	Open						(int width,int height,bool fullscreen);
-	virtual bool	Close						(void);
+	virtual bool	Open			(unsigned int width,unsigned int height,bool fullscreen);
+	virtual bool	Close			(void);
 
-	virtual void	MessageLoop			(void);
+	virtual void	MessageLoop		(void);
 
-	virtual bool	IsOpen					(void);
-	virtual void	SetTitle				(char *title);
+	virtual bool	IsOpen			(void);
+	virtual void	SetTitle		(std::string title);
 
-	virtual void	ShowCursor			(void);
-	virtual void	HideCursor			(void);
+	virtual void	ShowCursor		(void);
+	virtual void	HideCursor		(void);
 
-	virtual void	ShowWindow			(void);
-	virtual void	HideWindow			(void);
+	virtual void	ShowWindow		(void);
+	virtual void	HideWindow		(void);
 
-	virtual void	Update					(void);
+	virtual void	Update			(void);
 };
 
 #endif // #ifndef _WIN32DEVICE_H_

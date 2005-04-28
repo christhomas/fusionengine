@@ -4,6 +4,7 @@
 #include <FusionSubsystem.h>
 #include <vector>
 #include <IModuleDB.h>
+#include <XMLConfig.h>
 
 #include <vfs/FileInfo.h>
 #include <vfs/VFSFilter.h>
@@ -24,10 +25,10 @@ protected:
 	 */
 	IModuleDB	*m_moduledb;
 
-	/**	@var		char *m_tempdir
+	/**	@var	std::string *m_tempdir
 	 *	@brief	The temporary directory that any temp files are written/read
 	 */
-	char *m_tempdir;
+	std::string m_tempdir;
 
 	/**	@var		std::vector<VFSTransport *>	m_transport
 	 *	@brief	Array of Transport types
@@ -44,34 +45,35 @@ protected:
 	 */
 	std::vector<VFSFilter *> m_filter;
 
-	virtual char *			FindExtension		(char *filename);
+	virtual std::string		FindExtension		(std::string filename);
 
 	virtual void			AddPlugin			(VFSPlugin::plugin_t			CreatePlugin);
 	virtual void			AddFilter			(VFSFilter::filter_t			CreateFilter);
 	virtual void			AddTransport		(VFSTransport::transport_t	CreateTransport);
 public:
-						VirtualFS			();
-	virtual				~VirtualFS		();
+							VirtualFS			();
+	virtual					~VirtualFS			();
 	
 	virtual bool			Initialise			(void);
 
 	virtual bool			UnloadModules		(void);
 	
-	virtual void			SetTempDirectory	(char *directory=NULL);
-	virtual char *			GetTempDirectory	(void);
+	virtual void			SetTempDirectory	(std::string directory=NULL);
+	virtual std::string		GetTempDirectory	(void);
 	
-	virtual void			LoadConfig		(char *configfile);
-	virtual void			LoadPlugin		(VFSTransport::transport_t t, VFSPlugin::plugin_t p, VFSFilter::filter_t f);
+	virtual	void			LoadConfig			(void);
+	virtual void			LoadConfig			(XMLConfig *xml);
+	virtual void			LoadPlugin			(VFSTransport::transport_t t, VFSPlugin::plugin_t p, VFSFilter::filter_t f);
 		
-	virtual VFSHandle *		Open			(char *filename, bool create=false);
-	virtual VFSHandle *		Open			(char *filename, char *ext, bool create=false);
-	virtual VFSHandle *		OpenLocation		(char *loc, bool create=false);
+	virtual VFSHandle *		Open				(std::string filename, bool create=false);
+	virtual VFSHandle *		Open				(std::string filename, std::string ext, bool create=false);
+	virtual VFSHandle *		OpenLocation		(std::string loc, bool create=false);
 	
-	virtual VFSTransport *	FindTransport		(char *filename);
-	virtual VFSPlugin *		FindPlugin			(char *extension);
-	virtual VFSFilter *		FindFilter			(char *type);	
-	
-	virtual bool			Close			(VFSHandle *handle);
+	virtual VFSTransport *	FindTransport		(std::string filename);
+	virtual VFSPlugin *		FindPlugin			(std::string extension);
+	virtual VFSFilter *		FindFilter			(std::string type);	
+		
+	virtual bool			Close				(VFSHandle *handle);
 };
 
 /* STATIC LINKING */

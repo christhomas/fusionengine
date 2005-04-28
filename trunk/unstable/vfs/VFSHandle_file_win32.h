@@ -19,17 +19,17 @@ public:
 //	public File/Directory manipulation methods 
 //=========================================================
 //=========================================================
-	virtual bool		IsFile				(char *filename);
-	virtual bool		IsDirectory			(char *directory);
+	virtual bool		IsFile				(std::string filename);
+	virtual bool		IsDirectory			(std::string directory);
 
-	virtual FileInfo *	GetFileInfo			(char *filename);
+	virtual FileInfo *	GetFileInfo			(std::string filename);
 
-	virtual bool		Createfile			(char *filename, bool recurse=true);
-	virtual bool		Deletefile			(char *filename);
+	virtual bool		Createfile			(std::string filename, bool recurse=true);
+	virtual bool		Deletefile			(std::string filename);
 
-	virtual bool		Copyfile			(char *src, char *dest, bool createpath);
-	virtual bool		Movefile			(char *src, char *dest, bool createpath);
+	virtual bool		Copyfile			(std::string src, std::string dest, bool createpath);
+	virtual bool		Movefile			(std::string src, std::string dest, bool createpath);
 
-	virtual bool		CreateDir			(char *directory);
-	virtual bool		DeleteDir			(char *directory, bool recurse);	
+	virtual bool		CreateDir			(std::string directory);
+	virtual bool		DeleteDir			(std::string directory, bool recurse);	
 };

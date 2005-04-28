@@ -1,5 +1,7 @@
 #ifndef _IMODULE_H_
 	#define _IMODULE_H_
+	
+#include <string>
 
 /** @ingroup	ModuleDB_Helper_Group
  *	@brief		The base class for all DLL Modules
@@ -9,17 +11,17 @@ protected:
 	/**	@var		char *filename
 	 *	@brief	The name of the DLL module
 	 */
-	char *filename;
+	std::string filename;
 
 	/**	@var		char *path
 	 *	@brief	The path to the DLL Module 
 	 */
-	char *path;
+	std::string path;
 
 	/**	@var		char *about
 	 *	@brief	To hold any details about the DLL module, it's version or author, etc
 	 */
-	char *about;
+	std::string about;
 
 public:
 	/**	IModule Constructor */
@@ -34,7 +36,7 @@ public:
 	 *	
 	 *	@returns	A pointer to the platform specific handle
 	 */
-	virtual void * Load(char *filename) = 0;
+	virtual void * Load(std::string filename) = 0;
 
 	/**	Retrieves the platform specific handle of the DLL module 
 	 *
@@ -46,19 +48,19 @@ public:
 	 *
 	 *	@returns	A string containing the filename of the DLL Module
 	 */
-	virtual char * GetFilename(void) = 0;
+	virtual std::string GetFilename(void) = 0;
 
 	/**	Retrieves the path of the DLL module 
 	 *
 	 *	@returns	A string containing the path of the DLL module
 	 */
-	virtual char * GetPath(void) = 0;
+	virtual std::string GetPath(void) = 0;
 
 	/**	Retrieves the about information for the DLL module 
 	 *
 	 *	@returns	A string containing the about information
 	 */
-	virtual char * GetAbout(void) = 0;	
+	virtual std::string GetAbout(void) = 0;	
 };
 
 #endif // #ifndef _IMODULE_H_

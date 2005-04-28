@@ -8,21 +8,20 @@ class Entity;
 
 class BitmapFont: public IFont{
 protected:
-	char		*m_filename;
-	Fusion	*m_fusion;
-	Overlay	*m_characters;
-	Entity	*m_entity;
+	std::string m_filename;
+	Overlay		*m_characters;
+	Entity		*m_entity;
 	float		rgba[4];
 	float		scale[2];
 public:
-				BitmapFont		(){};
-	virtual		~BitmapFont		(){};
-	virtual bool	Initialise			(char *fontfile, Fusion *f);
-	virtual int		GetGlyphWidth		(void);
+					BitmapFont		(){};
+	virtual			~BitmapFont		(){};
+	virtual bool	Initialise		(std::string fontfile);
+	virtual int		GetGlyphWidth	(void);
 	virtual int		GetGlyphHeight	(void);
-	virtual void	SetScale			(float x, float y);
-	virtual void	SetColour			(float r, float g, float b, float a);
-	virtual void	RenderString		(float x, float y, float depth, char *text,int len);
+	virtual void	SetScale		(float x, float y);
+	virtual void	SetColour		(float r, float g, float b, float a);
+	virtual void	RenderString	(float x, float y, float depth, std::string text,int len);
 };
 
 // these are character codes which are defined for use with the FontLib library
@@ -44,13 +43,13 @@ enum{
 	PRINT_s,	PRINT_t,	PRINT_u,	PRINT_v,	PRINT_w,	PRINT_x,	
 	PRINT_y,	PRINT_z,
 
-	PRINT_SPACE,		PRINT_AT,			PRINT_HASH,			PRINT_EQUALS,
-	PRINT_MINUS,		PRINT_RSQRBRACKET,	PRINT_LSQRBRACKET,	PRINT_LBRACE,
-	PRINT_RBRACE,	PRINT_TILDE,			PRINT_LANGLEBRACKET,	PRINT_RANGLEBRACKET,
+	PRINT_SPACE,	PRINT_AT,			PRINT_HASH,			PRINT_EQUALS,
+	PRINT_MINUS,	PRINT_RSQRBRACKET,	PRINT_LSQRBRACKET,	PRINT_LBRACE,
+	PRINT_RBRACE,	PRINT_TILDE,		PRINT_LANGLEBRACKET,PRINT_RANGLEBRACKET,
 	PRINT_BCKSLASH,	PRINT_FWDSLASH,		PRINT_BAR,			PRINT_COMMA,
 	PRINT_PERIOD,	PRINT_QUESTION,		PRINT_EXCLAIM,		PRINT_DBLQUOTE,
-	PRINT_POUND,		PRINT_DOLLAR,		PRINT_PERCENT,		PRINT_HAT,
-	PRINT_AMPERSAND,	PRINT_ASTERISK,		PRINT_LBRACKET,		PRINT_RBRACKET
+	PRINT_POUND,	PRINT_DOLLAR,		PRINT_PERCENT,		PRINT_HAT,
+	PRINT_AMPERSAND,PRINT_ASTERISK,		PRINT_LBRACKET,		PRINT_RBRACKET
 };
 
 // these are special defines, they will be re-defined in later versions of 
@@ -59,9 +58,9 @@ enum{
 #define NUMBERNUMERICALKEYS		10
 #define NUMBERUPPERCASELETTERS	26
 #define NUMBERLOWERCASELETTERS	26
-#define NUMBERSPECIALKEYS			28
+#define NUMBERSPECIALKEYS		28
 
-#define NUMBERDEFINEDKEYS			90
+#define NUMBERDEFINEDKEYS		90
 
 const char AsciiMapping[256] = { 
 PRINT_0,

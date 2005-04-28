@@ -136,23 +136,23 @@ bool OGLGraphics::Enable(int flag, int options)
 			Enable3DMode = true;
 
 			glDepthFunc(GL_LEQUAL);		//	The Type Of Depth Testing To Do
-			glEnable(GL_DEPTH_TEST);		//	Enables Depth Testing
+			glEnable(GL_DEPTH_TEST);	//	Enables Depth Testing
 
-			glDisable(GL_BLEND);			//	Disable blending I set in Begin2D() if called
-			glEnable(GL_DEPTH_FUNC);		//	Enable the depth buffer
+			glDisable(GL_BLEND);		//	Disable blending I set in Begin2D() if called
+			glEnable(GL_DEPTH_FUNC);	//	Enable the depth buffer
 				
-			glMatrixMode(GL_PROJECTION);	//	Select The Projection Matrix
-			glPopMatrix();					//	Restore The Old Projection Matrix
+			glMatrixMode(GL_PROJECTION);//	Select The Projection Matrix
+			glPopMatrix();				//	Restore The Old Projection Matrix
 			glMatrixMode(GL_MODELVIEW);	//	Select The Modelview Matrix
-			glPopMatrix();					//	Restore The Old Projection Matrix
+			glPopMatrix();				//	Restore The Old Projection Matrix
 		}break;
 
 		case IGraphics::MODE2D:{
 			Enable3DMode = false;
 			glDisable(GL_DEPTH_FUNC);					//	Disable the depth buffer
 			glBlendFunc(	GL_SRC_ALPHA,
-						GL_ONE_MINUS_SRC_ALPHA);	//	Enable cutout type transparency
-			glEnable(GL_BLEND);						//	Enable blending
+							GL_ONE_MINUS_SRC_ALPHA);	//	Enable cutout type transparency
+			glEnable(GL_BLEND);							//	Enable blending
 				
 			glMatrixMode(GL_PROJECTION);	//	Select The Projection Matrix
 			glPushMatrix();					//	Store The Projection Matrix
@@ -162,8 +162,8 @@ bool OGLGraphics::Enable(int flag, int options)
 			glOrtho(0,m_width,m_height,0,-1,1);
 				
 			glMatrixMode(GL_MODELVIEW);	//	Select The Modelview Matrix
-			glPushMatrix();					//	Store The Modelview Matrix
-			glLoadIdentity();				//	Reset The Modelview Matrix
+			glPushMatrix();				//	Store The Modelview Matrix
+			glLoadIdentity();			//	Reset The Modelview Matrix
 		}break;
 
 		case IGraphics::CULLFACE:{
@@ -295,8 +295,8 @@ void OGLGraphics::ClearScreen(void)
 //=================================
 void OGLGraphics::GetScreenResolution(int &x, int &y, int &bpp)
 {
-	x		= m_width;
-	y		= m_height;
+	x	= m_width;
+	y	= m_height;
 	bpp	= m_bpp;
 }
 
@@ -345,16 +345,14 @@ ITexture * OGLGraphics::CreateTexture(int x, int y)
  *		-#	Store the texture pointer
  *		-#	Return the texture pointer
  */
-ITexture * OGLGraphics::CreateTexture(char *image)
+ITexture * OGLGraphics::CreateTexture(std::string image)
 {
 	ITexture *texture = NULL;
 	
 	for(unsigned int a=0;a<Textures.size();a++){
-		char *test = Textures[a]->m_filename;
+		std::string test = Textures[a]->m_filename;
 
-		if(strcmp(test,image) == 0){
-			texture = Textures[a];
-		}
+		if(image == test)	texture = Textures[a];
 	}
 	
 	if(texture == NULL){

@@ -8,31 +8,31 @@
 class ComponentLibrary{
 private:
 	IModuleDB	*m_moduledb;
-	LIBRARY		library;
+	library_t	library;
 
 public:
 	inline ComponentLibrary(){};
 	inline ~ComponentLibrary()
 	{
-		for(LIBRARY::iterator l=library.begin();l!=library.end();l++){
+		for(library_t::iterator l=library.begin();l!=library.end();l++){
 			delete *l;
 		}
 
 		library.clear();
 	}
 
-	typedef void (*UPDATELIBRARY)(LIBRARY *l);
+	typedef void (*updatelib_t)(library_t *l);
 
 	inline void Initialise(IModuleDB *moduledb){
 		m_moduledb = moduledb;
 	}
 
-	inline void AddLibrary(char *filename){
-		UPDATELIBRARY update = (UPDATELIBRARY)m_moduledb->GetFunction(filename,(char *)"update");
+	inline void AddLibrary(std::string filename){
+		updatelib_t update = (updatelib_t)m_moduledb->GetFunction(filename,(char *)"update");
 		AddLibrary(update);
 	}
 
-	inline void AddLibrary(UPDATELIBRARY update){
+	inline void AddLibrary(updatelib_t update){
 		if(update != NULL) update(&library);
 	}
 
@@ -48,8 +48,8 @@ public:
 		if(c_id < library.size())	gc = library[c_id]->m_destroy(gc);
 	}
 
-	inline int NumberRegisteredComponents(void){
-		return (int)library.size();
+	inline unsigned int NumberRegisteredComponents(void){
+		return (unsigned int)library.size();
 	}
 };
 

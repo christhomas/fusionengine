@@ -7,7 +7,7 @@ IDirectInput8	*di8 = NULL;
 DI8InputDeviceDB::DI8InputDeviceDB()
 {
 	m_platform	= (Win32PlatformData *)fusion->GetPlatformData();
-	di8					=	NULL;
+	di8			=	NULL;
 }
 
 /**	DirectInput8 Database Deconstructor
@@ -48,7 +48,7 @@ IInputDevice * DI8InputDeviceDB::AddDevice(IInputDevice::DeviceType type)
 	if(CreateDirectInput() == true){
 
 		switch(type){
-			case IInputDevice::MOUSE:{		temp = new DI8Mouse(m_num_mouse++);				}break;
+			case IInputDevice::MOUSE:{		temp = new DI8Mouse(m_num_mouse++);			}break;
 			case IInputDevice::KEYBOARD:{	temp = new DI8Keyboard(m_num_keyboard++);	}break;
 			case IInputDevice::JOYSTICK:{	temp = new DI8Joystick(m_num_joystick++);	}break;
 		};

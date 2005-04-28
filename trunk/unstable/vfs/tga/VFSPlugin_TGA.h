@@ -12,18 +12,18 @@ protected:
 	 *	@brief	Structure to store the image data
 	 */
 	ImageFileInfo	*m_fileinfo;
-
-	virtual void		InvertScanlines		(void);
-	virtual void		InvertRGB			(void);
-	virtual void		Convert24Bit		(FileInfo *data);
+	
+	virtual void		InvertScanlines	(void);
+	virtual void		InvertRGB		(void);
+	virtual void		Convert24Bit	(FileInfo *data);
 public:
-					VFSPlugin_TGA		();
-	virtual			~VFSPlugin_TGA	();
+						VFSPlugin_TGA	();
+	virtual				~VFSPlugin_TGA	();
 	
 	virtual FileInfo *	Read			(unsigned char *buffer, unsigned int length);
 	virtual char *		Write			(FileInfo *data, unsigned int &length);
 
-	virtual char *		Type				(void);
+	virtual std::string	Type			(void);
 };
 
 #endif // #ifndef _VFSPLUGIN_TGA_H_

@@ -14,16 +14,16 @@ protected:
 	 */
 	FMUSIC_MODULE *m_module;
 public:
-								FMODModuleBuffer	();
-	virtual				~FMODModuleBuffer	();
-	virtual bool	Load							(char *filename);
-	virtual bool	Close							(void);
-	virtual int		Play							(void);
-	virtual bool	Pause							(bool pause);
-	virtual bool	Stop							(void);
-	virtual bool	SetPosition				(int position);
-	virtual bool	Volume						(unsigned char volume);
-	virtual bool	IsPlaying					(void);
+					FMODModuleBuffer	();
+	virtual			~FMODModuleBuffer	();
+	virtual bool	Load				(std::string filename);
+	virtual bool	Close				(void);
+	virtual int		Play				(void);
+	virtual bool	Pause				(bool pause);
+	virtual bool	Stop				(void);
+	virtual bool	SetPosition			(int position);
+	virtual bool	Volume				(unsigned char volume);
+	virtual bool	IsPlaying			(void);
 };
 
 #endif // #ifndef _FMODMODULEBUFFER_H_

@@ -1,8 +1,7 @@
 #ifndef _ITEXTURE_H_
 	#define _ITEXTURE_H_
 
-#include <cstdlib>
-#include <cstring>
+#include <string>
 
 /** @ingroup	Graphics_Group
  *	@brief		The base class for all Texture Objects
@@ -34,7 +33,7 @@ protected:
 	 *
 	 *	@param filename	The name of file containing the texture
 	 */
-	virtual void SetFilename(char *filename) = 0;
+	virtual void SetFilename(std::string filename) = 0;
 
 public:
 	/**	@var		char *m_filename
@@ -43,7 +42,7 @@ public:
 	 *	Procedural textures will have PROCEDURAL as their filename, because they are not loaded from a file
 	 *	@todo	Alter the filename in procedural textures like this: m_filename = "CreateFuzzyEffect256"
 	 */
-	char *m_filename;
+	std::string m_filename;
 
 	/**	@var		textureproc_t
 	 *	@brief	If the texture is procedural, this function ptr is the type of function that can generate a correct texture

@@ -2,6 +2,8 @@
 	#define _IMODULEDB_H_
 
 #include <IModule.h>
+#include <vector>
+#include <string>
 
 /** @ingroup	ModuleDB_Helper_Group
  *	@brief		The base class of the Module Database
@@ -11,22 +13,12 @@ protected:
 	/**	@var		IModule **m_module
 	 *	@brief	An array of DLL Modules
 	 */
-	IModule **m_module;
+	std::vector<IModule *> m_module;
 
 	/**	@var		char **m_searchpath
 	 *	@brief	An array of search paths for loading DLL Modules
 	 */
-	char **m_searchpath;
-
-	/**	@var		int m_nummodules
-	 *	@brief	The number of loaded DLL Modules
-	 */
-	int m_nummodules;
-
-	/**	@var		int m_numsearchpaths
-	 *	@brief	The number of available search paths
-	 */
-	int m_numsearchpaths;
+	std::vector<std::string> m_searchpath;
 
 	/**	Retrieves a ptr to a particular DLL module 
 	 *	
@@ -34,7 +26,7 @@ protected:
 	 *
 	 *	@returns A pointer to a module, or NULL, if module is not found
 	 */
-	virtual IModule * GetModule(char * name) = 0;
+	virtual IModule * GetModule(std::string name) = 0;
 
 	/**	Stores a DLL module
 	 *
@@ -53,7 +45,7 @@ public:
 	 *
 	 *	@param	path	The path to add to the database
 	 */
-	virtual void AddPath(char *path) = 0;
+	virtual void AddPath(std::string path) = 0;
 
 	/**	Loads a module
 	 *
@@ -61,7 +53,7 @@ public:
 	 *
 	 *	@returns A pointer to the loaded DLL module
 	 */
-	virtual IModule * LoadModule(char *name) = 0;
+	virtual IModule * LoadModule(std::string name) = 0;
 
 	/**	Unloads a module
 	 *
@@ -69,7 +61,7 @@ public:
 	 *
 	 *	@returns Boolean true or false, depending on whether the module was successfully unloaded
 	 */
-	virtual bool UnloadModule(char *name) = 0;
+	virtual bool UnloadModule(std::string name) = 0;
 
 	/**	Unloads all the modules from the database
 	 *
@@ -84,7 +76,7 @@ public:
 	 *	
 	 *	@returns	A Function pointer, or NULL, if the module/function was not found
 	 */
-	virtual void * GetFunction(char *name,char *func) = 0;
+	virtual void * GetFunction(std::string name,std::string func) = 0;
 };
 
 #endif	//	#ifndef _IMODULEDB_H_

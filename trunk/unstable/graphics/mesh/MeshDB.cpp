@@ -84,10 +84,10 @@ Mesh * MeshDB::CreateMesh(void)
  *	This method doesnt store the mesh object since the VFSPlugin that is reading the mesh file will inevitable call MeshDB::CreateMesh()
  *	which stores the mesh object there, so storing it here as well, would mean it's stored twice, which is a bad idea.
  */
-Mesh * MeshDB::CreateMesh(char *filename)
+Mesh * MeshDB::CreateMesh(std::string filename)
 {
-	MeshFileInfo	*meshinfo		=	NULL;
-	Mesh					*m					=	NULL;
+	MeshFileInfo	*meshinfo	=	NULL;
+	Mesh			*m			=	NULL;
 
 	VFSHandle *handle = fusion->vfs->Open(filename);
 		

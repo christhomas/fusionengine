@@ -19,21 +19,24 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="_WIN32;_DEBUG;_LIB"
-				MinimalRebuild="TRUE"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				PreprocessorDefinitions="_WIN32;_LIB;_DEBUG"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="$(NOINHERIT)"
-				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"/>
+				AdditionalOptions="libxml2.lib"
+				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -62,9 +65,17 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				PreprocessorDefinitions="_WIN32;_LIB;NDEBUG"
+				StringPooling="FALSE"
 				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				EnableFunctionLevelLinking="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -73,8 +84,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="$(NOINHERIT)"
-				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
+				AdditionalOptions="libxml2.lib"
+				OutputFile="$(OutDir)/lib$(ProjectName).lib"
+				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool

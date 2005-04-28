@@ -3,8 +3,9 @@
 
 #include <vfs/VFSHandle.h>
 #include <fstream>
+#include <string>
 
-#pragma warning(disable: 4800)
+#pragma warning(disable: 4800) //FIXME: what warning is this again?
 
 class VFSTransport;
 
@@ -23,20 +24,20 @@ protected:
 //	protected File Information methods
 //=========================================================
 //=========================================================
-	virtual void				SetFilename		(char *filename);
+	virtual void				SetFilename		(std::string filename);
 
 //=========================================================
 //=========================================================
 //	protected File Actions methods
 //=========================================================
 //=========================================================
-	virtual bool				Open			(char *filename, bool create);
-	virtual bool				OpenLocation		(char *loc, bool create);
+	virtual bool				Open			(std::string filename, bool create);
+	virtual bool				OpenLocation	(std::string loc, bool create);
 	virtual bool				Close			(void);
 public:
-							VFSHandle_file		(VFSTransport *t);
-	virtual					~VFSHandle_file	();
-
+								VFSHandle_file	(VFSTransport *t);
+	virtual						~VFSHandle_file	();
+	
 //=========================================================
 //=========================================================
 //	public File Actions methods
@@ -52,51 +53,51 @@ public:
 //	public File Information methods
 //=========================================================
 //=========================================================
-	virtual char *				Filename			(void);
-	virtual unsigned int			Length			(void);
-	virtual void				SetPlugin			(VFSPlugin *plugin);
+	virtual std::string			Filename		(void);
+	virtual unsigned int		Length			(void);
+	virtual void				SetPlugin		(VFSPlugin *plugin);
 
 //=========================================================
 //=========================================================
 //	public File/Directory manipulation methods 
 //=========================================================
 //=========================================================
-	virtual bool				IsFile			(char *filename) = 0;
-	virtual bool				IsDirectory		(char *directory) = 0;
+	virtual bool				IsFile			(std::string filename) = 0;
+	virtual bool				IsDirectory		(std::string directory) = 0;
 
-	virtual FileInfo *			GetFileInfo		(char *filename) = 0;
+	virtual FileInfo *			GetFileInfo		(std::string filename) = 0;
 	
-	virtual bool				Createfile			(char *filename, bool recurse=true) = 0;
-	virtual bool				Deletefile			(char *filename) = 0;
+	virtual bool				Createfile		(std::string filename, bool recurse=true) = 0;
+	virtual bool				Deletefile		(std::string filename) = 0;
 
-	virtual bool				Copyfile			(char *src, char *dest, bool createpath) = 0;
-	virtual bool				Movefile			(char *src, char *dest, bool createpath) = 0;
+	virtual bool				Copyfile		(std::string src, std::string dest, bool createpath) = 0;
+	virtual bool				Movefile		(std::string src, std::string dest, bool createpath) = 0;
 
-	virtual bool				CreateDir			(char *directory) = 0;
-	virtual bool				DeleteDir			(char *directory, bool recurse) = 0;
+	virtual bool				CreateDir		(std::string directory) = 0;
+	virtual bool				DeleteDir		(std::string directory, bool recurse) = 0;
 
 //=========================================================
 //=========================================================
 //	public File Data Manipulation methods
 //=========================================================
 //=========================================================
-	virtual	unsigned char		ReadChar			(void);
+	virtual	unsigned char		ReadChar		(void);
 	virtual	unsigned short		ReadShort		(void);
 	virtual	unsigned int		ReadInt			(void);
-	virtual	float				ReadFloat			(void);
-	virtual	unsigned char *	ReadRaw			(unsigned int length);
-	virtual	char *			ReadString		(unsigned int length);
+	virtual	float				ReadFloat		(void);
+	virtual	unsigned char *		ReadRaw			(unsigned int length);
+	virtual	char *				ReadString		(unsigned int length);
 
-	virtual	void				WriteChar			(unsigned char c);
+	virtual	void				WriteChar		(unsigned char c);
 	virtual	void				WriteShort		(unsigned short s);
-	virtual	void				WriteInt			(unsigned int i);
-	virtual	void				WriteFloat			(float f);
-	virtual	void				WriteRaw			(unsigned char *s, unsigned int length);
+	virtual	void				WriteInt		(unsigned int i);
+	virtual	void				WriteFloat		(float f);
+	virtual	void				WriteRaw		(unsigned char *s, unsigned int length);
 	virtual	void				WriteString		(char *s, unsigned int length);
 };
 
 VFSTransport *	CreateFileTransport	(Fusion *f);
-VFSHandle *	CreateFileHandle	(VFSTransport *t);
+VFSHandle *		CreateFileHandle	(VFSTransport *t);
 
 #endif // #ifndef _VFSHANDLE_FILE_H_
 

@@ -15,8 +15,8 @@ protected:
 	 */
 	ImageFileInfo	*m_fileinfo;
 public:
-				OGLImageTexture	(char *filename);
-	virtual		~OGLImageTexture	();
+					OGLImageTexture		(std::string filename);
+	virtual			~OGLImageTexture	();
 	virtual int		UpdateTexture		();
 };
 

@@ -26,7 +26,8 @@ public:
 //======================================
 class MouseXYEvent: public InputEvent{
 public:
-	inline MouseXYEvent(int DeviceType, int x, int y): InputEvent(DeviceType,IInputDevice::EVENT_XY){
+	inline MouseXYEvent(int DeviceType, int x, int y): 
+				InputEvent(DeviceType,IInputDevice::EVENT_XY){
 		m_x	=	x;
 		m_y	=	y;
 	}
@@ -41,9 +42,10 @@ public:
 //======================================
 class InputButtonEvent: public InputEvent{
 public:
-	inline InputButtonEvent(	int DeviceType, bool EventAction, int ButtonID):InputEvent(DeviceType,IInputDevice::EVENT_BUTTON)
+	inline InputButtonEvent(int DeviceType, bool EventAction, int ButtonID):
+					InputEvent(DeviceType,IInputDevice::EVENT_BUTTON)
 	{
-		m_ButtonID	=	ButtonID;
+		m_ButtonID		=	ButtonID;
 		m_EventAction	=	EventAction;
 	}
 	virtual ~InputButtonEvent(){};
@@ -53,6 +55,6 @@ public:
 };
 
 #define CreateButtonEvent(DeviceType,EventAction,ButtonID)	new InputButtonEvent(DeviceType,EventAction,ButtonID)
-#define CreateXYEvent(x,y)							new MouseXYEvent(IInputDevice::MOUSE,x,y)
+#define CreateXYEvent(x,y)									new MouseXYEvent(IInputDevice::MOUSE,x,y)
 
 #endif // #ifndef _INPUTEVENT_H_

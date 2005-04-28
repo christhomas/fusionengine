@@ -13,16 +13,16 @@
  */
 InputDeviceDB::InputDeviceDB(void)
 {
-	m_mouse						= NULL;
-	m_keyboard				=	NULL;
-	m_joystick				=	NULL;
+	m_mouse				= NULL;
+	m_keyboard			= NULL;
+	m_joystick			= NULL;
 
-	m_num_mouse				=	0;
-	m_num_keyboard		=	0;
-	m_num_joystick		=	0;
+	m_num_mouse			= 0;
+	m_num_keyboard		= 0;
+	m_num_joystick		= 0;
 
-	object_name				=	"InputDeviceDB Version 1.2 <chris_thomas@hotmail.com>";
-	object_filename		=	"libInput.dll";
+	object_name			= "InputDeviceDB Version 1.2 <chris_thomas@hotmail.com>";
+	object_filename		= "libInput.dll";
 }
 
 /**	InputDeviceDB Deconstructor
@@ -80,7 +80,7 @@ IInputDevice * InputDeviceDB::GetDevicePtr(IInputDevice::DeviceType type,unsigne
 {
 	IInputDevice *temp;
 
-	if(type == IInputDevice::MOUSE)			for(temp=m_mouse;		temp!=NULL;temp=temp->prev)	if(temp->GetDeviceID() == DeviceID) return temp;
+	if(type == IInputDevice::MOUSE)		for(temp=m_mouse;	temp!=NULL;temp=temp->prev)	if(temp->GetDeviceID() == DeviceID) return temp;
 	if(type == IInputDevice::KEYBOARD)	for(temp=m_keyboard;temp!=NULL;temp=temp->prev)	if(temp->GetDeviceID() == DeviceID) return temp;
 	if(type == IInputDevice::JOYSTICK)	for(temp=m_joystick;temp!=NULL;temp=temp->prev)	if(temp->GetDeviceID() == DeviceID) return temp;
 
@@ -109,7 +109,7 @@ void InputDeviceDB::RemoveDevice(IInputDevice **id)
 void InputDeviceDB::StoreDevice(IInputDevice *device)
 {
 	switch(device->GetDeviceType()){
-		case IInputDevice::MOUSE:			{	device->prev = m_mouse;			m_mouse			= device;	}break;
+		case IInputDevice::MOUSE:		{	device->prev = m_mouse;		m_mouse		= device;	}break;
 		case IInputDevice::KEYBOARD:	{	device->prev = m_keyboard;	m_keyboard	= device;	}break;
 		case IInputDevice::JOYSTICK:	{	device->prev = m_joystick;	m_joystick	= device;	}break;
 	};
@@ -120,7 +120,7 @@ void InputDeviceDB::FlushAll(void)
 {
 	IInputDevice *temp;
 
-	for(temp=m_mouse;		temp!=NULL;temp=temp->prev)	temp->FlushEventQueue();
+	for(temp=m_mouse;	temp!=NULL;temp=temp->prev)	temp->FlushEventQueue();
 	for(temp=m_keyboard;temp!=NULL;temp=temp->prev)	temp->FlushEventQueue();
 	for(temp=m_joystick;temp!=NULL;temp=temp->prev)	temp->FlushEventQueue();
 }
@@ -141,7 +141,7 @@ bool InputDeviceDB::Update(void)
 
 	//	For now, do nothing when a device fails to update 
 	//	(havent figured out what is best to do in this situation, just carry on, or do some interrogation)
-	for(temp=m_mouse;		temp!=NULL;temp=temp->prev)	if(temp->GetActive() == true)	if(temp->Update() == false){}
+	for(temp=m_mouse;	temp!=NULL;temp=temp->prev)	if(temp->GetActive() == true)	if(temp->Update() == false){}
 	for(temp=m_keyboard;temp!=NULL;temp=temp->prev)	if(temp->GetActive() == true)	if(temp->Update() == false){}
 	for(temp=m_joystick;temp!=NULL;temp=temp->prev)	if(temp->GetActive() == true)	if(temp->Update() == false){}
 

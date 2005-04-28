@@ -19,10 +19,10 @@ protected:
 	 */
 	Win32PlatformData *m_platform;
 public:
-													DI8InputDeviceDB	();
-	virtual									~DI8InputDeviceDB	();
-	virtual bool						CreateDirectInput	(void);
-	virtual IInputDevice *	AddDevice					(IInputDevice::DeviceType type);
+							DI8InputDeviceDB	();
+	virtual					~DI8InputDeviceDB	();
+	virtual bool			CreateDirectInput	(void);
+	virtual IInputDevice *	AddDevice			(IInputDevice::DeviceType type);
 };
 
 extern IDirectInput8 *di8;

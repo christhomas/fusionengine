@@ -16,8 +16,8 @@ Fusion *fusion;
  */
 void CreateVFS(Fusion &f)
 {
-	f.vfs = new VirtualFS();
 	fusion = &f;
+	fusion->vfs = new VirtualFS();
 }
 
 void DestroyVFS(void)
@@ -38,8 +38,6 @@ VirtualFS::VirtualFS()
 
 	m_moduledb	=	fusion->GetModuleDB();
 
-	m_tempdir		=	NULL;
-
 	//	Add all the built in formats, pure text and pure binary are defaults
 	AddPlugin(CreateTextPlugin);
 	AddPlugin(CreateBinaryPlugin);
@@ -48,7 +46,7 @@ VirtualFS::VirtualFS()
 	AddTransport(CreateFileTransport);
 }
 
-/**	Virtual FS Deconstructor
+/**	VirtualFS Deconstructor
  *
  *	Deletes all the available Transports, plugins and filters
  */
@@ -98,81 +96,80 @@ bool VirtualFS::UnloadModules(void)
 	return false;	
 }
 
-void VirtualFS::SetTempDirectory(char *directory)
+void VirtualFS::SetTempDirectory(std::string directory)
 {
 	VFSHandle *h = OpenLocation("file://");
 
-	if(m_tempdir != NULL){
+	if(m_tempdir.empty() == true){
 		h->DeleteDir(m_tempdir,true);
-		delete[] m_tempdir;
+		m_tempdir.clear();
 	}
 
-	if(directory != NULL){
-		m_tempdir = new char[strlen(directory)+1];
-		strcpy(m_tempdir,directory);
+	if(directory.empty() == true){
+		m_tempdir = directory;
 
 		h->CreateDir(m_tempdir);
 	}
 }
 
-char * VirtualFS::GetTempDirectory(void)
+std::string VirtualFS::GetTempDirectory(void)
 {
 	return m_tempdir;
 }
 
+/** Loads a configuration file
+ *
+ *	This method uses the Fusion XMLConfig base object to load the VirtualFS configuration
+ *	This means, the VirtualFS config information is combined into the same xml as the rest
+ *	of the fusion config, so we just reuse that object
+ */
+void VirtualFS::LoadConfig(void)
+{
+	LoadConfig((XMLConfig *)fusion);
+}
+
 /**	Loads a configuration file
  *
- *	@param configfile The filename of the configuration file
+ *	@param config The XMLConfig object responsible for reading the configuration out of the file, into the program
  *
- *	This method will search through the config file, if it parses [VFS]
- *	it'll happily start extracting data from that section, until the next 
- *	section is detected (which, incidentally starts with "[").  Upon reading 
- *	a valid command, the data section will be removed (part of the string 
- *	after the '=' in each valid command line) and compared against what 
- *	VirtualFS is programmed to cope with, upon getting a correct comparison 
- *	from the command, the data section will be tagged into the appropiate 
- *	place in the internal configuration data, to be used later
+ *	Uses the XMLConfig object to read properties of the XML config file it has open
+ *	using that information, to load transports, plugins and filters from DLL files
+ *	stored on the disk
  */
-void VirtualFS::LoadConfig(char *configfile)
+void VirtualFS::LoadConfig(XMLConfig *config)
 {
-	bool							begin				=	false;
-	const int					buffersize	=	2048;
-	char							buffer[buffersize];
-	std::ifstream			config(configfile);
-
-	//	Read the config file and look for vfs plugins
-	while(config.eof()==0){
-		config.getline(buffer,buffersize);
-
-		//	Start reading the config file only when you reach the VFS section
-		if(strncmp(buffer,"[VFS]",5) == 0){
-			begin = true;
-			continue;
-		}
-
-		//	End reading when you read the next section (each section starts like [SECTION], [ANOTHERSECTION]
-		if( (begin == true) && (strncmp(buffer,"[",1) == 0) ){
-			break;
-		}
-
-		//	Ignore any blank lines
-		if(strcmp(buffer,"\0") == 0){
-			continue;
-		}
+	VFSTransport::transport_t	t;
+	VFSPlugin::plugin_t			p;
+	VFSFilter::filter_t			f;		
+	
+	if(config->xmlIsOpen() == true){
+		void *root = config->xmlGetRootNode();
+		void *vnode = config->xmlFindNode(root,"vfs");
 		
-		//	If begun, process config data
-		if(begin==true){
-			char *type		= strtok(buffer,"=");
-			char *module	= strtok(&buffer[strlen(type)+1],"\n");
+		if(vnode != NULL){
+			unsigned int numNodes = config->xmlCountNodes(vnode);
+			
+			for(unsigned int a=0;a<numNodes;a++){
+				void *cnode = config->xmlGetChild(vnode,a);
+				std::string name,data;
+				
+				if(config->xmlGetNodeName(cnode) == "plugin"){
+					name = config->xmlGetNodeProperty(cnode,"filetype");
+					data = config->xmlGetNodeProperty(cnode,"module");
+					
+					if(name.empty() == false && data.empty() == false){
+						//	Get the function ptr to create the filters
 
-			//	Get the function ptr to create the filters
-			VFSTransport::transport_t	t = (VFSTransport::transport_t)	m_moduledb->GetFunction(module,"CreateTransport");
-			VFSPlugin::plugin_t			p = (VFSPlugin::plugin_t)		m_moduledb->GetFunction(module,"CreatePlugin");
-			VFSFilter::filter_t			f = (VFSFilter::filter_t)		m_moduledb->GetFunction(module,"CreateFilter");
+						t = (VFSTransport::transport_t)	m_moduledb->GetFunction(data,"CreateTransport");					
+						p = (VFSPlugin::plugin_t)		m_moduledb->GetFunction(data,"CreatePlugin");
+						f = (VFSFilter::filter_t)		m_moduledb->GetFunction(data,"CreateFilter");
 
-			LoadPlugin(t,p,f);
+						LoadPlugin(t,p,f);					
+					}
+				}
+			}
 		}
-	}          
+	}
 }
 
 void VirtualFS::LoadPlugin(VFSTransport::transport_t t, VFSPlugin::plugin_t p, VFSFilter::filter_t f)
@@ -197,19 +194,17 @@ void VirtualFS::AddPlugin(VFSPlugin::plugin_t CreatePlugin)
 
 	//	Add all the plugins
 	if(CreatePlugin!=NULL){
-		do{	
-			if((p = CreatePlugin(fusion))!=NULL){
-				for(unsigned int a=0;a<m_plugin.size();a++){
-					if(strcmp(m_plugin[a]->Type(),p->Type()) == 0){
-						delete p;
-						p = NULL;
-						a = (unsigned int)m_plugin.size();
-					}
+		if((p = CreatePlugin(fusion))!=NULL){
+			for(unsigned int a=0;a<m_plugin.size();a++){
+				if(m_plugin[a]->Type() == p->Type()){
+					delete p;
+					p = NULL;
+					break;
 				}
 			}
+		}
 
-			if(p!=NULL) m_plugin.push_back(p);
-		}while(p!=NULL);
+		if(p!=NULL) m_plugin.push_back(p);
 	}
 }
 
@@ -228,19 +223,17 @@ void VirtualFS::AddFilter(VFSFilter::filter_t CreateFilter)
 
 	//	Add all the filters
 	if(CreateFilter!=NULL){
-		do{
-			if((f = CreateFilter(fusion))!=NULL){
-				for(unsigned int a=0;a<m_filter.size();a++){
-					if(strcmp(m_filter[a]->Type(),f->Type()) == 0){
-						delete f;
-						f = NULL;
-						a = (unsigned int)m_filter.size();
-					}
+		if((f = CreateFilter(fusion))!=NULL){
+			for(unsigned int a=0;a<m_filter.size();a++){
+				if(m_filter[a]->Type() == f->Type()){
+					delete f;
+					f = NULL;
+					break;
 				}
-
-				if(f!=NULL) m_filter.push_back(f);
 			}
-		}while(f!=NULL);
+
+			if(f!=NULL) m_filter.push_back(f);
+		}
 	}
 }
 
@@ -259,20 +252,18 @@ void VirtualFS::AddTransport(VFSTransport::transport_t CreateTransport)
 
 	//	Add all the transports
 	if(CreateTransport!=NULL){
-		do{
-			if((t = CreateTransport(fusion))!=NULL){
+		if((t = CreateTransport(fusion))!=NULL){
 
-				for(unsigned int a=0;a<m_transport.size();a++){
-					if(strcmp(m_transport[a]->GetIdentifier(),t->GetIdentifier()) == 0){
-						delete t;
-						t = NULL;
-						a = (unsigned int)m_transport.size();
-					}
+			for(unsigned int a=0;a<m_transport.size();a++){
+				if(m_transport[a]->GetIdentifier() == t->GetIdentifier()){
+					delete t;
+					t = NULL;
+					break;
 				}
-
-				if(t!=NULL) m_transport.push_back(t);
 			}
-		}while(t!=NULL);
+
+			if(t!=NULL) m_transport.push_back(t);
+		}
 	}
 }
 
@@ -302,18 +293,13 @@ void VirtualFS::AddTransport(VFSTransport::transport_t CreateTransport)
  *				extension perhaps assigned to a Archive file system (e.g myArchive.zip) 
  *		-#	Delete the duplicated string
  */
-char * VirtualFS::FindExtension(char *filename)
+std::string VirtualFS::FindExtension(std::string filename)
 {
-	char *token = strrchr(filename,'.');
-	char *ext		=	NULL;
-
-	if(token != NULL){
-		token++;
-		ext =	new char[strlen(token)+1];
-		strcpy(ext,token);
-		return ext;
+	std::string ext;
+	if(filename.find(".") != std::string::npos){
+		ext = filename.substr(filename.find(".")+1);
 	}
-
+	
 	return ext;
 }
 
@@ -330,59 +316,47 @@ char * VirtualFS::FindExtension(char *filename)
  *		-#	If no transport is found, file:// is returned, if this works, great, otherwise, it'd have failed anyway
  *		-#	If file:// can't be found either, deep trouble, return NULL, duck and cover!
  */
-VFSTransport * VirtualFS::FindTransport(char *filename)
+VFSTransport * VirtualFS::FindTransport(std::string filename)
 {
 	VFSTransport *t = NULL;
-	unsigned int a,length;
 
 	//	Look for a network transport
-	for(a=0;a<m_transport.size();a++){
+	for(unsigned int a=0;a<m_transport.size();a++){
 		t = m_transport[a];
-		length = (unsigned int)strlen(t->GetIdentifier());
-
 		if(t->GetCategory() == VFSTransport::NETWORK){
-			if(strncmp(filename,t->GetIdentifier(),length) == 0){
+			if(filename.find(t->GetIdentifier()) != std::string::npos){
 				return t;
 			}
 		}
 	}
 
 	//	look for a archive transport
-	char *ext		=	filename;
-	char *copy	=	NULL;
-
-	if(strchr(ext,'#') != NULL){
-		copy = new char[strlen(filename)+1];
-		strcpy(copy,filename);
-
-		ext = strtok(copy,"#");
-	}
+	if(filename.find("#") != std::string::npos){
+		std::string ext;
+		
+		ext = filename.substr(0,filename.find("#"));
 	
-	ext = strrchr(ext,'.');
+		if(ext.find(".") != std::string::npos){
+			ext = ext.substr(ext.find(".")+1);
 
-	if(ext != NULL){
-		ext++;
-		for(a=0;a<m_transport.size();a++){
-			t = m_transport[a];
-			length = (unsigned int)strlen(t->GetIdentifier());
+			for(unsigned int a=0;a<m_transport.size();a++){
+				t = m_transport[a];
 
-			if(t->GetCategory() == VFSTransport::ARCHIVE){
-				if(strncmp(ext,t->GetIdentifier(),length) == 0){
-					delete copy;
-					return t;
+				if(t->GetCategory() == VFSTransport::ARCHIVE){
+					if(ext.find(t->GetIdentifier()) != std::string::npos){
+						return t;
+					}
 				}
 			}
 		}
-		delete copy;
 	}
-
+	
 	//	localfs transport
-	for(a=0;a<m_transport.size();a++){
+	for(unsigned int a=0;a<m_transport.size();a++){
 		t = m_transport[a];
-		length = (unsigned int)strlen(t->GetIdentifier());
 
 		if(t->GetCategory() == VFSTransport::LOCALFS){
-			if(strncmp(filename,t->GetIdentifier(),length) == 0){
+			if(filename.find(t->GetIdentifier()) != std::string::npos){
 				return t;
 			}
 		}
@@ -391,9 +365,8 @@ VFSTransport * VirtualFS::FindTransport(char *filename)
 	//	you can't find a transport, lets go for broke and try file:// if it doesnt work, then it doesnt work.
 	for(a=0;a<m_transport.size();a++){
 		t = m_transport[a];
-		if(strcmp(t->GetIdentifier(),"file://") == 0){
-			return t;
-		}
+		
+		if(t->GetIdentifier() == "file://") return t;
 	}
 
 	// holy crap, you can't even find the default transport!!!
@@ -414,25 +387,22 @@ VFSTransport * VirtualFS::FindTransport(char *filename)
  *		-#	If a match is found, return a pointer to the correct plugin
  *		-#	Otherwise, NULL is returned
  */
-VFSPlugin * VirtualFS::FindPlugin(char *extension)
+VFSPlugin * VirtualFS::FindPlugin(std::string extension)
 {
 	//	Loop through all the plugins
 	for(unsigned int a=0;a<m_plugin.size();a++){
-		char *type = new char[strlen(m_plugin[a]->Type())+1];
-		strcpy(type,m_plugin[a]->Type());
+		VFSPlugin *p = m_plugin[a];
+		std::string type = p->Type();
+		
+		std::string token;
 
-		char *token = strtok(type,";");
+		for(size_t pos = type.find(";");pos != std::string::npos;pos = type.find(";")){
+			token = type.substr(0,pos);
 
-		while(token != NULL){
-			if(strcmp(extension,token) == 0){
-				delete[] type;
-				return m_plugin[a];
-			}
+			if(token == extension)	return m_plugin[a];
 
-			token = strtok(NULL,";");
+			type = type.substr(pos+1);
 		}
-
-		delete[] type;
 	}
 
 	return FindPlugin("binary");
@@ -450,10 +420,12 @@ VFSPlugin * VirtualFS::FindPlugin(char *extension)
  *		-#	If a match is found, return a pointer to this filter
  *		-#	Otherwise, NULL is returned
  */
-VFSFilter * VirtualFS::FindFilter(char *type)
+VFSFilter * VirtualFS::FindFilter(std::string type)
 {
 	for(unsigned int a=0;a<m_filter.size();a++){
-		if(strcmp(type,m_filter[a]->Type()) == 0){
+		VFSFilter *f = m_filter[a];
+		
+		if(type == f->Type()){
 			return m_filter[a];
 		}
 	}
@@ -475,13 +447,11 @@ VFSFilter * VirtualFS::FindFilter(char *type)
  *
  *	NOTE:	If no extension is appended to the filename, this method will crash upon attempting the read the file
  */
-VFSHandle * VirtualFS::Open(char *filename, bool create)
+VFSHandle * VirtualFS::Open(std::string filename, bool create)
 {
-	char *ext = FindExtension(filename);
+	std::string ext = FindExtension(filename);
 
 	VFSHandle *h = Open(filename,ext,create);
-
-	delete[] ext;
 
 	return h;
 }
@@ -505,18 +475,18 @@ VFSHandle * VirtualFS::Open(char *filename, bool create)
  *		-#	delete the extension supplied
  *		-#	Return the handle of the file
  */
-VFSHandle * VirtualFS::Open(char *filename, char *ext, bool create)
+VFSHandle * VirtualFS::Open(std::string filename, std::string ext, bool create)
 {
 	VFSTransport	*t = FindTransport(filename);
-	VFSPlugin			*p = FindPlugin(ext);
-	VFSHandle			*h = NULL;
+	VFSPlugin		*p = FindPlugin(ext);
+	VFSHandle		*h = NULL;
 
 	if(t != NULL && p != NULL)	h = t->Open(filename,p,create);
 
 	return h;
 }
 
-VFSHandle * VirtualFS::OpenLocation(char *loc, bool create)
+VFSHandle * VirtualFS::OpenLocation(std::string loc, bool create)
 {
 	//	identify what transport to use by analysing two things
 	//	the location extension, if any

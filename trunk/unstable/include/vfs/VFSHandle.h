@@ -10,27 +10,27 @@ class VFSHandle{
 protected:
 	friend class VFSTransport;
 
-	/**	@var		char *m_filename
+	/**	@var	std::string *m_filename
 	 *	@brief	The filename the handle has open
 	 */
-	char *m_filename;
+	std::string m_filename;
 
-	/**	@var		unsigned int m_length
+	/**	@var	unsigned int m_length
 	 *	@brief	The length of the file
 	 */
 	unsigned int m_length;
 
-	/**	@var		VFSPlugin *m_plugin
+	/**	@var	VFSPlugin *m_plugin
 	 *	@brief	The plugin this handle will use to decode the file
 	 */
 	VFSPlugin *m_plugin;
 
-	/**	@var		FileInfo *m_fileinfo
+	/**	@var	FileInfo *m_fileinfo
 	 *	@brief	A structure containing the data read from the file
 	 */
 	FileInfo *m_fileinfo;
 
-	/**	@var		VFSTransport *m_transport
+	/**	@var	VFSTransport *m_transport
 	 *	@brief	The transport which created the file handle
 	 */
 	VFSTransport *m_transport;
@@ -38,7 +38,7 @@ protected:
 	/**	Opens a file
 	 *
 	 *	@param filename	The filename to open
-	 *	@param create		Whether to create a non-existant file or return false to say it wasnt opened
+	 *	@param create	Whether to create a non-existant file or return false to say it wasnt opened
 	 *
 	 *	@returns boolean true or false, depending on whether the file was found/opened successfully
 	 *
@@ -47,7 +47,7 @@ protected:
 	 *	to open and close themselves, that would orphan 
 	 *	a ptr in the transport object, causing problems
 	 */
-	virtual bool Open(char *filename, bool create=false) = 0;
+	virtual bool Open(std::string filename, bool create=false) = 0;
 
 	/**	Opens a location/directory/filesystem
 	 *
@@ -69,7 +69,7 @@ protected:
 	 *	a transport because you want to do file management, not because you want to read any file data, perhaps clean up temp
 	 *	directories that were created previously.  That sort of thing.
 	 */
-	virtual bool OpenLocation(char *loc, bool create) = 0;
+	virtual bool OpenLocation(std::string loc, bool create) = 0;
 
 	/**	Close the file
 	 *
@@ -135,7 +135,7 @@ public:
 	 *
 	 *	@param filename	The name of the opened file
 	 */
-	virtual void SetFilename(char *filename) = 0;
+	virtual void SetFilename(std::string filename) = 0;
 
 	/**	Retrieves the length of the file
 	 *
@@ -147,7 +147,7 @@ public:
 	 *
 	 *	@returns A string containing the name of the file
 	 */
-	virtual char * Filename(void) = 0;
+	virtual std::string Filename(void) = 0;
 
 	/**	Sets the handles plugin
 	 *
@@ -165,20 +165,20 @@ public:
 	 *	@returns	boolean true or false, depending on whether the filename was a valid file.
 	 *						will return false, if the file does not exist
 	 */
-	virtual bool IsFile(char *filename) = 0;
+	virtual bool IsFile(std::string filename) = 0;
 
 	/**	Tests whether the filename opened is a directory
 	 *
 	 *	@returns	boolean true or false, depending on whether the filename was a valid directory.
 	 *						will return false, if the directory does not exist
 	 */
-	virtual bool IsDirectory(char *directory) = 0;
+	virtual bool IsDirectory(std::string directory) = 0;
 
 	/**	Retrieves information about a file
 	 *
 	 *	@param filename	The name of the file to retrieve information about
 	 */
-	virtual FileInfo * GetFileInfo(char *filename) = 0;
+	virtual FileInfo * GetFileInfo(std::string filename) = 0;
 
 	/**	Creates a file
 	 *
@@ -187,7 +187,7 @@ public:
 	 *
 	 *	@returns	boolean true or false, depending on whether creating the file was successful.
 	 */
-	virtual bool Createfile(char *filename, bool recurse=true) = 0;
+	virtual bool Createfile(std::string filename, bool recurse=true) = 0;
 
 	/**	Deletes a file
 	 *
@@ -196,7 +196,7 @@ public:
 	 *	@returns	boolean true or false, depending on whether deletion was successful.
 	 *						will return false if the file does not exist
 	 */
-	virtual bool Deletefile(char *filename) = 0;
+	virtual bool Deletefile(std::string filename) = 0;
 
 	/**	Copies a file to a new location
 	 *
@@ -206,7 +206,7 @@ public:
 	 *
 	 *	@returns boolean true or false, depending on whether the copying was successful
 	 */
-	virtual bool Copyfile(char *src, char *dest, bool createpath=true) = 0;
+	virtual bool Copyfile(std::string src, std::string dest, bool createpath=true) = 0;
 
 	/**	Moves a file to a new location
 	 *
@@ -216,7 +216,7 @@ public:
 	 *
 	 *	@returns boolean true of false, depending on whether the copying was successful
 	 */
-	virtual bool Movefile(char *src, char *dest, bool createpath=true) = 0;
+	virtual bool Movefile(std::string src, std::string dest, bool createpath=true) = 0;
 
 	/**	Creates a directory
 	 *
@@ -225,7 +225,7 @@ public:
 	 *	@returns	boolean true or false, depending on whether creation of the direction succeeded
 	 *						Will return false, if the directory already exists
 	 */
-	virtual bool CreateDir(char *directory) = 0;
+	virtual bool CreateDir(std::string directory) = 0;
 
 	/**	Delete a directory
 	 *
@@ -235,7 +235,7 @@ public:
 	 *	@returns	boolean true or false, depending on whether deletion was successful.
 	 *						Will return false if the directory could not be found
 	 */
-	virtual bool DeleteDir(char *directory, bool recurse=false) = 0;
+	virtual bool DeleteDir(std::string directory, bool recurse=false) = 0;
 
 //=========================================================
 //=========================================================

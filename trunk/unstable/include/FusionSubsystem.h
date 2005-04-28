@@ -1,5 +1,7 @@
 #ifndef _FUSIONSUBSYSTEM_H_
 	#define _FUSIONSUBSYSTEM_H_
+	
+#include <string>
 
 //	Predeclared Fusion class to avoid circular #include'ing
 class Fusion;
@@ -12,12 +14,12 @@ public:
 	/**	@var		char *object_name
 	 *	@brief	Name of the Subsystem
 	 */
-	char *object_name;
+	std::string object_name;
 
 	/**	@var		char *object_filename
 	 *	@brief	Name of the DLL Module this object was created by
 	 */
-	char *object_filename;
+	std::string object_filename;
 
 	/**	Fusion subsystems Constructor	*/
 	FusionSubsystem(){};

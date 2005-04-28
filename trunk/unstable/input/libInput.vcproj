@@ -24,9 +24,12 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="_WIN32;_LIB;_DEBUG"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=""
 				AssemblerListingLocation=""
@@ -34,6 +37,7 @@
 				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
 				WarningLevel="3"
 				SuppressStartupBanner="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -75,11 +79,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
-				StringPooling="TRUE"
+				PreprocessorDefinitions="_WIN32;_LIB;NDEBUG"
+				StringPooling="FALSE"
 				RuntimeLibrary="2"
-				EnableFunctionLevelLinking="TRUE"
+				BufferSecurityCheck="FALSE"
+				EnableFunctionLevelLinking="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				PrecompiledHeaderFile=".\Release\libInput/libInput.pch"
 				AssemblerListingLocation=""
@@ -127,14 +136,14 @@
 				RelativePath=".\InputDeviceDB.cpp">
 			</File>
 			<File
-				RelativePath=".\InputDeviceDB.h">
+				RelativePath="..\include\input\InputDeviceDB.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="Supported Devices"
 			Filter="">
 			<File
-				RelativePath=".\IInputDevice.h">
+				RelativePath="..\include\input\IInputDevice.h">
 			</File>
 			<Filter
 				Name="Joystick"
@@ -143,7 +152,7 @@
 					RelativePath=".\InputJoystick.cpp">
 				</File>
 				<File
-					RelativePath=".\InputJoystick.h">
+					RelativePath="..\include\input\InputJoystick.h">
 				</File>
 			</Filter>
 			<Filter
@@ -153,7 +162,7 @@
 					RelativePath=".\InputKeyboard.cpp">
 				</File>
 				<File
-					RelativePath=".\InputKeyboard.h">
+					RelativePath="..\include\input\InputKeyboard.h">
 				</File>
 			</Filter>
 			<Filter
@@ -163,7 +172,7 @@
 					RelativePath=".\InputMouse.cpp">
 				</File>
 				<File
-					RelativePath=".\InputMouse.h">
+					RelativePath="..\include\input\InputMouse.h">
 				</File>
 			</Filter>
 		</Filter>
@@ -171,10 +180,10 @@
 			Name="Misc"
 			Filter="">
 			<File
-				RelativePath=".\ButtonCodes.h">
+				RelativePath="..\include\input\ButtonCodes.h">
 			</File>
 			<File
-				RelativePath=".\InputEvent.h">
+				RelativePath="..\include\input\InputEvent.h">
 			</File>
 		</Filter>
 	</Files>

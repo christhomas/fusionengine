@@ -20,13 +20,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="TRUE"
+				PreprocessorDefinitions="_WIN32;_LIB;_DEBUG"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
@@ -62,9 +64,17 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
+				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN32;_LIB;NDEBUG"
+				StringPooling="FALSE"
 				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				EnableFunctionLevelLinking="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
@@ -107,10 +117,19 @@
 				RelativePath=".\font\BitmapFont.cpp">
 			</File>
 			<File
+				RelativePath="..\include\font\BitmapFont.h">
+			</File>
+			<File
 				RelativePath=".\font\FontDB.cpp">
 			</File>
 			<File
+				RelativePath="..\include\font\IFont.h">
+			</File>
+			<File
 				RelativePath=".\font\TextureFont.cpp">
+			</File>
+			<File
+				RelativePath="..\include\font\TextureFont.h">
 			</File>
 		</Filter>
 		<Filter
@@ -158,9 +177,6 @@
 			</File>
 			<File
 				RelativePath=".\gui\Components.cpp">
-			</File>
-			<File
-				RelativePath=".\gui\Container.cpp">
 			</File>
 			<File
 				RelativePath=".\gui\gui.cpp">
@@ -229,12 +245,6 @@
 			Name="Headers"
 			Filter="">
 			<File
-				RelativePath="..\include\font\BitmapFont.h">
-			</File>
-			<File
-				RelativePath="..\include\font\IFont.h">
-			</File>
-			<File
 				RelativePath="..\include\graphics\IGraphics.h">
 			</File>
 			<File
@@ -251,9 +261,6 @@
 			</File>
 			<File
 				RelativePath="..\include\graphics\Pixel.h">
-			</File>
-			<File
-				RelativePath="..\include\font\TextureFont.h">
 			</File>
 		</Filter>
 	</Files>

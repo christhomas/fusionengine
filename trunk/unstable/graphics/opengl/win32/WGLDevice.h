@@ -8,15 +8,15 @@
  */
 class WGLDevice: public Win32Device{
 public:
-				WGLDevice	();
-	virtual		~WGLDevice	();
+					WGLDevice		();
+	virtual			~WGLDevice		();
 
-	virtual bool	Close		(void);
+	virtual bool	Close			(void);
 	virtual bool	CreateContext	(void);
 	virtual void	DeleteContext	(void);
-	virtual void	SetContext	(void);
-	virtual void *	GetContext	(void);
-	virtual void	Update		(void);
+	virtual void	SetContext		(void);
+	virtual void *	GetContext		(void);
+	virtual void	Update			(void);
 };
 
 #endif // #ifndef _WGLDEVICE_H_

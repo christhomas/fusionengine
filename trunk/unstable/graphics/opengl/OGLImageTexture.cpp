@@ -6,7 +6,7 @@
  *
  *	@param filename	The filename of the texture
  */
-OGLImageTexture::OGLImageTexture(char *filename): 
+OGLImageTexture::OGLImageTexture(std::string filename): 
 OGLTexture(0,0,0,filename){}
 
 /**	OpenGL Image Texture object Destructor
@@ -44,7 +44,7 @@ int OGLImageTexture::UpdateTexture(void)
 		m_fileinfo = reinterpret_cast<ImageFileInfo *>(handle->Read());
 
 		if(m_fileinfo != NULL){
-			m_width		= m_fileinfo->width;
+			m_width		=	m_fileinfo->width;
 			m_height	=	m_fileinfo->height;
 			m_numcomp	=	m_fileinfo->bpp>>3;
 
@@ -55,12 +55,12 @@ int OGLImageTexture::UpdateTexture(void)
 
 				buffer = new unsigned char[m_width * m_height * m_numcomp];
 
-				Pixel	*s			=	NULL;
-				Pixel	*d			=	new Pixel24Bit(buffer);
+				Pixel	*s = NULL;
+				Pixel	*d = new Pixel24Bit(buffer);
 
 				switch(m_fileinfo->bpp){
-					case 8:	{	s = new Pixel8Bit		(m_fileinfo->data,m_fileinfo->palette);	}break;
-					case 16:{	s = new Pixel16Bit	(m_fileinfo->data,5,6,5);								}break;
+					case 8:	{ s = new Pixel8Bit	(m_fileinfo->data,m_fileinfo->palette);	}break;
+					case 16:{ s = new Pixel16Bit(m_fileinfo->data,5,6,5);				}break;
 				};
 
 				d->SetInput(s->GetOutput());

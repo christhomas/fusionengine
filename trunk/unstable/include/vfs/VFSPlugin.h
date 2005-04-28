@@ -2,6 +2,7 @@
 	#define _VFSPLUGIN_H_
 
 #include <vector>
+#include <string>
 
 #include <vfs/FileInfo.h>
 #include <vfs/VFSFilter.h>
@@ -14,7 +15,7 @@ protected:
 	/**	@var		int m_offset
 	 *	@brief	The offset into the data buffer
 	 */
-	int						m_offset;
+	int	m_offset;
 
 	/**	@var		unsigned char *m_buffer
 	 *	@brief	The data buffer
@@ -29,7 +30,7 @@ protected:
 	/**	@var		char *m_type
 	 *	@brief	String identifing the File format plugin
 	 */
-	char *m_type;
+	std::string m_type;
 
 	/**	@var		std::vector<VFSFilter *>	m_filters
 	 *	@brief	Array of Filters attached to this plugin to filter the file data through
@@ -89,7 +90,7 @@ public:
 	 *
 	 *	@returns The identifing string of the plugin
 	 */
-	virtual char * Type(void) = 0;
+	virtual std::string Type(void) = 0;
 };
 
 #endif // #ifndef _VFSPLUGIN_H_

@@ -45,11 +45,11 @@
 #include <fstream>
 #include <Fusion.h>
 
-static char		*lastError;
-static int			format;
+static char				*lastError;
+static int				format;
 static std::ifstream	file;
-static char		*font_filename;
-static unsigned int	texture_offset;
+static std::string		font_filename;
+static unsigned int		texture_offset;
 
 /*
  *	The procedure that will create the font texture which each glyph
@@ -60,7 +60,7 @@ unsigned char * LoadTextureFont(unsigned char *buffer, int width, int height, in
 	int i,j,stride;
 	unsigned char *bitmap,*tmp_src,*tmp_dst;
 	
-	file.open(font_filename,std::ios::binary);
+	file.open(font_filename.c_str(),std::ios::binary);
 	file.seekg(texture_offset,std::ios::beg);
 
 	switch (format) {
@@ -153,7 +153,7 @@ TextureFont::TextureFont()
 	m_index[3]	=	0;	m_index[4]	=	2;	m_index[5]	=	3;
 
 	//	Create + assign all vertexpool data
-	m_vertexbuffer	=	fusion->Graphics->CreateVertexBuffer(IVertexBuffer::DYNAMIC);
+	m_vertexbuffer = fusion->Graphics->CreateVertexBuffer(IVertexBuffer::DYNAMIC);
 	m_vertexbuffer->Initialise(4,6,2,2);
 	m_vertexbuffer->SetNormal((float *)m_normal);
 	m_vertexbuffer->SetIndex(m_index);
@@ -179,7 +179,7 @@ TextureFont::~TextureFont()
 	file.close();
 }
 
-bool TextureFont::Initialise(char *filename,Fusion *fusion)
+bool TextureFont::Initialise(std::string filename)
 {
 	float w, h, xstep, ystep;
 	char fileid[4];
@@ -190,7 +190,7 @@ bool TextureFont::Initialise(char *filename,Fusion *fusion)
 	//	for the procedural function to read and if the font needs to be re-read
 	font_filename = m_filename = filename;
 
-	file.open(m_filename,std::ios::binary);
+	file.open(m_filename.c_str(),std::ios::binary);
 	file.read((char *)&fileid,4);
 
 	if(strncmp(fileid,"\377txf",4) != 0){
@@ -350,7 +350,7 @@ void TextureFont::RenderGlyph(int c)
 	}
 }
 
-void TextureFont::RenderString(float x, float y,float depth, char *string,int len)
+void TextureFont::RenderString(float x, float y,float depth, std::string string,int len)
 {
 	//	Reset the current rendering position
 	fusion->Graphics->LoadIdentity();

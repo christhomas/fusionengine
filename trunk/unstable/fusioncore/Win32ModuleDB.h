@@ -24,16 +24,16 @@
  */
 class Win32ModuleDB: public IModuleDB{
 protected:
-	virtual IModule *	GetModule				(char *name);
-	virtual void			AddModule				(IModule *module);
+	virtual IModule *	GetModule		(std::string name);
+	virtual void		AddModule		(IModule *module);
 public:
-										Win32ModuleDB		();
-	virtual						~Win32ModuleDB	();
-	virtual void			AddPath					(char *path);
-	virtual IModule *	LoadModule			(char *name);
-	virtual bool			UnloadModule		(char *name);
-	virtual void			UnloadAll				(void);
-	virtual void *		GetFunction			(char *name,char *func);
+						Win32ModuleDB	();
+	virtual				~Win32ModuleDB	();
+	virtual void		AddPath			(std::string path);
+	virtual IModule *	LoadModule		(std::string name);
+	virtual bool		UnloadModule	(std::string name);
+	virtual void		UnloadAll		(void);
+	virtual void *		GetFunction		(std::string name,std::string func);
 };
 
 #endif // #ifndef _WIN32MODULEDB_H_

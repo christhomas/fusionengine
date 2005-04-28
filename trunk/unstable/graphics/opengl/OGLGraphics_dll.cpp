@@ -15,9 +15,9 @@ FUSIONPLUGIN void GetInstance(Fusion &f)
 	
 	if(fusion->Graphics == NULL){
 #ifndef _WIN32		
-		fusion->Graphics		=	new GLXGraphics();
+		fusion->Graphics = new GLXGraphics();
 #else
-		fusion->Graphics		=	new WGLGraphics();
+		fusion->Graphics = new WGLGraphics();
 #endif
 
 		fusion->Mesh		=	new MeshDB();
@@ -25,10 +25,10 @@ FUSIONPLUGIN void GetInstance(Fusion &f)
 		fusion->Interface	=	new UserInterfaceDB();
 		fusion->Font		=	new FontDB();
 
-		if(fusion->Graphics->Initialise()		==	false) delete fusion->Graphics;
+		if(fusion->Graphics->Initialise()	==	false) delete fusion->Graphics;
 		if(fusion->Mesh->Initialise()		==	false) delete fusion->Mesh;
 		if(fusion->Scene->Initialise()		==	false) delete fusion->Scene;
-		if(fusion->Interface->Initialise()		==	false) delete fusion->Interface;
+		if(fusion->Interface->Initialise()	==	false) delete fusion->Interface;
 		if(fusion->Font->Initialise()		==	false) delete fusion->Font;
 	}
 }

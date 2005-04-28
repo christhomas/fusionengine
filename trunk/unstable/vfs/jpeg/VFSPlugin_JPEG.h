@@ -15,17 +15,17 @@ protected:
 	
 	jpeg_error_mgr	m_jerr;
 
-	virtual void Setup	(void);
-	virtual bool Decode	(void);
+	virtual void		Setup			(void);
+	virtual bool		Decode			(void);
 
 public:
-					VFSPlugin_JPEG	();
-	virtual			~VFSPlugin_JPEG	();
+						VFSPlugin_JPEG	();
+	virtual				~VFSPlugin_JPEG	();
 
 	virtual FileInfo *	Read			(unsigned char *buffer, unsigned int length);
 	virtual char *		Write			(FileInfo *data, unsigned int &length);
 
-	virtual char *		Type				(void);
+	virtual std::string	Type			(void);
 };
 
 #endif // #ifndef _VFSPLUGIN_JPEG_H_

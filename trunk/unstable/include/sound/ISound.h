@@ -5,6 +5,7 @@
 #include <FusionSubsystem.h>
 
 #include <sound/ISoundBuffer.h>
+#include <string>
 
 /** @ingroup	Sound_Group
  *	@brief		The base class for all Sound subsystems
@@ -42,13 +43,13 @@ public:
 	virtual bool Initialise(void) = 0;
 
 	/**	Load a sound stream */
-	virtual ISoundBuffer * LoadStream(char *filename) = 0;
+	virtual ISoundBuffer * LoadStream(std::string filename) = 0;
 
 	/**	Load a sound sample */
-	virtual ISoundBuffer * LoadSample(char *filename) = 0;
+	virtual ISoundBuffer * LoadSample(std::string filename) = 0;
 
 	/**	Load a Tracker Module */
-	virtual ISoundBuffer * LoadModule(char *filename) = 0;
+	virtual ISoundBuffer * LoadModule(std::string filename) = 0;
 
 	/**	Remove a sound stream */
 	virtual void RemoveStream(unsigned int streamid) = 0;

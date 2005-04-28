@@ -34,11 +34,11 @@ VFSPlugin * CreateBinaryPlugin(Fusion *f)
  */
 VFSPlugin_BIN::VFSPlugin_BIN()
 {
-	m_type			=	"binary";
-	m_offset		=	0;
-	m_length		=	0;
+	m_type		=	"binary;";
+	m_offset	=	0;
+	m_length	=	0;
 	m_fileinfo	=	NULL;
-	m_buffer		=	NULL;
+	m_buffer	=	NULL;
 }
 
 /**	Binary file format plugin Deconstructor */
@@ -60,7 +60,7 @@ void VFSPlugin_BIN::AddFilter(VFSFilter *filter)
  *
  *	@returns The plugin Identifier string
  */
-char * VFSPlugin_BIN::Type(void)
+std::string VFSPlugin_BIN::Type(void)
 {
 	return m_type;
 }
@@ -78,9 +78,9 @@ FileInfo * VFSPlugin_BIN::Read(unsigned char *buffer, unsigned int length)
 		buffer = m_filters[a]->Decode(buffer,length);
 	}
 
-	m_fileinfo							=	new BinaryFileInfo();
+	m_fileinfo				=	new BinaryFileInfo();
 	m_fileinfo->filelength	=	length;
-	m_fileinfo->data				=	new unsigned char[length];
+	m_fileinfo->data		=	new unsigned char[length];
 
 	memcpy(m_fileinfo->data,buffer,length);
 	

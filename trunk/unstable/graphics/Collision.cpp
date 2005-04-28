@@ -19,7 +19,7 @@ Collision::~Collision()
 void Collision::AddEntity(unsigned int GroupID, Entity *e)
 {
 	if(GroupID == m_groups.size()){
-		ENTITYLIST newgroup;
+		entitylist_t newgroup;
 		m_groups.push_back(newgroup);
 	}
 

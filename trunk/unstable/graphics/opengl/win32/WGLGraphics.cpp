@@ -11,7 +11,7 @@ WGLGraphics::WGLGraphics()
 {
 	ActivateEvent		=	NULL;
 	DestroyEvent		=	NULL;
-	Window					=	NULL;
+	Window				=	NULL;
 	m_fullscreen		=	false;
 }
 
@@ -104,7 +104,7 @@ bool WGLGraphics::RestoreMode(void)
 	return ChangeDisplaySettings(NULL,0) != DISP_CHANGE_SUCCESSFUL ? false : true;
 }
 
-void * WGLGraphics::GetExtension(char *extension)
+void * WGLGraphics::GetExtension(std::string extension)
 {
-	return wglGetProcAddress(extension);
+	return wglGetProcAddress(extension.c_str());
 }

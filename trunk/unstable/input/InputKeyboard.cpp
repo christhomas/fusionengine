@@ -19,12 +19,12 @@ InputKeyboard::InputKeyboard(int DeviceID)
 	m_DeviceType	=	KEYBOARD;
 	m_DeviceID		=	DeviceID;	
 	m_listener		=	NULL;
-	m_event				=	NULL;
+	m_event			=	NULL;
 	m_eventsys		=	false;	
-	m_Active			=	true;
+	m_Active		=	true;
 	m_AxisArea		=	NULL;
-	m_x						=	0;
-	m_y						=	0;
+	m_x				=	0;
+	m_y				=	0;
 	m_devicemode	=	MODE_NORMAL;
 
 	m_buttonstate = new bool[256];
@@ -109,10 +109,10 @@ void InputKeyboard::GetCursorPosition(int &x, int &y)
 void InputKeyboard::AddListener(InputEvent **listener)
 {
 	DeviceListener *dl	= new DeviceListener;
-	dl->queue						= listener;
-	dl->prev						= m_listener;
-	m_listener					= dl;
-	m_eventsys					= true;
+	dl->queue			= listener;
+	dl->prev			= m_listener;
+	m_listener			= dl;
+	m_eventsys			= true;
 }
 
 /**	Removes a listener from this device
@@ -229,7 +229,7 @@ void InputKeyboard::ConfinePositionToArea(void)
 	{
 		if(m_x < m_AxisArea->left)		m_x = m_AxisArea->left;
 		if(m_x > m_AxisArea->right)		m_x = m_AxisArea->right;
-		if(m_y < m_AxisArea->top)			m_y = m_AxisArea->top;
+		if(m_y < m_AxisArea->top)		m_y = m_AxisArea->top;
 		if(m_y > m_AxisArea->bottom)	m_y = m_AxisArea->bottom;
 	}
 }

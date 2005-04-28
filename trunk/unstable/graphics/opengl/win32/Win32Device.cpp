@@ -10,7 +10,7 @@
 //	the second attempt will fail anyway, but who cares :D
 bool	DestroyWindowMutex	= true;
 
-LRESULT CALLBACK WndProc(HWND	hwnd,UINT	message,WPARAM	wParam,LPARAM	lParam)
+LRESULT CALLBACK WndProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam)
 {
 	switch (message)
 	{
@@ -65,7 +65,6 @@ Win32Device::Win32Device()
 	m_platform = reinterpret_cast<Win32PlatformData *>(fusion->GetPlatformData());
 
 	m_windowname		=	"Win32 Subsystem";
-	m_apptitle			=	NULL;
 	
 	//	Initially set no title
 	SetTitle("Loading: ");
@@ -79,8 +78,6 @@ Win32Device::Win32Device()
  */
 Win32Device::~Win32Device()
 {
-	delete m_apptitle;
-
 	fps.Stop();
 
 	Close();
@@ -105,7 +102,7 @@ bool Win32Device::RegisterWindow(void)
 	wndClass.hCursor        = LoadCursor(NULL, IDC_ARROW);
 	wndClass.hbrBackground  = NULL;
 	wndClass.lpszMenuName   = NULL;
-	wndClass.lpszClassName  = m_windowname;
+	wndClass.lpszClassName  = m_windowname.c_str();
 	wndClass.hIconSm        = LoadIcon(NULL, IDI_APPLICATION);
 
 	// Attempt To Register The Window Class
@@ -138,7 +135,7 @@ bool Win32Device::RegisterWindow(void)
  *
  *	If anything fails, false is returned
  */
-bool Win32Device::Open(int width, int height, bool fullscreen)
+bool Win32Device::Open(unsigned int width, unsigned int height, bool fullscreen)
 {
 	//	Attempt to close the window, it'll fail anyway if there isnt an open one
 	Close();
@@ -170,17 +167,17 @@ bool Win32Device::Open(int width, int height, bool fullscreen)
 
 		//	Create the window
 		m_platform->m_hwnd=CreateWindowEx(
-					dwExStyle,						// Extended Style For The Window
-					m_windowname,					// Class Name
-					m_apptitle,						// Window Title
-					dwStyle,							// Defined Window Style
-					0, 0,									// Window Position
+					dwExStyle,					// Extended Style For The Window
+					m_windowname.c_str(),		// Class Name
+					m_apptitle.c_str(),			// Window Title
+					dwStyle,					// Defined Window Style
+					0, 0,						// Window Position
 					r.right-r.left,				// Calculate Window Width
 					r.bottom-r.top,				// Calculate Window Height
-					NULL,									// No Parent Window
-					NULL,									// No Menu
-					m_platform->m_hinst,	// Instance
-					NULL);								// Dont Pass Anything To WM_CREATE
+					NULL,						// No Parent Window
+					NULL,						// No Menu
+					m_platform->m_hinst,		// Instance
+					NULL);						// Dont Pass Anything To WM_CREATE
 
 		//	Was the window created ok?
 		if(m_platform->m_hwnd != NULL){
@@ -247,7 +244,7 @@ bool Win32Device::Close(void)
 		m_platform->m_hwnd	=	NULL;
 
 		// Are We Able To Unregister Class
-		UnregisterClass(m_windowname,m_platform->m_hinst);
+		UnregisterClass(m_windowname.c_str(),m_platform->m_hinst);
 		m_platform->m_hinst=NULL;
 
 		//	Everything was ok
@@ -273,12 +270,9 @@ bool Win32Device::IsOpen(void)
  *
  *	Firstly deletes any old title the window may hold, the allocates a new string, updating the title with the new title
  */
-void Win32Device::SetTitle(char *title)
+void Win32Device::SetTitle(std::string title)
 {
-	delete m_apptitle;
-
-	m_apptitle = new char[strlen(title)+1];
-	strcpy(m_apptitle,title);
+	m_apptitle = title;
 }
 
 /** Shows the win32 Cursor
@@ -367,6 +361,8 @@ void Win32Device::Update(void)
 {
 	static int	a=0;
 	static char buffer[70];
+	//	I kept this char string cause it's easier than std::string, 
+	//	which has a lot of combining and function calls to do the same thing
 
 	if(a & 64){		
 		fps.Tick();

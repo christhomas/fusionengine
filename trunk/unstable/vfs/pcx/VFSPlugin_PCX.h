@@ -72,18 +72,18 @@ protected:
 	ImageFileInfo	*m_fileinfo;
 
 	bool	ReadPCXHeader		(void);
-	void	ReadPCXPalette	(void);
+	void	ReadPCXPalette		(void);
 	void	ReadPCXImage		(void);
 	void	DecodeImage			(void);
 
 public:
-											VFSPlugin_PCX		();
-	virtual							~VFSPlugin_PCX	();
+						VFSPlugin_PCX	();
+	virtual				~VFSPlugin_PCX	();
 
-	virtual FileInfo *	Read						(unsigned char *buffer, unsigned int length);
-	virtual char *			Write						(FileInfo *data, unsigned int &length);
+	virtual FileInfo *	Read			(unsigned char *buffer, unsigned int length);
+	virtual char *		Write			(FileInfo *data, unsigned int &length);
 
-	virtual char *			Type						(void);
+	virtual std::string Type			(void);
 };
 
 #endif // #ifndef _VFSPLUGIN_PCX_H_

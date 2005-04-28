@@ -62,11 +62,11 @@ struct CentralDir{
 
 class VFSHandle_ZIP: public VFSHandle_file{
 protected:
-	char							*m_file;
-	char							*m_archive;
-	VFSHandle					*m_handle;
-	int							m_fileid;
-	z_stream						m_zipstream;
+	std::string m_file;
+	std::string m_archive;
+	VFSHandle	*m_handle;
+	int			m_fileid;
+	z_stream	m_zipstream;
 		
 	CentralDir						m_cd;
 	std::vector<LocalFileHeader *>	m_lfh;
@@ -79,8 +79,8 @@ protected:
 //	protected Archive actions methods
 //=========================================================
 //=========================================================
-	virtual bool			Open			(char *filename, bool create);
-	virtual bool			OpenLocation		(char *loc, bool create);
+	virtual bool			Open			(std::string filename, bool create);
+	virtual bool			OpenLocation	(std::string loc, bool create);
 	virtual bool			Close			(void);
 
 //=========================================================
@@ -89,7 +89,7 @@ protected:
 //=========================================================
 //=========================================================
 	virtual void			FindArchiveName	(void);
-	virtual void			FindFilename		(void);
+	virtual void			FindFilename	(void);
 	virtual void			DeleteCache		(void);
 	virtual void			CreateCache		(void);
 	virtual void			ReadLF			(void);
@@ -98,10 +98,10 @@ protected:
 	virtual void			WriteFH			(FileHeader *fh);
 	virtual void			ReadCD			(void);
 	virtual void			WriteCD			(void);
-	virtual unsigned short	ReadSignature		(void);
+	virtual unsigned short	ReadSignature	(void);
 public:
-						VFSHandle_ZIP	(VFSTransport *t);
-	virtual				~VFSHandle_ZIP	();
+							VFSHandle_ZIP	(VFSTransport *t);
+	virtual					~VFSHandle_ZIP	();
 
 //=========================================================
 //=========================================================
@@ -118,28 +118,28 @@ public:
 //	Archive Information methods
 //=========================================================
 //=========================================================
-	virtual char *			Filename			(void);
-	virtual unsigned int		Length			(void);
-	virtual void			SetPlugin			(VFSPlugin *plugin);
+	virtual std::string		Filename		(void);
+	virtual unsigned int	Length			(void);
+	virtual void			SetPlugin		(VFSPlugin *plugin);
 
 //=========================================================
 //=========================================================
 //	Archive/Directory manipulation methods 
 //=========================================================
 //=========================================================
-	virtual bool			IsFile			(char *filename);
-	virtual bool			IsDirectory		(char *directory);
+	virtual bool			IsFile			(std::string filename);
+	virtual bool			IsDirectory		(std::string directory);
 	
-	virtual FileInfo *		GetFileInfo		(char *filename);
+	virtual FileInfo *		GetFileInfo		(std::string filename);
 
-	virtual bool			Createfile			(char *filename, bool recurse=true);
-	virtual bool			Deletefile			(char *filename);
+	virtual bool			Createfile		(std::string filename, bool recurse=true);
+	virtual bool			Deletefile		(std::string filename);
 
-	virtual bool			Copyfile			(char *src, char *dest, bool createpath);
-	virtual bool			Movefile			(char *src, char *dest, bool createpath);
+	virtual bool			Copyfile		(std::string src, std::string dest, bool createpath);
+	virtual bool			Movefile		(std::string src, std::string dest, bool createpath);
 
-	virtual bool			CreateDir			(char *directory);
-	virtual bool			DeleteDir			(char *directory, bool recurse);
+	virtual bool			CreateDir		(std::string directory);
+	virtual bool			DeleteDir		(std::string directory, bool recurse);
 };
 
 /*	FOR STATIC LINKING */

@@ -14,16 +14,16 @@ protected:
 	 */
 	FSOUND_SAMPLE	*m_sample;
 public:
-								FMODSampleBuffer	();
-	virtual				~FMODSampleBuffer	();
-	virtual bool	Load							(char *filename);
-	virtual bool	Close							(void);
-	virtual int		Play							(void);
-	virtual bool	Pause							(bool pause);
-	virtual bool	Stop							(void);
-	virtual bool	SetPosition				(int position);
-	virtual bool	Volume						(unsigned char volume);
-	virtual bool	IsPlaying					(void);
+					FMODSampleBuffer	();
+	virtual			~FMODSampleBuffer	();
+	virtual bool	Load				(std::string filename);
+	virtual bool	Close				(void);
+	virtual int		Play				(void);
+	virtual bool	Pause				(bool pause);
+	virtual bool	Stop				(void);
+	virtual bool	SetPosition			(int position);
+	virtual bool	Volume				(unsigned char volume);
+	virtual bool	IsPlaying			(void);
 };
 
 #endif // #ifndef _FMODSAMPLEBUFFER_H_

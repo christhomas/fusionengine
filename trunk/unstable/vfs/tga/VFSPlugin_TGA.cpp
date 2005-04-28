@@ -8,7 +8,7 @@
  */
 VFSPlugin_TGA::VFSPlugin_TGA()
 {
-	m_type			=	"tga;";
+	m_type		=	"tga;";
 	m_fileinfo	=	NULL;
 }
 
@@ -19,7 +19,7 @@ VFSPlugin_TGA::~VFSPlugin_TGA(){}
  *
  *	@returns	The plugin identifier string
  */
-char * VFSPlugin_TGA::Type(void)
+std::string VFSPlugin_TGA::Type(void)
 {
 	return m_type;
 }

@@ -1,5 +1,8 @@
 #include <Fusion.h>
 
+//	For XML Configuration file
+#include <libxml/parser.h>
+
 #ifdef _WIN32
 	#include <Win32ModuleDB.h>
 #else
@@ -35,21 +38,17 @@ Fusion::Fusion()
 
 	Graphics	= NULL;
 	Input		= NULL;
-	Mesh	= NULL;
-	Scene	= NULL;
+	Mesh		= NULL;
+	Scene		= NULL;
 	Interface	= NULL;
 	Font		= NULL;
-	Sound	= NULL;
-	Network	= NULL;
-	vfs		= NULL;
-
-	//	Null out the lib filename, create + destroy ptrs for all the supported objects
-	for ( int a = 0;a < numsystems;a++ )
-	{
-		m_libfilename[ a ]	= NULL;
-		create[ a ]		= NULL;
-		destroy[ a ]		= NULL;
-	}
+	Sound		= NULL;
+	Network		= NULL;
+	vfs			= NULL;
+	
+	m_libfilename.resize(NUMSUBSYS,"");
+	create.resize(NUMSUBSYS,NULL);
+	destroy.resize(NUMSUBSYS,NULL);
 }
 
 /**
@@ -65,10 +64,13 @@ Fusion::~Fusion()
 
 	//	Delete all the platform data
 	delete m_platform;
+	m_platform = NULL;
 
 	//	Delete all the module data
 	delete m_moduledb;
 	m_moduledb = NULL;
+	
+	xmlCloseConfig();
 }
 
 /**
@@ -93,20 +95,15 @@ bool Fusion::Update( void )
 {
 	Graphics->Window->MessageLoop();
 
-	if ( m_active == true )
-	{
-		if ( Input != NULL )
-		{
-			if ( Input->Update() == false )
-			{
+	if ( m_active == true ){
+		if ( Input != NULL ){
+			if ( Input->Update() == false ){
 				return false;
 			}
 		}
 
-		if ( Interface->Update() == false )
-			return false;
-		if ( Scene->RenderScene() == false )
-			return false;
+		if ( Interface->Update() == false )		return false;
+		if ( Scene->RenderScene() == false )	return false;
 
 		Graphics->Update();
 	}
@@ -124,119 +121,44 @@ void Fusion::Pause( bool active )
 	m_active = active;
 }
 
-/**
- *	Tells Fusion to load a configuration file
- *
- *	@param configfile char pointer to config filename
- *
- *	This method will search through the config file, if it parses [FUSION]
- *	it'll happily start extracting data from that section, until the next 
- *	section is detected (which, incidentally starts with "[").  Upon reading 
- *	a valid command, the data section will be removed (part of the string 
- *	after the = in each valid command line) and compared against what 
- *	Fusion is programmed to cope with, upon getting a correct comparison 
- *	from the command, the data section will be tagged into the appropiate 
- *	place in the internal configuration data, to be used later
- */
-void Fusion::LoadConfig( char *configfile )
+void Fusion::LoadConfig(std::string configfile)
 {
-	//	FIXME:	Should probably move all this to use STL more
-	//			considering it's 2-3 years old, I didnt know STL then
-	//			should fix it now I know better
-	bool begin = false;
-	char buffer[ 2048 ];
-	std::ifstream config( configfile );
-	std::ofstream output( "output.txt" );
+	if(xmlLoadConfig(configfile) == true){
+		void *root = xmlGetRootNode();
+		void *fnode = xmlFindNode(root,"fusion");
 
-	output << "LoadConfig" << std::endl;
-
-	//	Did the file open successfully?
-	if ( config.is_open() == false )
-		return ;
-
-	//	Parse the config file, pull out all the data in the [Fusion] section
-	while ( config.eof() == 0 )
-	{
-		config.getline( buffer, 2048 );
-
-		//	Start reading the config file only when you reach the Fusion section
-		if ( strcmp( buffer, "[FUSION]" ) == 0 )
-		{
-			begin = true;
-			continue;
-		}
-
-		//	End reading when you read the next section (each section starts like [SECTION] or [ANOTHERSECTION]
-		if ( ( begin == true ) && ( strncmp( buffer, "[", 1 ) == 0 ) )
-		{
-			break;
-		}
-
-		//	Ignore any blank lines
-		if ( strcmp( buffer, "\0" ) == 0 )
-		{
-			continue;
-		}
-
-		//	If begun, process config data
-		if ( begin == true )
-		{
-			char * command	= strtok( buffer, "=" );
-
-			if ( command != NULL )
-			{
-				char * temp = strtok( &buffer[ strlen( command ) + 1 ], "\n" );
-				char *param = new char[ strlen( temp ) + 1 ];
-				strcpy( param, temp );
-
-				output << "command:param = " << command << ":" << param << std::endl;
-				for ( int a = 0;a < numsystems;a++ )
-				{
-					if ( m_libfilename[ a ] == NULL ){
-						output << "m_filename[" << a << "] = " << (int *) m_libfilename[ a ] << std::endl;
-					}else{
-						output << "m_filename[" << a << "] = " << m_libfilename[ a ] << std::endl;
+		if(fnode != NULL){		
+			unsigned int numNodes = xmlCountNodes(fnode);
+			std::string name,data;
+			
+			for(unsigned int a=0;a<numNodes;a++){
+				void *cnode = xmlGetChild(fnode,a);
+				
+				if(xmlGetNodeName(cnode) == "subsystem"){
+					name = xmlGetNodeProperty(cnode,"name");
+					data = xmlGetNodeProperty(cnode,"module");
+					
+					if(name.empty() == false && data.empty() == false){
+						//	Get the function ptr to create the subsystem objects
+						if(name == "graphics")	m_libfilename[GRAPHICS]	= data;
+						if(name == "input")		m_libfilename[INPUT]	= data;
+						if(name == "sound")		m_libfilename[SOUND]	= data;
+						if(name == "vfs")		m_libfilename[VFS]		= data;
+						if(name == "network")	m_libfilename[NETWORK]	= data;				
+					}
+				}else if(xmlGetNodeName(cnode) == "setup"){
+					name = xmlGetNodeProperty(cnode,"name");
+					data = xmlGetNodeProperty(cnode,"path");
+					
+					if(name.empty() == false && data.empty() == false){
+						if(name == "moduledb") m_moduledb->AddPath(data);
 					}
 				}
-				output << std::endl;
-
-				if ( strcmp( command, "MODULEDB" ) == 0 )
-				{
-					m_moduledb->AddPath( param );
-					continue;
-				}
-				if ( strcmp( command, "GRAPHICS" ) == 0 )
-				{
-					m_libfilename[ GRAPHICS ] = param;
-					continue;
-				}
-				if ( strcmp( command, "INPUT" ) == 0 )
-				{
-					m_libfilename[ INPUT ] = param;
-					continue;
-				}
-				if ( strcmp( command, "SOUND" ) == 0 )
-				{
-					m_libfilename[ SOUND ] = param;
-					continue;
-				}
-				if ( strcmp( command, "VFS" ) == 0 )
-				{
-					m_libfilename[ VFS ] = param;
-					continue;
-				}
-				if ( strcmp( command, "NETWORK" ) == 0 )
-				{
-					m_libfilename[ NETWORK ] = param;
-					continue;
-				}
-
-				delete[] param;
 			}
-		}
+		}		
+	}else{
+		errlog << "xmlLoadConfig(): " << xmlGetError() << std::endl;
 	}
-
-	config.close();
 }
 
 /**
@@ -250,25 +172,18 @@ void Fusion::LoadConfig( char *configfile )
  */
 void Fusion::InitSystem( Fusion::Subsystem id, create_t c )
 {
-	if ( id < numsystems )
-	{
-
-		if ( c != NULL )
-		{
-			create[ id ] = c;
-			destroy[ id ] = NULL;
-		}
-		else
-		{
-			create[ id ] = ( create_t ) m_moduledb->GetFunction( m_libfilename[ id ], ( char * ) "GetInstance" );
-			destroy[ id ] = ( destroy_t ) m_moduledb->GetFunction( m_libfilename[ id ], ( char * ) "DestroyInstance" );
+	if(id < NUMSUBSYS){
+		if(c != NULL){
+			create[id]	= c;
+			destroy[id]	= NULL;
+		}else{
+			create[id]	= (create_t)	m_moduledb->GetFunction( m_libfilename[id], (char *)"GetInstance" );
+			destroy[id]	= (destroy_t)	m_moduledb->GetFunction( m_libfilename[id], (char *)"DestroyInstance");
 		}
 
-		if ( create[ id ] != NULL )
-			create[ id ] ( *this );
+		if(create[id] != NULL) create[id](*this);
 
-		if ( id == GRAPHICS )
-		{
+		if(id == GRAPHICS){
 			Graphics->ActivateEvent = WindowActivateEvent;
 			Graphics->DestroyEvent	= WindowDestroyEvent;
 		}
@@ -287,24 +202,18 @@ void Fusion::InitSystem( Fusion::Subsystem id, create_t c )
  */
 void Fusion::UnloadModules( void )
 {
-	for ( int a = 0;a < numsystems;a++ )
-	{
+	for(unsigned int a=0;a<NUMSUBSYS;a++){
 		//	Delete all initialised DLL Modules
-		if ( destroy[ a ] != NULL )
+		if(destroy[a] != NULL)
 		{
-			destroy[ a ] ();
-			destroy[ a ] = NULL;
+			destroy[a]();
+			destroy[a] = NULL;
 
-			if ( m_moduledb->UnloadModule( m_libfilename[ a ] ) == true )
-			{
+			if(m_moduledb->UnloadModule( m_libfilename[ a ] ) == true){
 				//	success code
-			}
-			else
-			{
+			}else{
 				//	failure code
 			}
-
-			delete[] m_libfilename[ a ];
 		}
 	}
 

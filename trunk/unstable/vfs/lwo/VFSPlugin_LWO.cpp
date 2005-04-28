@@ -29,7 +29,7 @@ VFSPlugin_LWO::~VFSPlugin_LWO()
 {
 }
 
-char * VFSPlugin_LWO::Type(void)
+std::string VFSPlugin_LWO::Type(void)
 {
 	return m_type;
 }
@@ -497,29 +497,29 @@ void VFSPlugin_LWO::read_face(long length)
 {
 	short		numvertex;
 	short		flags;
-	short		mask		= 1023;
-	TempPolygon	*p	= NULL;
-	int			ctr			= 0;
+	short		mask	= 1023;
+	TempPolygon	*p		= NULL;
+	int			ctr		= 0;
 
 	//	Read all the polygon indices
 	while(length != 0){
 		//	Read the polygon data
-		numvertex			=		ReadShort();
-		length				-=	sizeof(numvertex);
+		numvertex = ReadShort();
+		length -= sizeof(numvertex);
 		
 		//	extract the flags and numvertex from the polygon data
-		flags					=		!mask & numvertex;
-		numvertex			&=	mask;
+		flags = !mask & numvertex;
+		numvertex &= mask;
 
 		//	Create a temporary polygon, and an array of indices for this polygon
-		p							=		new TempPolygon;		
-		p->numvertex	=		numvertex;
-		p->index			=		new int[p->numvertex];
+		p = new TempPolygon;		
+		p->numvertex = numvertex;
+		p->index = new unsigned int[p->numvertex];
 
 		long vxlength;
 
 		//	Read all the indices for this polygon
-		for(int a=0;a<p->numvertex;a++){
+		for(unsigned int a=0;a<p->numvertex;a++){
 			p->index[a] = (unsigned long)ReadVariableLength(&vxlength);
 			length-=vxlength;
 		}
@@ -736,9 +736,9 @@ unsigned int VFSPlugin_LWO::CountPolygons(int index, int &counter)
 
 void VFSPlugin_LWO::AssignBuffers(int index)
 {
-	int						*i	=	m_fileinfo->mesh->GetVertexBuffer(index)->GetIndex();
+	unsigned int	*i	=	m_fileinfo->mesh->GetVertexBuffer(index)->GetIndex();
 	TempPolygon		*p	=	NULL;
-	int						ctr	=	0;
+	int				ctr	=	0;
 
 	for(unsigned int a=0;a<polygontags.size();a+=2){
 		if(polygontags[a] == index){

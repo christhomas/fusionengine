@@ -23,11 +23,11 @@ VFSPlugin * CreateTextPlugin(Fusion *f)
 /**	Text file format Plugin	Constructor	*/
 VFSPlugin_TXT::VFSPlugin_TXT()
 {
-	m_type			=	"txt;text";
-	m_offset		=	0;
-	m_length		=	0;
+	m_type		=	"txt;text;";
+	m_offset	=	0;
+	m_length	=	0;
 	m_fileinfo	=	NULL;
-	m_buffer		=	NULL;
+	m_buffer	=	NULL;
 }
 
 /**	Text file format Plugin Deconstructor */
@@ -47,7 +47,7 @@ void VFSPlugin_TXT::AddFilter(VFSFilter *filter)
  *
  *	@returns The plugin Identifier string
  */
-char * VFSPlugin_TXT::Type(void)
+std::string VFSPlugin_TXT::Type(void)
 {
 	return m_type;
 }
@@ -69,14 +69,11 @@ FileInfo * VFSPlugin_TXT::Read(unsigned char *buffer, unsigned int length)
 	
 	while(offset < length){
 		//	Chop the data into lines, store them in the file information block
-		char *token = strtok((char *)&buffer[offset],"\n\0");
-		offset+=(unsigned int)strlen(token)+1;
-
-		char *copy = new char[strlen(token)+1];
-		strcpy(copy,token);
+		std::string token = strtok((char *)&buffer[offset],"\n\0");
+		offset+=(unsigned int)token.length()+1;
 
 		m_fileinfo = new TextFileInfo();
-		m_fileinfo->lines.push_back(copy);
+		m_fileinfo->lines.push_back(token);
 	}
 
 	delete[] buffer;

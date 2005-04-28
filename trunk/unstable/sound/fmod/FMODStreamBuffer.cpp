@@ -44,9 +44,9 @@ FMODStreamBuffer::~FMODStreamBuffer()
  *
  *	@returns boolean true or false, depending on whether the stream loaded or not
  */
-bool FMODStreamBuffer::Load(char *filename)
+bool FMODStreamBuffer::Load(std::string filename)
 {
-	m_stream = FSOUND_Stream_OpenFile(filename, FSOUND_NORMAL, 0);
+	m_stream = FSOUND_Stream_OpenFile(filename.c_str(), FSOUND_NORMAL, 0);
 
 	FSOUND_Stream_SetEndCallback(m_stream,StreamEndCallback,(int)this);
 
@@ -136,5 +136,5 @@ bool FMODStreamBuffer::Volume(unsigned char volume)
 bool FMODStreamBuffer::IsPlaying(void)
 {
 	if(m_channel!=0)	return true;
-	else							return false;
+	else				return false;
 }

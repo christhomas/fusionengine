@@ -9,10 +9,11 @@
  *	Sets the type of file handle this 
  *	transport will be storing and how to construct them
  */
-VFSTransport::VFSTransport(char *ident, int category, VFSHandle::handle_t h)
+VFSTransport::VFSTransport(std::string ident, int category, VFSHandle::handle_t h)
 {
-	m_ident = new char[strlen(ident)+1];
-	strcpy(m_ident,ident);
+	//m_ident = new char[strlen(ident)+1];
+	//strcpy(m_ident,ident);
+	m_ident = ident;
 
 	m_category = category;
 
@@ -27,7 +28,8 @@ VFSTransport::VFSTransport(char *ident, int category, VFSHandle::handle_t h)
  */
 VFSTransport::~VFSTransport()
 {
-	delete[] m_ident;
+	//delete[] m_ident;
+	m_ident.clear();
 
 	m_handles.clear();
 }
@@ -46,7 +48,7 @@ VFSTransport::~VFSTransport()
  *		-#	if opening the file was successful, returns the new file handle
  *		-#	Otherwise, handle is deleted and NULL is returned
  */
-VFSHandle * VFSTransport::Open(char *filename, VFSPlugin *plugin, bool create)
+VFSHandle * VFSTransport::Open(std::string filename, VFSPlugin *plugin, bool create)
 {
 	VFSHandle *handle = CreateHandle(this);
 
@@ -61,7 +63,7 @@ VFSHandle * VFSTransport::Open(char *filename, VFSPlugin *plugin, bool create)
 	return NULL;
 }
 
-VFSHandle * VFSTransport::OpenLocation(char *loc, bool create)
+VFSHandle * VFSTransport::OpenLocation(std::string loc, bool create)
 {
 	VFSHandle *handle = CreateHandle(this);
 
@@ -70,7 +72,7 @@ VFSHandle * VFSTransport::OpenLocation(char *loc, bool create)
 		return handle;
 	}
 
-	delete[] handle;
+	delete handle;
 	return NULL;
 }
 
@@ -124,7 +126,7 @@ VFSHandle * VFSTransport::GetHandle(unsigned int index)
 }
 
 /**	Retrieves the identifier string of this transport	*/
-char * VFSTransport::GetIdentifier(void)
+std::string VFSTransport::GetIdentifier(void)
 {
 	return m_ident;
 }

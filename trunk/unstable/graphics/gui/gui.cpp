@@ -14,7 +14,7 @@ UserInterface::UserInterface(IModuleDB *moduledb,SceneGraph *scene)
 UserInterface::~UserInterface()
 {
 //	empty the window list
-	for(WINDOWLIST::iterator w=m_windows.begin();w!=m_windows.end();w++)	delete *w;
+	for(windowlist_t::iterator w=m_windows.begin();w!=m_windows.end();w++)	delete *w;
 
 	m_windows.clear();
 }
@@ -30,10 +30,10 @@ Window * UserInterface::AddWindow(InputDeviceDB *inputdevicedb)
 	return NULL;
 }
 
-Window * UserInterface::GetWindowPtr(char *title)
+Window * UserInterface::GetWindowPtr(std::string title)
 {
-	for(WINDOWLIST::iterator w=m_windows.begin();w!=m_windows.end();w++){
-		if(strcmp((*w)->GetTitle(), title) == 0) return *w;
+	for(windowlist_t::iterator w=m_windows.begin();w!=m_windows.end();w++){
+		if((*w)->GetTitle() == title) return *w;
 	}
 
 	return NULL;
@@ -41,7 +41,7 @@ Window * UserInterface::GetWindowPtr(char *title)
 
 void UserInterface::RemoveWindow(Window **window)
 {
-	for(WINDOWLIST::iterator w=m_windows.begin();w!=m_windows.end();w++){
+	for(windowlist_t::iterator w=m_windows.begin();w!=m_windows.end();w++){
 		if(*w == *window){
 			delete *w;
 			m_windows.erase(w);
@@ -52,7 +52,7 @@ void UserInterface::RemoveWindow(Window **window)
 bool UserInterface::Update(void)
 {
 	if(m_active == true){
-		for(WINDOWLIST::iterator w=m_windows.begin();w!=m_windows.end();w++){
+		for(windowlist_t::iterator w=m_windows.begin();w!=m_windows.end();w++){
 			(*w)->Update();
 		}
 	}

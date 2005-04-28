@@ -2,6 +2,7 @@
 	#define _VFSTRANSPORT_H_
 
 #include <vector>
+#include <string>
 
 #include <vfs/VFSHandle.h>
 
@@ -15,10 +16,10 @@ protected:
 	 */
 	std::vector<VFSHandle *> m_handles;
 
-	/**	@var		char *m_ident
+	/**	@var		std::string m_ident
 	 *	@brief	identifing string for the transport
 	 */
-	char *m_ident;
+	std::string m_ident;
 
 	/**	@var		int m_category
 	 *	@brief	The category of transport this belongs to
@@ -42,16 +43,16 @@ public:
 		NETWORK = 3
 	};
 
-					VFSTransport	(char *ident, int category, VFSHandle::handle_t);
-	virtual			~VFSTransport	();
-	virtual VFSHandle *	Open		(char *filename, VFSPlugin *plugin, bool create);
-	virtual VFSHandle *	OpenLocation	(char *loc, bool create);
-	virtual bool		Close		(VFSHandle *handle);
+						VFSTransport	(std::string ident, int category, VFSHandle::handle_t);
+	virtual				~VFSTransport	();
+	virtual VFSHandle *	Open			(std::string filename, VFSPlugin *plugin, bool create);
+	virtual VFSHandle *	OpenLocation	(std::string loc, bool create);
+	virtual bool		Close			(VFSHandle *handle);
 	virtual void		CloseAll		(void);
-	virtual	int		NumberFiles	(void);
-	virtual VFSHandle *	GetHandle	(unsigned int index);
-	virtual char *		GetIdentifier	(void);
-	virtual int			GetCategory	(void);
+	virtual	int			NumberFiles		(void);
+	virtual VFSHandle *	GetHandle		(unsigned int index);
+	virtual std::string	GetIdentifier	(void);
+	virtual int			GetCategory		(void);
 };
 
 #endif // #ifndef _VFSTRANSPORT_H_

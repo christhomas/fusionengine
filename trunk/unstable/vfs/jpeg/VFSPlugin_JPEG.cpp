@@ -49,7 +49,7 @@ VFSPlugin_JPEG::~VFSPlugin_JPEG()
 
 }
 
-char * VFSPlugin_JPEG::Type(void)
+std::string VFSPlugin_JPEG::Type(void)
 {
 	return m_type;
 }

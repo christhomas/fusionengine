@@ -9,19 +9,19 @@ VFSPlugin_3DS::VFSPlugin_3DS()
 {
 	m_type			=	"3ds;";
 
-	m_offset			=	0;
+	m_offset		=	0;
 	m_numvertex		=	0;
 	m_numpolygons	=	0;
 	m_vertexctr		=	0;
-	m_length			=	0;
+	m_length		=	0;
 	chunkid			=	0;
-	chunklen			=	0;
+	chunklen		=	0;
 
-	m_fileinfo			=	NULL;
+	m_fileinfo		=	NULL;
 	m_polygons		=	NULL;
-	m_vertex			=	NULL;	
-	m_fileinfo			=	NULL;
-	m_buffer			=	NULL;
+	m_vertex		=	NULL;	
+	m_fileinfo		=	NULL;
+	m_buffer		=	NULL;
 }
 
 /**	3DS Mesh plugin Deconstructor */
@@ -31,7 +31,7 @@ VFSPlugin_3DS::~VFSPlugin_3DS(){}
  *
  *	@returns	The plugin identifier string
  */
-char * VFSPlugin_3DS::Type(void)
+std::string VFSPlugin_3DS::Type(void)
 {
 	return m_type;
 }
@@ -55,8 +55,8 @@ char * VFSPlugin_3DS::Type(void)
  */
 FileInfo * VFSPlugin_3DS::Read(unsigned char *buffer, unsigned int length)
 {
-	m_offset		= 0;
-	m_buffer		=	buffer;
+	m_offset	= 0;
+	m_buffer	=	buffer;
 	m_numvertex	=	0;
 	m_fileinfo	=	NULL;
 	m_vertexctr	=	0;
@@ -502,7 +502,7 @@ void VFSPlugin_3DS::ReadMesh(void)
 				for(int a=0;a<m->NumVertexBuffer();a++){
 					IVertexBuffer *v = m->GetVertexBuffer(a);
 
-					if(strcmp(v->GetName(),name) == 0){
+					if(v->GetName() == name){
 						AssignVertexData(v);
 					}
 				}
@@ -590,7 +590,7 @@ void VFSPlugin_3DS::ReadPolyIndexData(void)
 		ind[3] = ReadShort();
 		
 		m_polygons[a].numvertex = 3;
-		m_polygons[a].index = new int[3];
+		m_polygons[a].index = new unsigned int[3];
 		
 		if(ind[0] < m_numvertex) m_polygons[a].index[0] = ind[0];
 		if(ind[1] < m_numvertex) m_polygons[a].index[1] = ind[1];
@@ -619,7 +619,7 @@ void VFSPlugin_3DS::AssignVertexData(IVertexBuffer *v)
 	int numindex = ReadShort()*3;
 
 	v->Initialise(m->GetNumVertex(),numindex,3,2);
-	int *i = v->GetIndex();
+	unsigned int *i = v->GetIndex();
 
 	for(a=0;a<numindex/3;a++){		
 		unsigned short polyid = ReadShort();

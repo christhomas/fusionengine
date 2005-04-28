@@ -20,22 +20,26 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
-				MinimalRebuild="TRUE"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				PreprocessorDefinitions="_WIN32;_LIB;_DEBUG"
+				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
+				BufferSecurityCheck="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(IntDir)/"
 				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
 				WarningLevel="3"
-				Detect64BitPortabilityProblems="TRUE"
+				Detect64BitPortabilityProblems="FALSE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"/>
+				AdditionalOptions="libxml2.lib"
+				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"
+				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -64,9 +68,17 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				InlineFunctionExpansion="1"
+				FavorSizeOrSpeed="1"
+				OptimizeForProcessor="0"
+				OptimizeForWindowsApplication="TRUE"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				PreprocessorDefinitions="_WIN32;_LIB;NDEBUG"
+				StringPooling="FALSE"
 				RuntimeLibrary="2"
+				BufferSecurityCheck="FALSE"
+				EnableFunctionLevelLinking="FALSE"
+				RuntimeTypeInfo="TRUE"
 				UsePrecompiledHeader="0"
 				ObjectFile="$(IntDir)/"
 				ProgramDataBaseFileName="$(IntDir)/vc70.pdb"
@@ -77,8 +89,9 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				AdditionalDependencies="$(NOINHERIT)"
-				OutputFile="$(OutDir)/lib$(ProjectName).lib"/>
+				AdditionalOptions="libxml2.lib"
+				OutputFile="$(OutDir)/lib$(ProjectName).lib"
+				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -116,6 +129,9 @@
 			<File
 				RelativePath=".\Win32ModuleDB.cpp">
 			</File>
+			<File
+				RelativePath=".\XMLConfig.cpp">
+			</File>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -131,13 +147,13 @@
 				RelativePath="..\include\FusionPlugin.h">
 			</File>
 			<File
-				RelativePath=".\FusionSubsystem.h">
+				RelativePath="..\include\FusionSubsystem.h">
 			</File>
 			<File
-				RelativePath=".\IModule.h">
+				RelativePath="..\include\IModule.h">
 			</File>
 			<File
-				RelativePath=".\IModuleDB.h">
+				RelativePath="..\include\IModuleDB.h">
 			</File>
 			<File
 				RelativePath=".\PlatformData.h">
@@ -147,6 +163,9 @@
 			</File>
 			<File
 				RelativePath=".\Win32ModuleDB.h">
+			</File>
+			<File
+				RelativePath="..\include\XMLConfig.h">
 			</File>
 		</Filter>
 	</Files>

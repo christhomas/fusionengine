@@ -30,7 +30,7 @@ public:
 	virtual ~ISoundBuffer(){};
 
 	/**	Loads a sound source from a file */
-	virtual bool Load(char *filename) = 0;
+	virtual bool Load(std::string filename) = 0;
 
 	/**	Closes the sound object */
 	virtual bool Close(void) = 0;

@@ -20,18 +20,18 @@
  *	Sets all the button/key states to false (released)
  */
 InputMouse::InputMouse(int DeviceID)
-{
-	m_DeviceType	= MOUSE;
+{	
+	m_DeviceType	=	MOUSE;
 	m_DeviceID		=	DeviceID;
-	m_event				=	NULL;
+	m_event			=	NULL;
 	m_listener		=	NULL;
-	m_Active			=	true;
+	m_Active		=	true;
 	m_AxisArea		=	NULL;
-	m_x						=	0;
-	m_y						=	0;
+	m_x				=	0;
+	m_y				=	0;
 	m_devicemode	=	MODE_NORMAL;
 
-	m_cursor			= NULL;
+	m_cursor		=	NULL;
 
 	m_buttonstate = new bool[3];
 	for(int a=0;a<3;a++) m_buttonstate[a] = false;
@@ -115,9 +115,9 @@ void InputMouse::GetCursorPosition(int &x, int &y)
 void InputMouse::AddListener(InputEvent **listener)
 {
 	DeviceListener *dl	= new DeviceListener;
-	dl->queue						= listener;
-	dl->prev						= m_listener;
-	m_listener					= dl;
+	dl->queue			= listener;
+	dl->prev			= m_listener;
+	m_listener			= dl;
 }
 
 /**	Removes a listener from this device
@@ -230,7 +230,7 @@ void InputMouse::ConfinePositionToArea(void)
 	{
 		if(m_x < m_AxisArea->left)		m_x = m_AxisArea->left;
 		if(m_x > m_AxisArea->right)		m_x = m_AxisArea->right;
-		if(m_y < m_AxisArea->top)			m_y = m_AxisArea->top;
+		if(m_y < m_AxisArea->top)		m_y = m_AxisArea->top;
 		if(m_y > m_AxisArea->bottom)	m_y = m_AxisArea->bottom;
 	}
 }

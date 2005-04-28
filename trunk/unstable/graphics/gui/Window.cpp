@@ -6,13 +6,12 @@
 
 Window::Window(InputDeviceDB *inputdevicedb, SceneGraph *scenegraph)
 {
-	m_active					= true;
+	m_active				= true;
 	m_comp_id				= 0;
 	m_highlighted_component	= NULL;
 	m_inputdevicedb			= inputdevicedb;
 	m_cache_wc				= NULL;
-	m_scenegraph				= scenegraph;
-	m_title					= NULL;
+	m_scenegraph			= scenegraph;
 	m_event					= NULL;
 
 	SetTitle("DefaultWindow");
@@ -24,8 +23,6 @@ Window::~Window()
 	
 	m_components.clear();
 	m_event = NULL;
-	
-	delete m_title;	//	Delete the title memory
 }
 
 void Window::SetActive(bool Active)
@@ -47,16 +44,14 @@ bool Window::Initialise(void)
 	return false;
 }
 
-void Window::SetTitle(char *title)
+void Window::SetTitle(std::string title)
 {
-	if(title!=NULL){
-		delete m_title;
-		m_title = new char[strlen(title)+1];
-		strcpy(m_title,title);
+	if(title.empty() != false){
+		m_title = title;
 	}
 }
 
-char * Window::GetTitle(void)
+std::string Window::GetTitle(void)
 {
 	return m_title;
 }
@@ -111,7 +106,7 @@ void Window::ProcessEvents(void)
 				{
 					if(m_highlighted_component->Highlight(xy->m_x,xy->m_y) == false) m_highlighted_component = NULL;
 				}else{
-					for(WINDOWCOMPONENT::iterator wc=m_components.begin();wc!=m_components.end();wc++){
+					for(wndcomp_t::iterator wc=m_components.begin();wc!=m_components.end();wc++){
 						if((*wc)->Highlight(xy->m_x,xy->m_y) == true)
 						{
 							m_highlighted_component = (*wc);
@@ -140,7 +135,7 @@ bool Window::Update(void)
 	{
 		ProcessEvents();
 
-		for(WINDOWCOMPONENT::iterator wc=m_components.begin();wc!=m_components.end();wc++){
+		for(wndcomp_t::iterator wc=m_components.begin();wc!=m_components.end();wc++){
 			if((*wc)->Update() == false)	return false;
 		}
 	}

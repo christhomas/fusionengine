@@ -55,7 +55,7 @@ char * VFSPlugin_Q3BSP::Write(FileInfo *data, unsigned int &length)
 	return NULL;
 }
 
-char * VFSPlugin_Q3BSP::Type(void)
+std::string VFSPlugin_Q3BSP::Type(void)
 {
 	return m_type;
 }
@@ -326,23 +326,23 @@ void VFSPlugin_Q3BSP::BuildVertexBuffer(int shader)
 {
 	CountPolygons(shader);
 
-	Mesh		*m	=	m_fileinfo->mesh;
+	Mesh			*m	=	m_fileinfo->mesh;
 	IVertexBuffer	*vb	=	m->GetVertexBuffer(shader);
-	int			ctr	=	0;
-	int			*i	=	vb->GetIndex();
+	int				ctr	=	0;
+	unsigned int	*i	=	vb->GetIndex();
 
 	for(int a=0;a<m_numfaces;a++){
 		if(m_face[a].shader == shader){
 			if(m_face[a].type == 1){
 				TempPolygon *p = new TempPolygon;
 
-				p->numvertex	= m_face[a].vert_count;
-				p->index			= new int[p->numvertex];
+				p->numvertex = m_face[a].vert_count;
+				p->index = new unsigned int[p->numvertex];
 
-				for(int b=0;b<p->numvertex;b++)	p->index[b] = m_face[a].vert_start+b;
+				for(unsigned int b=0;b<p->numvertex;b++)	p->index[b] = m_face[a].vert_start+b;
 
 				//	Process the list of vertices into triangles
-				for(int c=1;c<p->numvertex-1;c++){
+				for(unsigned int c=1;c<p->numvertex-1;c++){
 					i[ctr++] = p->index[0];
 					i[ctr++] = p->index[c+0];
 					i[ctr++] = p->index[c+1];
@@ -352,13 +352,13 @@ void VFSPlugin_Q3BSP::BuildVertexBuffer(int shader)
 			if(m_face[a].type == 3){
 				TempPolygon *p = new TempPolygon;
 
-				p->numvertex	= m_face[a].vert_count;
-				p->index			= new int[p->numvertex];
+				p->numvertex = m_face[a].vert_count;
+				p->index = new unsigned int[p->numvertex];
 
-				for(int b=0;b<p->numvertex;b++)	p->index[b] = m_face[a].vert_start+b;
+				for(unsigned int b=0;b<p->numvertex;b++)	p->index[b] = m_face[a].vert_start+b;
 
 				//	Process the list of vertices into triangles
-				for(int c=1;c<p->numvertex-1;c++){
+				for(unsigned int c=1;c<p->numvertex-1;c++){
 					i[ctr++] = p->index[0];
 					i[ctr++] = p->index[c+0];
 					i[ctr++] = p->index[c+1];

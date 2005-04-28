@@ -28,28 +28,28 @@ protected:
 	std::vector<Entity *>	m_entity;
 
 public:
-					MeshDB		();
-	virtual			~MeshDB		();
+						MeshDB			();
+	virtual				~MeshDB			();
 	virtual	bool		Initialise		(void);
 
 	//==========================================
 	//	Methods to create supported mesh objects
 	//==========================================
-	virtual Mesh *		CreateMesh	(void);
-	virtual Mesh *		CreateMesh	(char *filename);
+	virtual Mesh *		CreateMesh		(void);
+	virtual Mesh *		CreateMesh		(std::string filename);
 	virtual Overlay *	CreateOverlay	(ITexture *texture=NULL);
-	virtual Entity *		CreateEntity	(Mesh *mesh);
+	virtual Entity *	CreateEntity	(Mesh *mesh);
 
 	//==========================================
 	//	Methods to Delete supported mesh objects
 	//==========================================
-	virtual	void		DeleteMesh	(unsigned int id);
+	virtual	void		DeleteMesh		(unsigned int id);
 	virtual	void		DeleteOverlay	(unsigned int id);
 
 	//====================================================
 	//	Methods to Obtain ptrs to supported mesh objects
 	//====================================================
-	virtual	Mesh *	GetMeshPtr	(unsigned int id);
+	virtual	Mesh *		GetMeshPtr		(unsigned int id);
 	virtual	Overlay *	GetOverlayPtr	(unsigned int id);
 };
 

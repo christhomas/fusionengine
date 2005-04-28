@@ -1,5 +1,7 @@
 #ifndef _IWINDOWDEVICE_H_
 	#define _IWINDOWDEVICE_H_
+	
+#include <string>
 
 /** @ingroup	WindowDevice_Group
  *	@brief		The base class for all Windows devices
@@ -30,7 +32,7 @@ public:
 	 *
 	 *	@returns boolean true or false, depending on whether the window was successfully created
 	 */
-	virtual bool Open(int width,int height,bool fullscreen) = 0;
+	virtual bool Open(unsigned int width,unsigned int height,bool fullscreen) = 0;
 
 	/**
 	 *	Closes the Window (if open)
@@ -76,7 +78,7 @@ public:
 	 *	Sets the title of the Window Titlebar (this is not the same as creating a window in the UserInterface object and setting that title)
 	 *	This refers to the **SYSTEM WINDOW**, as in, the Window your display is contained within, whether thats a Win32 Window or X11 Window
 	 */
-	virtual void SetTitle(char *title) = 0;
+	virtual void SetTitle(std::string title) = 0;
 };
 
 #endif // #ifndef _IWINDOWDEVICE_H_

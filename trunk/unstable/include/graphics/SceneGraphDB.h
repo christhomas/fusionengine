@@ -5,15 +5,15 @@
 
 class SceneGraphDB: public FusionSubsystem{
 protected:
-	SCENELIST	m_scenes;
+	scenelist_t	m_scenes;
 	SceneGraph	*m_scene_active;
 
 public:
-						SceneGraphDB		();
-	virtual				~SceneGraphDB	();
+							SceneGraphDB		();
+	virtual					~SceneGraphDB		();
 	virtual bool			Initialise			(void);
 	
-	virtual SceneGraph *	operator[]		(unsigned int index);
+	virtual SceneGraph *	operator[]			(unsigned int index);
 	
 	virtual SceneGraph *	AddScene			(void);
 
@@ -23,7 +23,7 @@ public:
 	virtual void			ActivateScene		(unsigned int index);
 	virtual void			ActivateScene		(SceneGraph *scene);	
 		
-	virtual bool			RenderScene		(void);
+	virtual bool			RenderScene			(void);
 };
 
 #endif // #ifndef _SCENEGRAPHDB_H_

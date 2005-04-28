@@ -10,30 +10,28 @@ ofstream logfile("bsp.log");
 VFSPlugin_Q2BSP::VFSPlugin_Q2BSP()
 {
 	m_type			=	"bsp;";
-	m_offset			=	0;
-	m_length			=	0;
+	m_offset		=	0;
+	m_length		=	0;
 	
 	m_numvertex		=	0;
 	m_numfaces		=	0;
 	m_numedges		=	0;
 	m_numfaceedges	=	0;
-	m_numtexinfo		=	0;
+	m_numtexinfo	=	0;
 
 	m_face			=	0;
 	m_edge			=	0;
 	m_position		=	0;
 	m_faceedge		=	0;
-	m_texinfo			=	0;
+	m_texinfo		=	0;
 
-	m_fileinfo			=	NULL;
-	m_buffer			= NULL;
-	m_fileinfo			= NULL;
-	m_header		= NULL;
+	m_fileinfo		=	NULL;
+	m_header		=	NULL;
 }
 
 VFSPlugin_Q2BSP::~VFSPlugin_Q2BSP()
 {
-	delete	m_header;
+	delete		m_header;
 	delete[]	m_face;
 	delete[]	m_position;
 	delete[]	m_edge;
@@ -41,7 +39,7 @@ VFSPlugin_Q2BSP::~VFSPlugin_Q2BSP()
 	delete[]	m_texinfo;
 }
 
-char * VFSPlugin_Q2BSP::Type(void)
+std::string VFSPlugin_Q2BSP::Type(void)
 {
 	return m_type;
 }
@@ -143,7 +141,7 @@ void VFSPlugin_Q2BSP::Read_Vertices(void)
 	m_numvertex	=	lump->length/sizeof(Vertex3f);
 	m_position	=	reinterpret_cast<Vertex3f *>(ReadData(lump->length));
 	
-	for(int a=0;a<m_numvertex;a++)	std::swap(m_position[a].y,m_position[a].z);
+	for(unsigned int a=0;a<m_numvertex;a++)	std::swap(m_position[a].y,m_position[a].z);
 
 	//	Assign all the position data
 	Mesh *m = m_fileinfo->mesh;
@@ -368,7 +366,7 @@ void VFSPlugin_Q2BSP::ProcessMesh(void)
 
 void VFSPlugin_Q2BSP::CentreMesh(void)
 {
-	int a;
+	unsigned int a;
 	Maths::Vector centre,min,max;
 	Mesh *m = m_fileinfo->mesh;
 	Vertex3f *vertex = m->GetPosition();
@@ -411,7 +409,7 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 	IVertexBuffer		*vb			= NULL;
 
 	//	Build a list of Texture id codes to reference objects in the BSPTexInfo array
-	for(int a=0;a<m_numfaces;a++){
+	for(unsigned int a=0;a<m_numfaces;a++){
 		if(m_face[a].num_edges > 4){
 			for(int b=1;b<(m_face[a].num_edges-1);b++){
 				TextureID.push_back(m_face[a].texture_info);
@@ -430,7 +428,7 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 		for(int a=0;a<m_fileinfo->mesh->NumVertexBuffer();a++){
 			vb = m_fileinfo->mesh->GetVertexBuffer(a);
 			
-			if(strcmp(t->name,vb->GetName()) == 0) NewTexture = false;
+			if(vb->GetName() == t->name) NewTexture = false;
 		}
 
 		if(NewTexture == true){
@@ -460,12 +458,12 @@ void VFSPlugin_Q2BSP::CreateSurfaces(void)
 
 void VFSPlugin_Q2BSP::AssignTextureCoords(IVertexBuffer *vb)
 {
-	int					a,b;
-	Mesh				*m	=	m_fileinfo->mesh;
-	Vertex3f		*v	=	m->GetPosition();
-	Vertex2f		*tc	=	NULL;
-	BSPTexInfo	*ti	=	NULL;
-	int					*i	= vb->GetIndex();
+	unsigned int	a,b;
+	Mesh			*m	= m_fileinfo->mesh;
+	Vertex3f		*v	= m->GetPosition();
+	Vertex2f		*tc	= NULL;
+	BSPTexInfo		*ti	= NULL;
+	unsigned int	*i	= vb->GetIndex();
 
 	if((tc = (Vertex2f *)m->GetTexcoord()) == NULL){
 		tc = new Vertex2f[m->GetNumVertex()];
@@ -476,7 +474,7 @@ void VFSPlugin_Q2BSP::AssignTextureCoords(IVertexBuffer *vb)
 	for(a=0;a<m_numtexinfo;a++){
 		ti = &m_texinfo[a];
 
-		if(strcmp(vb->GetName(),ti->name) == 0){
+		if(vb->GetName() == ti->name){
 			Maths::Vector tu_vec(ti->u_axis);
 			Maths::Vector tv_vec(ti->v_axis);
 
@@ -499,7 +497,7 @@ void VFSPlugin_Q2BSP::AssignTextureCoords(IVertexBuffer *vb)
 
 void VFSPlugin_Q2BSP::BuildPolygonLists(IVertexBuffer *vb)
 {
-	int a,b,c,v1,v2,*i,ctr=0;
+	unsigned int a,b,c,v1,v2,*i,ctr=0;
 
 	CountPolygons(vb);
 
@@ -512,12 +510,11 @@ void VFSPlugin_Q2BSP::BuildPolygonLists(IVertexBuffer *vb)
 	for(a=0;a<m_numfaces;a++){
 		
 		//	Compare this face to the texture, if match found, this is a face from the surface/texture we're constructing
-		if(strcmp(vb->GetName(), m_texinfo[m_face[a].texture_info].name) == 0){
-
+		if(vb->GetName() == m_texinfo[m_face[a].texture_info].name){
 			TempPolygon *p = new TempPolygon;
 			//	The number of vertex == number of edges in polygon
 			p->numvertex = m_face[a].num_edges;
-			p->index = new int[p->numvertex];
+			p->index = new unsigned int[p->numvertex];
 
 			//	Loop through the edges in this polygon, 
 			//	assigning the first vertex of each edge to the vertex index
@@ -551,10 +548,10 @@ void VFSPlugin_Q2BSP::BuildPolygonLists(IVertexBuffer *vb)
 
 void VFSPlugin_Q2BSP::CountPolygons(IVertexBuffer *vb)
 {
-	int a,ctr = 0;
+	unsigned int a,ctr = 0;
 
 	for(a=0;a<m_numfaces;a++){
-		if(strcmp(vb->GetName(), m_texinfo[m_face[a].texture_info].name) == 0){
+		if(vb->GetName() == m_texinfo[m_face[a].texture_info].name){
 			ctr += (m_face[a].num_edges-2);
 		}
 	}

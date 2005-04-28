@@ -18,7 +18,7 @@ VFSPlugin_PCX::~VFSPlugin_PCX(){}
  *
  *	@returns	The plugin identifier string
  */
-char * VFSPlugin_PCX::Type(void)
+std::string VFSPlugin_PCX::Type(void)
 {
 	return m_type;
 }

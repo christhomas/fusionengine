@@ -15,8 +15,8 @@ OGLStaticVB::~OGLStaticVB()
 
 /**	Initialises the VertexBuffer
  *
- *	@param nv		The number of Vertices this object has access to
- *	@param ni		The number of indices this object will reference
+ *	@param nv	The number of Vertices this object has access to
+ *	@param ni	The number of indices this object will reference
  *	@param nc_p	The number of components in each position
  *	@param nc_t	The number of components in each texture coordinate
  *
@@ -24,7 +24,7 @@ OGLStaticVB::~OGLStaticVB()
  *
  *	NOTE: NOT IMPLEMENTED
  */
-bool OGLStaticVB::Initialise(int nv, int ni, int nc_p, int nc_t)
+bool OGLStaticVB::Initialise(unsigned int nv, unsigned int ni, unsigned int nc_p, unsigned int nc_t)
 {
 	return true;
 }
@@ -45,7 +45,7 @@ void OGLStaticVB::ReleaseAll(void)
  *
  *	NOTE: NOT IMPLEMENTED
  */
-void OGLStaticVB::SetComponents(int p, int t)
+void OGLStaticVB::SetComponents(unsigned int p, unsigned int t)
 {
 
 }
@@ -54,13 +54,9 @@ void OGLStaticVB::SetComponents(int p, int t)
  *
  *	@param c	A string containing the name
  */
-void OGLStaticVB::SetName(char *n)
+void OGLStaticVB::SetName(std::string name)
 {
-	delete[] m_name;
-
-	m_name = new char[strlen(n)+1];
-
-	strcpy(m_name,n);
+	m_name = name;
 }
 
 /**	Sets the position data
@@ -99,7 +95,7 @@ void OGLStaticVB::SetTexcoord(float *t)
  *
  *	NOTE: NOT IMPLEMENTED
  */
-void OGLStaticVB::SetIndex(int *i)
+void OGLStaticVB::SetIndex(unsigned int *i)
 {
 }
 
@@ -147,7 +143,7 @@ void OGLStaticVB::SetColour(float r, float g, float b, float a)
  *
  *	@returns	A String containing the name
  */
-char * OGLStaticVB::GetName(void)
+std::string OGLStaticVB::GetName(void)
 {
 	return m_name;
 }
@@ -174,7 +170,7 @@ float *	OGLStaticVB::GetNormal(void)
  *
  *	@returns	A pointer to texture coordinate data
  */
-float * OGLStaticVB::GetTexcoord(int layer)
+float * OGLStaticVB::GetTexcoord(unsigned int layer)
 {
 	return m_texcoord;
 }
@@ -183,7 +179,7 @@ float * OGLStaticVB::GetTexcoord(int layer)
  *
  *	@returns A pointer to the index data
  */
-int * OGLStaticVB::GetIndex(void)
+unsigned int * OGLStaticVB::GetIndex(void)
 {
 	return m_index;
 }
@@ -192,7 +188,7 @@ int * OGLStaticVB::GetIndex(void)
  *
  *	@returns A ITexture object if one has been assigned
  */
-ITexture * OGLStaticVB::GetTexture(int layer)
+ITexture * OGLStaticVB::GetTexture(unsigned int layer)
 {
 	return m_texture;
 }
@@ -221,7 +217,7 @@ Material * OGLStaticVB::GetMaterial(void)
  *
  *	This incidentally is the same as the number of vertices this vertexpool is referencing
  */
-int OGLStaticVB::GetNumIndex(void)
+unsigned int OGLStaticVB::GetNumIndex(void)
 {
 	return m_num_index;
 }

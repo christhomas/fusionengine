@@ -14,38 +14,38 @@ namespace Maths{
 	 */
 	class Quaternion{
 	protected:
-		/**	@var		float m_matrix[16]
+		/**	@var	float m_matrix[16]
 		 *	@brief	An array of floats representing a matrix for the quaternion
 		 */
 		float m_matrix[16];
 
-		/** @var		float m_x
+		/** @var	float m_x
 		 *	@brief	The X component of the quaternion */
 		float m_x;
 		
-		/** @var		float m_y
+		/** @var	float m_y
 		 *	@brief	The Y Component of the quaternion */
 		float m_y;
 		
-		/** @var		float m_z
+		/** @var	float m_z
 		 *	@brief	The Z Component of the quaternion */
 		float m_z;
 		
-		/** @var		float m_w
+		/** @var	float m_w
 		 *	@brief	The W component of the quaternion */
 		float m_w;
 	public:
-									Quaternion		();
-									Quaternion		(Quaternion &q);
-									Quaternion		(float a, float x, float y, float z);
-									~Quaternion		();
+						Quaternion		();
+						Quaternion		(Quaternion &q);
+						Quaternion		(float a, float x, float y, float z);
+						~Quaternion		();
 		
-		void					LoadIdentity	(void);
-		void					Rotate				(float a, float x, float y, float z);
-		void					Rotate				(float x, float y, float z);
-		void					Normalise			(void);
-		float *				GetMatrix			(void);
-		void					GetMatrix			(float **matrix);
+		void			LoadIdentity	(void);
+		void			Rotate			(float a, float x, float y, float z);
+		void			Rotate			(float x, float y, float z);
+		void			Normalise		(void);
+		float *			GetMatrix		(void);
+		void			GetMatrix		(float **matrix);
 		Quaternion &	operator =		(const Quaternion &q);
 		Quaternion		operator *		(const Quaternion &q) const;
 		Quaternion &	operator *=		(Quaternion &q);

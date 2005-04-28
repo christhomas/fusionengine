@@ -178,16 +178,13 @@ void VFSHandle_ZIP::CheckIOState(void)
 
 VFSHandle_ZIP::VFSHandle_ZIP(VFSTransport *t): VFSHandle_file(t)
 {
-	m_filename	=	NULL;
-	m_length		=	0;
-	m_plugin		=	NULL;
-	m_fileinfo		=	NULL;
+	m_length	=	0;
+	m_plugin	=	NULL;
+	m_fileinfo	=	NULL;
 	m_transport	=	t;
 
-	m_file		=	NULL;
-	m_archive	=	NULL;
-	m_handle		=	NULL;
-	m_fileid		=	0;
+	m_handle	=	NULL;
+	m_fileid	=	0;
 
 	m_lfh.clear();
 	m_fh.clear();
@@ -209,7 +206,7 @@ VFSHandle_ZIP::~VFSHandle_ZIP()
 //=========================================================
 //=========================================================
 
-bool VFSHandle_ZIP::Open(char *filename, bool create)
+bool VFSHandle_ZIP::Open(std::string filename, bool create)
 {
 	OpenLocation(filename,create);
 
@@ -227,7 +224,7 @@ bool VFSHandle_ZIP::Open(char *filename, bool create)
 	return true;
 }
 
-bool VFSHandle_ZIP::OpenLocation(char *loc, bool create)
+bool VFSHandle_ZIP::OpenLocation(std::string loc, bool create)
 {
 	SetFilename(loc);
 
@@ -263,9 +260,6 @@ bool VFSHandle_ZIP::Close(void)
 
 	DeleteCache();
 
-	delete[] m_file;
-	delete[] m_archive;
-
 	m_handle	= NULL;
 	m_fileid	=	0;
 
@@ -281,37 +275,25 @@ unsigned short VFSHandle_ZIP::ReadSignature(void)
 
 void VFSHandle_ZIP::FindArchiveName(void)
 {
-	char *hash	= strchr(m_filename,'#');
-	char *fn		= m_filename;
-
-	int l;
-
-	if(hash != NULL){
-		l = hash-fn;
+	size_t pos = m_filename.find("#");
+	
+	if(pos != std::string::npos){
+		m_archive = m_filename.substr(0,pos);
 	}else{
-		l = (int)strlen(fn);
+		m_archive = m_filename;
 	}
-
-	delete[] m_archive;
-	m_archive = new char[l+1];
-	memset(m_archive,0,l+1);
-
-	strncpy(m_archive, fn, l);
 }
 
 void VFSHandle_ZIP::FindFilename(void)
 {
-	char *hash = strchr(m_filename, '#');
+	std::string hash = m_filename.substr(m_filename.find("#"));
 	
-	if(hash != NULL){
-		hash++;
-
-		if(hash[0] == '/') hash++;
-
-		delete[] m_file;
-		m_file = new char[strlen(hash)+1];
-		strcpy(m_file,hash);
-	}	
+	size_t pos = m_filename.find("#");
+	
+	if(pos == std::string::npos) pos = 0;
+	else if(m_filename[pos+1] == '/') pos++;
+	
+	m_file = m_filename.substr(pos);
 }
 
 void VFSHandle_ZIP::CreateCache(void)
@@ -523,16 +505,14 @@ FileInfo *  VFSHandle_ZIP::Read(void)
 		char *buffer = (char *)Read(m_length);
 
 		char	*filename	=	m_lfh[m_fileid]->filename;
-		char	*tempdir	=	fusion->vfs->GetTempDirectory();
+		std::string tempdir	=	fusion->vfs->GetTempDirectory();
 
-		if(tempdir == NULL){
+		if(tempdir.empty() == false){
 			fusion->vfs->SetTempDirectory("vfstemp");
 			tempdir = fusion->vfs->GetTempDirectory();
 		}
 
-		char fn[256];
-
-		sprintf(fn,"%s/%s",tempdir,filename);
+		std::string fn = tempdir+"/"+filename;
 
 		m_handle = fusion->vfs->Open(fn,"binary",true);
 
@@ -651,7 +631,7 @@ void VFSHandle_ZIP::Write(unsigned char *data, unsigned int length)
 //	Archive Information methods
 //=========================================================
 //=========================================================
-char * VFSHandle_ZIP::Filename(void)
+std::string VFSHandle_ZIP::Filename(void)
 {
 	return m_file;
 }
@@ -680,16 +660,16 @@ void VFSHandle_ZIP::SetPlugin(VFSPlugin *plugin)
 //=========================================================
 //=========================================================
 
-bool VFSHandle_ZIP::IsFile(char *filename)
+bool VFSHandle_ZIP::IsFile(std::string filename)
 {
-	if(filename != NULL){
-		if(strcmp(filename,"*.*") == 0){
+	if(filename.empty() == false){
+		if(filename == "*.*"){
 			m_fileid = -2;
 			return false;
 		}
 
 		for(unsigned int a=0;a<m_lfh.size();a++){
-			if(strcmp(m_lfh[a]->filename, filename) == 0){
+			if(filename == m_lfh[a]->filename){
 				m_fileid = a;
 				return true;
 			}
@@ -701,18 +681,18 @@ bool VFSHandle_ZIP::IsFile(char *filename)
 	return false;
 }
 
-bool VFSHandle_ZIP::IsDirectory(char *directory)
+bool VFSHandle_ZIP::IsDirectory(std::string directory)
 {
 	return false;
 }
 
-FileInfo * VFSHandle_ZIP::GetFileInfo(char *filename)
+FileInfo * VFSHandle_ZIP::GetFileInfo(std::string filename)
 {
 	//	TODO: PORTING: implement this, whatever it does
 	return NULL;
 }
 
-bool VFSHandle_ZIP::Createfile(char *filename, bool recurse)
+bool VFSHandle_ZIP::Createfile(std::string filename, bool recurse)
 {
 	LocalFileHeader *lfh = new LocalFileHeader;
 	FileHeader *fh = new FileHeader;
@@ -731,44 +711,44 @@ bool VFSHandle_ZIP::Createfile(char *filename, bool recurse)
 	//	Make a Local File Header
 	lfh->version				=	20;
 	lfh->general_flags			=	2;
-	lfh->compression_method	=	8;
+	lfh->compression_method		=	8;
 	lfh->time					=	MAKETIME(time->tm_hour,time->tm_min,time->tm_sec);
 	lfh->date					=	MAKEDATE(time->tm_mday,time->tm_mon,time->tm_year);
-	lfh->crc32				=	0;
-	lfh->comp_size			=	0;
+	lfh->crc32					=	0;
+	lfh->comp_size				=	0;
 	lfh->uncomp_size			=	0;
-	lfh->filename_length		=	(unsigned short)strlen(filename);
+	lfh->filename_length		=	(unsigned short)filename.length();
 	lfh->extrafield_length		=	(unsigned short)strlen("");
-	lfh->filename				=	new char[strlen(filename)+1];
+	lfh->filename				=	new char[lfh->filename_length+1];
 	lfh->extrafield				=	"";
 	lfh->file_data_offset		=	0;
 	
-	strcpy(lfh->filename,filename);
+	strcpy(lfh->filename,filename.c_str());
 
 	//	Make a File Header for the CD
-	fh->version				=	lfh->version;
+	fh->version					=	lfh->version;
 	fh->version_extract			=	lfh->version;
 	fh->general_flags			=	lfh->general_flags;
-	fh->compression_method	=	lfh->compression_method;
+	fh->compression_method		=	lfh->compression_method;
 	fh->time					=	lfh->time;
 	fh->date					=	lfh->date;
 	fh->crc32					=	lfh->crc32;
-	fh->comp_size			=	lfh->comp_size;
-	fh->uncomp_size			=	lfh->uncomp_size;
+	fh->comp_size				=	lfh->comp_size;
+	fh->uncomp_size				=	lfh->uncomp_size;
 	fh->filename_length			=	lfh->filename_length;
 	fh->extrafield_length		=	lfh->extrafield_length;
 	fh->file_comment_length		=	0;
 	fh->disk_number_start		=	0;
-	fh->internal_file_attrib		=	0;
-	fh->external_file_attrib		=	0;
+	fh->internal_file_attrib	=	0;
+	fh->external_file_attrib	=	0;
 	fh->relative_offset_lfh		=	0;
-	fh->filename				=	new char[strlen(filename)+1];
+	fh->filename				=	new char[fh->filename_length+1];
 	fh->extrafield				=	"";
 	fh->file_comment			=	"";
 
-	m_cd.size += (FH_LEN + (unsigned int)strlen(filename));
+	m_cd.size += (FH_LEN + (unsigned int)fh->filename_length);
 
-	strcpy(fh->filename,filename);
+	strcpy(fh->filename,filename.c_str());
 
 	m_lfh.push_back(lfh);
 	m_fh.push_back(fh);
@@ -776,24 +756,22 @@ bool VFSHandle_ZIP::Createfile(char *filename, bool recurse)
 	m_cd.total_entries++;
 	m_cd.total_entries_disk++;
 
-	delete[] m_file;
-	m_file = new char[strlen(filename)+1];
-	strcpy(m_file,filename);
+	m_file = filename;
 
 	return true;
 }
 
-bool VFSHandle_ZIP::Deletefile(char *filename)
+bool VFSHandle_ZIP::Deletefile(std::string filename)
 {
 	return false;
 }
 
-bool VFSHandle_ZIP::Copyfile(char *src, char *dest, bool createpath)
+bool VFSHandle_ZIP::Copyfile(std::string src, std::string dest, bool createpath)
 {
 	if(IsFile(src) == true){
 		m_file = src;
 		Length();
-		m_file = NULL;
+		m_file.clear();
 
 		char *buffer = (char *)Read(m_length);
 
@@ -814,12 +792,12 @@ bool VFSHandle_ZIP::Copyfile(char *src, char *dest, bool createpath)
 	if(m_fileid == -2){
 		//	*.* wildcard was played
 
-		char fn[256];
+		std::string fn;
 
 		for(unsigned int a=0;a<m_lfh.size();a++){
-			memset(fn,0,256);
-
-			sprintf(fn,"%s/%s",dest,m_lfh[a]->filename);
+			fn.clear();
+			
+			fn = dest+"/"+m_lfh[a]->filename;
 			
 			if(Copyfile(m_lfh[a]->filename,fn,createpath) == false){
 				// something went wrong, shall we do something about it?
@@ -830,17 +808,17 @@ bool VFSHandle_ZIP::Copyfile(char *src, char *dest, bool createpath)
 	return false;
 }
 
-bool VFSHandle_ZIP::Movefile(char *src, char *dest, bool createpath)
+bool VFSHandle_ZIP::Movefile(std::string src, std::string dest, bool createpath)
 {
 	return false;
 }
 
-bool VFSHandle_ZIP::CreateDir(char *directory)
+bool VFSHandle_ZIP::CreateDir(std::string directory)
 {
 	return false;
 }
 
-bool VFSHandle_ZIP::DeleteDir(char *directory, bool recurse)
+bool VFSHandle_ZIP::DeleteDir(std::string directory, bool recurse)
 {
 	return false;
 }

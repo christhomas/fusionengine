@@ -16,15 +16,15 @@ protected:
 	 */
 	BinaryFileInfo *m_fileinfo;
 public:
-					VFSPlugin_BIN	();
-	virtual			~VFSPlugin_BIN	();
+						VFSPlugin_BIN	();
+	virtual				~VFSPlugin_BIN	();
 
-	virtual void		AddFilter	( VFSFilter *filter );
+	virtual void		AddFilter		( VFSFilter *filter );
 
-	virtual FileInfo *	Read	( unsigned char *buffer, unsigned int length );
-	virtual char *		Write	( FileInfo *data, unsigned int &length );
+	virtual FileInfo *	Read			( unsigned char *buffer, unsigned int length );
+	virtual char *		Write			( FileInfo *data, unsigned int &length );
 
-	virtual char *		Type	( void );
+	virtual std::string Type			( void );
 };
 
 #endif // #ifndef _VFSPLUGIN_BIN_H_

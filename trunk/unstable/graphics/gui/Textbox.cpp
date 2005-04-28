@@ -4,20 +4,19 @@
 Textbox::Textbox()
 {
 	m_component_type	= TEXTBOX;
-	m_caps			= WNDCOMP_NOCAPS;
-	m_string			= NULL;
+	m_caps				= WNDCOMP_NOCAPS;
 	m_entity			= NULL;
 	m_active			= true;
-	m_flash			= true;
-	m_flashms		= -1;
+	m_flash				= true;
+	m_flashms			= -1;
 	
-	m_scale[0]		= 1;
-	m_scale[1]		= 1;
+	m_scale[0]			= 1;
+	m_scale[1]			= 1;
 
-	m_rgba[0]		= 1;
-	m_rgba[1]		= 1;
-	m_rgba[2]		= 1;
-	m_rgba[3]		= 1;
+	m_rgba[0]			= 1;
+	m_rgba[1]			= 1;
+	m_rgba[2]			= 1;
+	m_rgba[3]			= 1;
 }
 
 Textbox::~Textbox()
@@ -26,8 +25,6 @@ Textbox::~Textbox()
 		TODO:	Add all the necessary functionality to
 				cleanup this object
 	*/
-
-	delete m_string;
 }
 
 void Textbox::SetCaps(int caps, union CapabilityData *cd)
@@ -78,7 +75,7 @@ bool Textbox::Update(void)
 
 		m_font->SetScale(m_scale[0],m_scale[1]);
 		m_font->SetColour(m_rgba[0],m_rgba[1],m_rgba[2],m_rgba[3]);		
-		m_font->RenderString(m_x,m_y,m_depth,m_string,(int)strlen(m_string));
+		m_font->RenderString(m_x,m_y,m_depth,m_string,(unsigned int)m_string.length());
 	}
 	return true;
 }
@@ -122,9 +119,9 @@ void Textbox::Initialise(WndComponentSetup *e, SceneGraph *scenegraph)
 
 	//	Calculate the width of the textbox
 	//	is this necessary?
-	if(m_string != NULL){
+	if(m_string.empty() == false){
 		if(m_width & WNDCOMP_AUTOWIDTH){
-			m_width = (int)strlen(m_string);
+			m_width = (int)m_string.length();
 		}else if(m_width > 0){
 			m_width = tb->m_width;
 		}else{
@@ -133,7 +130,7 @@ void Textbox::Initialise(WndComponentSetup *e, SceneGraph *scenegraph)
 	}
 }
 
-void Textbox::UpdateString(char *string)
+void Textbox::UpdateString(std::string str)
 {
 	if(m_caps & WNDCOMP_CONTENTSLOCKED){
 		//	The contents are locked, you cannot update the string
@@ -143,14 +140,12 @@ void Textbox::UpdateString(char *string)
 		//	length of the box as you wish
 	}
 
-	if(string!=NULL){
-		delete m_string;
-		m_string = new char[strlen(string)+1];
-		strcpy(m_string,string);
+	if(str.empty() != false){
+		m_string = str;
 	}
 }
 
-char * Textbox::GetString(void)
+std::string Textbox::GetString(void)
 {
 	return m_string;	
 }

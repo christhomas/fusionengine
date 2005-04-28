@@ -13,26 +13,20 @@
 #include <sys/stat.h>
 #include <direct.h>
 
-VFSHandle_file_win32::VFSHandle_file_win32(VFSTransport *t): VFSHandle_file(t)
-{
+VFSHandle_file_win32::VFSHandle_file_win32(VFSTransport *t): VFSHandle_file(t){}
 
-}
-
-VFSHandle_file_win32::~VFSHandle_file_win32()
-{
-
-}
+VFSHandle_file_win32::~VFSHandle_file_win32(){}
  
 //=========================================================
 //=========================================================
 //	public File/Directory manipulation methods
 //=========================================================
 //=========================================================
-bool VFSHandle_file_win32::IsFile( char *filename )
+bool VFSHandle_file_win32::IsFile( std::string filename )
 {
 	_finddata_t find;
 
-	intptr_t Filehandle = _findfirst( filename, &find );
+	intptr_t Filehandle = _findfirst( filename.c_str(), &find );
 
 	if ( Filehandle == -1 )
 	{
@@ -48,13 +42,13 @@ bool VFSHandle_file_win32::IsFile( char *filename )
 	return true;
 }
 
-bool VFSHandle_file_win32::IsDirectory( char *directory )
+bool VFSHandle_file_win32::IsDirectory( std::string directory )
 {
-	if ( strcmp( directory, "" ) != 0 )
+	if (directory.empty() == false)
 	{
 		_finddata_t find;
 
-		intptr_t Filehandle = _findfirst( directory, &find );
+		intptr_t Filehandle = _findfirst( directory.c_str(), &find );
 
 		if ( Filehandle == -1 )
 		{
@@ -72,11 +66,11 @@ bool VFSHandle_file_win32::IsDirectory( char *directory )
 }
 
 //	dummy for the moment, since I dont actually need to extract this kind of information yet
-FileInfo * VFSHandle_file_win32::GetFileInfo( char *filename )
+FileInfo * VFSHandle_file_win32::GetFileInfo( std::string filename )
 {
 	struct stat s;
 
-	if ( stat( filename, &s ) == -1 )
+	if ( stat( filename.c_str(), &s ) == -1 )
 	{
 		if ( errno == ENOENT ) {};
 
@@ -86,13 +80,13 @@ FileInfo * VFSHandle_file_win32::GetFileInfo( char *filename )
 	return NULL;
 }
 
-bool VFSHandle_file_win32::Createfile( char *filename, bool recurse )
+bool VFSHandle_file_win32::Createfile( std::string filename, bool recurse )
 {
 	//	TODO:	make sure the file is created, make all the directories required too
 	if ( recurse == true ) CreateDir( filename );
 
 	m_stream.clear();
-	m_stream.open( filename, std::ios::out );
+	m_stream.open( filename.c_str(), std::ios::out );
 
 	bool r = ( bool ) m_stream.is_open();
 
@@ -101,9 +95,9 @@ bool VFSHandle_file_win32::Createfile( char *filename, bool recurse )
 	return r;
 }
 
-bool VFSHandle_file_win32::Deletefile( char *filename )
+bool VFSHandle_file_win32::Deletefile( std::string filename )
 {
-	if ( remove( filename ) == -1 )
+	if ( remove( filename.c_str() ) == -1 )
 	{
 		if ( errno == EACCES ) return false; // read only file
 		if ( errno == ENOENT ) return false;	// file does not exist
@@ -112,89 +106,52 @@ bool VFSHandle_file_win32::Deletefile( char *filename )
 	return true;
 }
 
-bool VFSHandle_file_win32::Copyfile( char *src, char *dest, bool createpath )
+bool VFSHandle_file_win32::Copyfile( std::string src, std::string dest, bool createpath )
 {
 	return false;
 }
 
-bool VFSHandle_file_win32::Movefile( char *src, char *dest, bool createpath )
+bool VFSHandle_file_win32::Movefile( std::string src, std::string dest, bool createpath )
 {
 	return false;
 }
 
-bool VFSHandle_file_win32::CreateDir( char *directory )
+bool VFSHandle_file_win32::CreateDir( std::string directory )
 {
-	char * dir = directory;
-
-	for (unsigned int a = 0;a < strlen( directory );a++ ) if ( dir[ a ] == '\\' ) dir[ a ] = '/';
-
-	if ( dir[ 0 ] == '/' ) dir++;
-
-	char *token = dir;
-
-	while ( token != NULL )
-	{
-		token = strchr( token, '/' );
-
-		if ( token != NULL )
-		{
-			int bytes = (int)(token - directory);
-
-			char *temp = new char[ bytes + 1 ];
-
-			memset( temp, 0, bytes + 1 );
-
-			strncpy( temp, directory, bytes );
-
-			if ( mkdir( temp ) == -1 ) if ( errno == ENOENT ) return false;
-
-			delete[] temp;
-
-			token++;
-		}
-	}
-
-	return true;
+	return false;
 }
 
-bool VFSHandle_file_win32::DeleteDir( char *directory, bool recurse )
+bool VFSHandle_file_win32::DeleteDir( std::string directory, bool recurse )
 {
-	char path[ 256 ];
+	return false;
+
+/*	char path[ 256 ];
 
 	sprintf( path, "%s/*.*", directory );
 
-	if ( recurse == true )
-	{
+	if ( recurse == true ){
 		_finddata_t find;
 
 		intptr_t Filehandle = _findfirst( path, &find );
 
-		if ( Filehandle == -1 )
-		{
-			if ( errno == ENOENT )
-			{
+		if ( Filehandle == -1 ){
+			if ( errno == ENOENT ){
 				_findclose( Filehandle );
 				return DeleteDir( directory, false );
 			}
 
-			if ( errno == EINVAL )
-			{
+			if ( errno == EINVAL ){
 				_findclose( Filehandle );
 				return false; // should this happen ever with *.* ? I dont think so....
 			}
-		}
-		else
-		{
-			do
-			{
-				if ( strcmp( find.name, "." ) != 0 && strcmp( find.name, ".." ) != 0 )
-				{
+		}else{
+			do{
+				if ( strcmp( find.name, "." ) != 0 && strcmp( find.name, ".." ) != 0 ){
 					memset( path, 0, 256 );
 					sprintf( path, "%s/%s", directory, find.name );
 					Deletefile( path );
 				}
-			}
-			while ( _findnext( Filehandle, &find ) == 0 );
+			}while ( _findnext( Filehandle, &find ) == 0 );
 
 			_findclose( Filehandle );
 			return DeleteDir( directory, false );
@@ -205,11 +162,11 @@ bool VFSHandle_file_win32::DeleteDir( char *directory, bool recurse )
 		return false;
 	}
 
-	if ( rmdir( directory ) == -1 )
-	{
+	if ( rmdir( directory ) == -1 ){
 		if ( errno == ENOTEMPTY ) return false;
 		if ( errno == ENOENT ) return false;
 	}
 
 	return true;
+*/
 }

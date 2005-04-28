@@ -16,12 +16,12 @@ class		Entity;
  *	events to the whole system, if necessary
  */
 struct DeviceListener{
-	/**	@var		InputEvent **queue
+	/**	@var	InputEvent **queue
 	 *	@brief	This is a pointer to a linked list which represents how a listener "hears" the events the device makes
 	 */
 	InputEvent **queue;
 
-	/**	@var		DeviceListner *prev
+	/**	@var	DeviceListner *prev
 	 *	@brief	This is a linked list pointer, to the next listener in the linked list
 	 */
 	DeviceListener *prev;
@@ -33,22 +33,22 @@ struct DeviceListener{
 class IInputDevice 
 {
 protected:
-	/**	@var		bool m_Active
+	/**	@var	bool m_Active
 	 *	@brief	Whether the device is active or not
 	 */
 	bool m_Active;
 
-	/**	@var		int m_DeviceType
+	/**	@var	int m_DeviceType
 	 *	@brief	What device it is, either MOUSE/KEYBOARD or JOYSTICK
 	 */
 	int m_DeviceType;
 
-	/**	@var		int m_DeviceID
+	/**	@var	int m_DeviceID
 	 *	@brief	The ID Code of this device
 	 */
 	int m_DeviceID;
 	
-	/**	@var		DeviceListener *m_listener
+	/**	@var	DeviceListener *m_listener
 	 *	@brief	Linked list of listeners
 	 *
 	 *	A Device listener is something that listens to what the device does, i.e.  The events it produces
@@ -56,7 +56,7 @@ protected:
 	 */
 	DeviceListener *m_listener;
 
-	/**	@var		bool m_eventsys
+	/**	@var	bool m_eventsys
 	 *	@brief	Whether the event system is active or not
 	 *
 	 *	There are two methods to run the input system, immediate or event modes.
@@ -67,12 +67,12 @@ protected:
 	 */
 	bool m_eventsys;
 
-	/**	@var		InputEvent *m_event
+	/**	@var	InputEvent *m_event
 	 *	@brief	Linked list of events which have occured
 	 */
 	InputEvent *m_event;
 
-	/**	@var		int m_devicemode
+	/**	@var	int m_devicemode
 	 *	@brief	The mode of the device
 	 *
 	 *	Supported modes are documented in IInputDevice::DeviceMode
@@ -89,38 +89,38 @@ protected:
 	virtual void SendEvents(void) = 0;	
 public:
 
-	/**	@enum		DeviceType
+	/**	@enum	DeviceType
 	 *	@brief	Supported device types
 	 */
 	enum DeviceType{	
-										MOUSE=0,	/**<	This device is a Mouse		*/
-										KEYBOARD,	/**<	This device is a Keyboard */
-										JOYSTICK	/**<	This device is a Joystick	*/
-									};
+		MOUSE=0,	/**<	This device is a Mouse		*/
+		KEYBOARD,	/**<	This device is a Keyboard	*/
+		JOYSTICK	/**<	This device is a Joystick	*/
+	};
 
-	/**	@enum		DeviceEvent
+	/**	@enum	DeviceEvent
 	 *	@brief	Events the devices could create
 	 */
 	enum DeviceEvent{
-										EVENT_XY=0,		/**<	Device Axis event		*/
-										EVENT_BUTTON	/**<	Device button event	*/
-									};
+		EVENT_XY=0,		/**<	Device Axis event	*/
+		EVENT_BUTTON	/**<	Device button event	*/
+	};
 
-	/**	@enum		ButtonAction
+	/**	@enum	ButtonAction
 	 *	@brief	When a button is pressed on the device, one of these codes is used
 	 */
 	enum ButtonAction{
-											BUTTON_DOWN=0,	/**<	Button has been pressed		*/
-											BUTTON_UP				/**<	Button has been released	*/
-										};
+		BUTTON_DOWN=0,	/**<	Button has been pressed		*/
+		BUTTON_UP		/**<	Button has been released	*/
+	};
 
 	/**	@enum		DeviceMode
 	 *	@brief	The supported device modes
 	 */
 	enum DeviceMode{
-		MODE_NORMAL			= 1,	/**<	Device is normal, no special conditions	*/
-		MODE_ASCII			= 2,	/**<	Keyboard has been set to output ascii keyboard codes instead of Fusion codes */
-		MODE_RELPOS			= 4,	/**<	Mouse or joystick has been set to output relative position codes */
+		MODE_NORMAL		= 1,	/**<	Device is normal, no special conditions	*/
+		MODE_ASCII		= 2,	/**<	Keyboard has been set to output ascii keyboard codes instead of Fusion codes */
+		MODE_RELPOS		= 4,	/**<	Mouse or joystick has been set to output relative position codes */
 		MODE_AXISSMOOTH	= 8		/**<	Mouse or Joystick has been set to smooth the output of the axis movement */
 	};
 

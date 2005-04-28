@@ -30,13 +30,13 @@ protected:
 	 */
 	HINSTANCE handle;
 public:
-									Win32Module		(char *fn,char *p,char *ab);
-	virtual					~Win32Module	();
-	virtual void *	Load					(char *filename);
-	virtual void *	GetHandle			(void);
-	virtual char *	GetFilename		(void);
-	virtual char *	GetPath				(void);
-	virtual char *	GetAbout			(void);
+						Win32Module		(std::string fn,std::string p,std::string ab);
+	virtual				~Win32Module	();
+	virtual void *		Load			(std::string filename);
+	virtual void *		GetHandle		(void);
+	virtual	std::string	GetFilename		(void);
+	virtual std::string GetPath			(void);
+	virtual std::string	GetAbout		(void);
 };
 
 #endif // #ifndef _WIN32MODULE_H_

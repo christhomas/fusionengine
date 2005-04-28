@@ -13,8 +13,8 @@ protected:
 	 */
 	textureproc_t	m_proc;
 public:
-				OGLProceduralTexture	(int width, int height, int numcomp, textureproc_t proc);
-	virtual		~OGLProceduralTexture	();
+					OGLProceduralTexture	(int width, int height, int numcomp, textureproc_t proc);
+	virtual			~OGLProceduralTexture	();
 	virtual int		UpdateTexture			();
 };
 

@@ -17,16 +17,16 @@ protected:
 	//	To execute some code when the stream ends (in this case, zero out the channel)
 	friend signed char StreamEndCallback(FSOUND_STREAM *stream, void *buff, int len, int param);
 public:
-								FMODStreamBuffer	();
-	virtual				~FMODStreamBuffer	();
-	virtual bool	Load							(char *filename);
-	virtual bool	Close							(void);
-	virtual int		Play							(void);
-	virtual bool	Pause							(bool pause);
-	virtual bool	Stop							(void);
-	virtual bool	SetPosition				(int position);
-	virtual bool	Volume						(unsigned char volume);
-	virtual bool	IsPlaying					(void);
+					FMODStreamBuffer	();
+	virtual			~FMODStreamBuffer	();
+	virtual bool	Load				(std::string filename);
+	virtual bool	Close				(void);
+	virtual int		Play				(void);
+	virtual bool	Pause				(bool pause);
+	virtual bool	Stop				(void);
+	virtual bool	SetPosition			(int position);
+	virtual bool	Volume				(unsigned char volume);
+	virtual bool	IsPlaying			(void);
 };
 
 #endif // #ifndef _FMODSTREAMBUFFER_H_

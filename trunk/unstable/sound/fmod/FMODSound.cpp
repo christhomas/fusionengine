@@ -58,7 +58,7 @@ bool FMODSound::Initialise(void)
  *		-#	Load the stream
  *		-#	set the Fusion SoundBuffer ID
  */
-ISoundBuffer * FMODSound::LoadStream(char *filename)
+ISoundBuffer * FMODSound::LoadStream(std::string filename)
 {
 	FMODStreamBuffer *buffer = new FMODStreamBuffer();
 
@@ -80,7 +80,7 @@ ISoundBuffer * FMODSound::LoadStream(char *filename)
  *		-#	Load the sample
  *		-#	Set the Fusion SoundBuffer ID
  */
-ISoundBuffer * FMODSound::LoadSample(char *filename)
+ISoundBuffer * FMODSound::LoadSample(std::string filename)
 {
 	FMODSampleBuffer *buffer = new FMODSampleBuffer();
 
@@ -102,7 +102,7 @@ ISoundBuffer * FMODSound::LoadSample(char *filename)
  *		-#	Load the tracker module
  *		-#	Set the Fusion SoundBuffer ID
  */
-ISoundBuffer * FMODSound::LoadModule(char *filename)
+ISoundBuffer * FMODSound::LoadModule(std::string filename)
 {
 	FMODModuleBuffer *buffer = new FMODModuleBuffer();
 

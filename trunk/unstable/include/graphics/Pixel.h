@@ -35,10 +35,10 @@ public:
 
 	virtual	~Pixel(){};
 
-	virtual	RGB *	ReadPixel		(unsigned int offset)		=	0;
-	virtual	void	WritePixel	(unsigned int offset)		=	0;
-	virtual	RGB *	GetOutput		(void)									=	0;
-	virtual	void	SetInput		(RGB *pixel_in)					=	0;
+	virtual	RGB *	ReadPixel	(unsigned int offset)	=	0;
+	virtual	void	WritePixel	(unsigned int offset)	=	0;
+	virtual	RGB *	GetOutput	(void)					=	0;
+	virtual	void	SetInput	(RGB *pixel_in)			=	0;
 };
 
 //=====================
@@ -60,9 +60,9 @@ public:
 	{
 		unsigned char *ptr = &palette[(buffer[offset] * 3)];
 
-		m_pixel_out.r	=	*ptr++;
-		m_pixel_out.g	=	*ptr++;
-		m_pixel_out.b	=	*ptr++;
+		m_pixel_out.r	= *ptr++;
+		m_pixel_out.g	= *ptr++;
+		m_pixel_out.b	= *ptr++;
 		m_pixel_out.a	= 0;
 
 		return &m_pixel_out;
@@ -95,7 +95,7 @@ public:
 		m_NumBit_g	=	num_g;
 		m_NumBit_b	=	num_b;
 
-		shift_r	=	16			-	m_NumBit_r;
+		shift_r	=	16		-	m_NumBit_r;
 		shift_g	=	shift_r	-	m_NumBit_g;
 		shift_b	=	shift_g	-	m_NumBit_b;
 

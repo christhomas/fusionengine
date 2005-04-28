@@ -88,26 +88,26 @@ protected:
 	textureanim_t tex_anim;
 
 public:
-						Entity			(Mesh *mesh);
+							Entity			(Mesh *mesh);
 	virtual 				~Entity			();
 
-	virtual void			SetActive			(bool active);
-	virtual bool			GetActive			(void);
+	virtual void			SetActive		(bool active);
+	virtual bool			GetActive		(void);
 	
-	virtual void			InitTranslate		(float x, float y, float z);
-	virtual void			InitTranslate		(Maths::Vector &translate);
-	virtual void			SetTranslate		(int type, float x, float y, float z);
-	virtual void			SetTranslate		(int type, Maths::Vector &translate);	
-	virtual void			Translate			(void);
+	virtual void			InitTranslate	(float x, float y, float z);
+	virtual void			InitTranslate	(Maths::Vector &translate);
+	virtual void			SetTranslate	(int type, float x, float y, float z);
+	virtual void			SetTranslate	(int type, Maths::Vector &translate);	
+	virtual void			Translate		(void);
 
-	virtual void			SetScale			(float x, float y, float z);
-	virtual void			SetScale			(Maths::Vector &scale);
+	virtual void			SetScale		(float x, float y, float z);
+	virtual void			SetScale		(Maths::Vector &scale);
 	virtual void			Scale			(void);
 
-	virtual void			SetRotate			(float angle, float x, float y, float z);
+	virtual void			SetRotate		(float angle, float x, float y, float z);
 	virtual void			Rotate			(void);
 
-	virtual void			SetColour			(float r, float g, float b, float a);
+	virtual void			SetColour		(float r, float g, float b, float a);
 	
 	virtual void			SetAxis			(Maths::Vector &axis);
 	virtual void			SetAxis			(float x, float y, float z);
@@ -120,9 +120,9 @@ public:
 	virtual Mesh *			GetMesh			(void);
 
 	virtual Maths::Vector *	GetPosition		(void);
-	virtual Maths::Vector *	GetScale			(void);
+	virtual Maths::Vector *	GetScale		(void);
 	virtual Maths::Vector *	GetRotation		(Maths::Vector &axis);
-	virtual Maths::Vector *	GetVector			(void);
+	virtual Maths::Vector *	GetVector		(void);
 };
 
 #endif // #ifndef _ENTITY_H_

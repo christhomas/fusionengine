@@ -1,5 +1,7 @@
 #ifndef _FILEINFO_H_
 	#define _FILEINFO_H_
+	
+#include <string>
 
 /**	@ingroup	FileInfo_Group
  *	@brief		Base class for all FileInfo structures
@@ -9,10 +11,10 @@ public:
 	/**	FileInfo Destructor */
 	virtual ~FileInfo(){}
 
-	/**	@var		char *filename
+	/**	@var	std::string filename
 	 *	@brief	The name of the file this FileInfo data represents
 	 */
-	char	*filename;
+	std::string filename;
 
 	/**	@var		int filelength
 	 *	@brief	The length of the file
@@ -50,10 +52,10 @@ public:
 	/**	TextFileInfo Destructor */
 	virtual ~TextFileInfo(){}
 
-	/**	@var		std::vector<char *> lines
+	/**	@var		std::vector<std::string> lines
 	 *	@brief	An array of ptrs to within the bytestream
 	 */
-	std::vector<char *>	lines;
+	std::vector<std::string>	lines;
 
 	/**	@var		std::vector<int> length
 	 *	@brief	The length of each line

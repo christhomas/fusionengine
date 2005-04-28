@@ -355,7 +355,7 @@ public:
 	 *
 	 *	@returns	An ITexture object or NULL if failed to create
 	 */
-	virtual ITexture * CreateTexture(char *image) = 0;
+	virtual ITexture * CreateTexture(std::string image) = 0;
 
 	/** Creates a Fusion Procedural texture object 
 	 *

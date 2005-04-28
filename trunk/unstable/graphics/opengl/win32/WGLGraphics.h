@@ -9,12 +9,12 @@
  */
 class WGLGraphics: public OGLGraphics{
 public:
-				WGLGraphics		();
+				WGLGraphics			();
 	virtual		~WGLGraphics		();
 	
 	virtual bool	SetMode			(int w, int h, bool f);
 	virtual bool	RestoreMode		(void);
-	virtual void *	GetExtension		(char *extension);
+	virtual void *	GetExtension	(std::string extension);
 };
 
 #endif // #ifndef _WGLGRAPHICS_H_

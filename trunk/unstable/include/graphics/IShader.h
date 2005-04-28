@@ -15,12 +15,12 @@ protected:
 	std::vector<TexLayer> m_layer;
 
 public:
-					IShader		(){};
-	virtual			~IShader		(){};
-	virtual void		AddLayer		(unsigned int layer, float *tc, ITexture *t)	=	0;
-	virtual void		RemoveLayer	(unsigned int layer)					=	0;
-	virtual TexLayer *	GetLayer		(unsigned int layer)					=	0;
-	virtual void		Set			(void)							= 0;
+						IShader		(){};
+	virtual				~IShader	(){};
+	virtual void		AddLayer	(unsigned int layer, float *tc, ITexture *t) = 0;
+	virtual void		RemoveLayer	(unsigned int layer)	= 0;
+	virtual TexLayer *	GetLayer	(unsigned int layer)	= 0;
+	virtual void		Set			(void)					= 0;
 };
 
 #endif // #ifndef _ISHADER_H_

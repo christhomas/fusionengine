@@ -18,22 +18,22 @@ protected:
 	std::vector<Camera *>	m_camera;
 public:
 	//	Collision system	
-	Collision	*CollisionSystem;
+	Collision				*CollisionSystem;
 
-					SceneGraph		();
-	virtual			~SceneGraph		();
+						SceneGraph		();
+	virtual				~SceneGraph		();
 	virtual bool		Render			(void);
 
 //	Camera Functions	
-	virtual Camera *	AddCamera		(char *name);
+	virtual Camera *	AddCamera		(std::string name);
 	virtual void		RemoveCamera	(Camera *c);
-	virtual void		RemoveCamera	(char *name);
+	virtual void		RemoveCamera	(std::string name);
 
 //	Entity Functions
 	virtual bool		AddEntity			(Entity *e);
 	virtual bool		RemoveEntity		(unsigned int e_id);
 	virtual void		RemoveAllEntities	(void);
-	virtual Entity *		GetEntityPtr		(unsigned int e_id);
+	virtual Entity *	GetEntityPtr		(unsigned int e_id);
 
 //	Collision Detection Functions
 	virtual	void		CollisionDetection	(int type);
@@ -46,7 +46,7 @@ public:
 	};
 };
 
-typedef std::vector<SceneGraph *>	SCENELIST;
+typedef std::vector<SceneGraph *>	scenelist_t;
 
 #endif // #ifndef _SCENEGRAPH_H_
 
