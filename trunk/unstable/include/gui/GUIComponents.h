@@ -86,7 +86,13 @@ protected:
 public:
 	int				m_component_type;
 
-					IWindowComponent	(){}
+	IWindowComponent(){
+		m_click_func = NULL;
+		m_highlight_func = NULL;
+		m_active = false;
+		m_entity = NULL;	
+	}
+	
 	virtual			~IWindowComponent	(){}
 	virtual	void	SetCaps				(int caps, union CapabilityData *pd)			= 0;
 	virtual	void	SetActive			(bool active)									= 0;
@@ -210,7 +216,7 @@ protected:
 	unsigned int	m_width;
 
 	Timer			m_flashtimer;
-	unsigned int	m_flashms;
+	int				m_flashms;
 	bool			m_flash;
 
 	float			m_rgba[4];
@@ -223,6 +229,7 @@ public:
 	virtual	bool		Update		(void);
 	virtual	void		Initialise	(WndComponentSetup *e, SceneGraph *scenegraph);
 	virtual	void		UpdateString(std::string str);
+	virtual void		UpdateString(unsigned int number);
 	virtual	bool		Highlight	(int hx, int hy)	{	return false;	};
 	virtual	bool		Click		(void)				{	return false;	};
 	virtual	void		SetPosition	(float x, float y, float depth);

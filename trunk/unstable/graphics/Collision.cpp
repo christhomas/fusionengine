@@ -60,7 +60,7 @@ void Collision::Update(void)
 		g1 = m_comparegroups[a+SRC];
 		g2 = m_comparegroups[a+DST];
 
-		for(first=0;first<m_groups[g1].size();first++,second=0)
+		for(first=0,second=0;first<m_groups[g1].size();first++,second=0)
 		{
 			//	Get the ptr to the entity itself
 			e1 = m_groups[g1][first];

@@ -62,9 +62,9 @@ LRESULT CALLBACK WndProc(HWND hwnd,UINT message,WPARAM wParam,LPARAM lParam)
 Win32Device::Win32Device()
 {
 	//	Initialise all the platform data
-	m_platform = reinterpret_cast<Win32PlatformData *>(fusion->GetPlatformData());
+	m_platform = (Win32PlatformData *)fusion->GetPlatformData();
 
-	m_windowname		=	"Win32 Subsystem";
+	m_windowname = "Win32 Subsystem";
 	
 	//	Initially set no title
 	SetTitle("Loading: ");
@@ -143,23 +143,23 @@ bool Win32Device::Open(unsigned int width, unsigned int height, bool fullscreen)
 	//	Restore the default display mode before switching it again
 	fusion->Graphics->RestoreMode();
 
-	m_platform->m_hinst	= GetModuleHandle(NULL);			// Grab An Instance For Our Window
+	m_platform->m_hinst	= GetModuleHandle(NULL);// Grab An Instance For Our Window
 
 	//	Register a window class
 	if(RegisterWindow() == true){
 		RECT r = {0,0,width,height};
 
 		//	Setup the window style
-		DWORD	dwExStyle;							// Window Extended Style
-		DWORD	dwStyle;								// Window Style
+		DWORD	dwExStyle;						// Window Extended Style
+		DWORD	dwStyle;						// Window Style
 
-		dwExStyle	=	WS_EX_APPWINDOW;										// Window Extended Style
+		dwExStyle	= WS_EX_APPWINDOW;						// Window Extended Style
 		dwStyle		= WS_CLIPSIBLINGS	| WS_CLIPCHILDREN;	// Required Window Style
 
-		if (fullscreen){							// Are We Still In Fullscreen Mode?
+		if (fullscreen){						// Are We Still In Fullscreen Mode?
 			dwStyle		|= WS_POPUP;			// Windows Style
 		}else{
-			dwExStyle	|= WS_EX_WINDOWEDGE;		// Window Extended Style
+			dwExStyle	|= WS_EX_WINDOWEDGE;	// Window Extended Style
 			dwStyle		|= WS_OVERLAPPEDWINDOW;	// Windows Style
 		}
 
@@ -368,7 +368,7 @@ void Win32Device::Update(void)
 		fps.Tick();
 
 		//	Build the window title (default, I should let people configure this, but fuck em for now)
-		sprintf(buffer,"%s -=[ FPS:%d ]=-", m_apptitle, (1000 / (fps.GetMillisecondsDiff() >> 6)));
+		sprintf(buffer,"%s -=[ FPS:%d ]=-", m_apptitle.c_str(), (1000 / (fps.GetMillisecondsDiff() >> 6)));
 		SetWindowText(m_platform->m_hwnd,buffer);
 
 		a=0;

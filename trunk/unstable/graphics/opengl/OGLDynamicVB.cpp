@@ -55,7 +55,7 @@ bool OGLDynamicVB::Initialise(unsigned int nv, unsigned int ni, unsigned int nc_
 	m_num_vertex	= nv;
 	m_num_index		= ni;
 
-	m_index			= new unsigned int[ni];
+	m_index = new unsigned int[ni];
 	memset(m_index,0,ni*sizeof(unsigned int));
 
 	SetComponents(nc_p, nc_t);
@@ -88,6 +88,7 @@ void OGLDynamicVB::ReleaseAll(void)
 	m_normal			= NULL;
 
 	delete[] m_index;
+	m_index = NULL;
 }
 
 /**	Sets the number of components for each position and texture coordinate

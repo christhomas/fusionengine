@@ -11,7 +11,7 @@ FUSIONPLUGIN void GetInstance(Fusion &f)
 {
 	fusion = &f;
 
-	if(fusion->Input == NULL){
+	if(fusion->Sound == NULL){
 		fusion->Sound = new FMODSound();
 
 		fusion->Sound->Initialise();

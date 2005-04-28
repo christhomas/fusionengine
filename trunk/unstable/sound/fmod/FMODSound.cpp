@@ -40,7 +40,7 @@ bool FMODSound::Initialise(void)
 	if(FSOUND_Init(44100, 32, 0) == false) return false;
 
 #ifdef _WIN32
-	Win32PlatformData *pd = reinterpret_cast<Win32PlatformData *>(fusion->GetPlatformData());
+	Win32PlatformData *pd = (Win32PlatformData *)fusion->GetPlatformData();
 	if(FSOUND_SetHWND(pd->m_hwnd) == false)	return false;
 #else
 	//	Put a linux platform cast here or sommat...

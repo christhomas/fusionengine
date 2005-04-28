@@ -105,7 +105,7 @@ void VirtualFS::SetTempDirectory(std::string directory)
 		m_tempdir.clear();
 	}
 
-	if(directory.empty() == true){
+	if(directory.empty() == false){
 		m_tempdir = directory;
 
 		h->CreateDir(m_tempdir);

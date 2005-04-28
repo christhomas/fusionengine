@@ -77,7 +77,7 @@ void VFSHandle_file::SetFilename(std::string filename )
 		int pos = (int)filename.find(ftype);
 				
 		if(pos != std::string::npos){
-			filename = filename.substr(pos+ftype.length()+1);
+			filename = filename.substr(pos+ftype.length());
 		}
 
 		m_filename = filename;

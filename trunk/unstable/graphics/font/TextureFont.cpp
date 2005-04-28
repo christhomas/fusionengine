@@ -137,6 +137,15 @@ TextureFont::TextureFont()
 	m_teximage		=	NULL;
 	m_glyph_width	=	0;
 	m_glyph_height	=	0;
+	m_texture		=	NULL;
+	m_vertexbuffer	=	NULL;
+	m_tex_width		=	0;
+	m_tex_height	=	0;
+	m_max_ascent	=	0;
+	m_max_descent	=	0;
+	m_num_glyphs	=	0;
+	m_min_glyph		=	0;
+	m_range			=	0;
 	
 	//	NOTE:	Every character rendered will have the same 
 	//			normals/index, so just create one pair and 
@@ -276,9 +285,10 @@ bool TextureFont::Initialise(std::string filename)
 		if (m_font_data[i].c > max_glyph)	max_glyph = m_font_data[i].c;
 	}
 	m_min_glyph = m_min_glyph;
-	m_range = max_glyph - m_min_glyph + 1;
+	m_range = max_glyph - m_min_glyph;
 
 	m_lut = new VertexData *[m_range];
+	memset(m_lut,0,m_range*sizeof(VertexData *));
 
 	for (i = 0; i < m_num_glyphs; i++) m_lut[m_font_data[i].c - m_min_glyph] = &m_vertex_data[i];
 
@@ -312,6 +322,10 @@ VertexData * TextureFont::GetGlyph(int c)
 	// Automatically substitute uppercase letters with lowercase if not	uppercase available (and vice versa).
 	if ((c >= m_min_glyph) && (c < m_min_glyph + m_range)) {
 		gd = m_lut[c - m_min_glyph];
+		
+		if((unsigned int)gd == 0xcdcdcdcd){
+			fusion->errlog << "Fucks sake, glyph data is 0xcdcdcdcd again" << std::endl;
+		}
 		
 		if(gd)	return gd;
 

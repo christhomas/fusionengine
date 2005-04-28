@@ -9,10 +9,13 @@
  */
 WGLGraphics::WGLGraphics()
 {
-	ActivateEvent		=	NULL;
-	DestroyEvent		=	NULL;
-	Window				=	NULL;
-	m_fullscreen		=	false;
+	ActivateEvent	=	NULL;
+	DestroyEvent	=	NULL;
+	Window			=	NULL;
+	m_width			=	0;
+	m_height		=	0;
+	m_bpp			=	0;
+	m_fullscreen	=	false;
 }
 
 /**
@@ -40,9 +43,9 @@ WGLGraphics::~WGLGraphics()
  */
 bool WGLGraphics::SetMode(int width, int height, bool fullscreen)
 {
-	m_width				= width;
-	m_height			= height;
-	m_bpp					= 32;
+	m_width			= width;
+	m_height		= height;
+	m_bpp			= 32;
 	m_fullscreen	= fullscreen;
 
 	delete Window;

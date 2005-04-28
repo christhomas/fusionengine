@@ -46,7 +46,7 @@ bool Window::Initialise(void)
 
 void Window::SetTitle(std::string title)
 {
-	if(title.empty() != false){
+	if(title.empty() == false){
 		m_title = title;
 	}
 }

@@ -1,5 +1,6 @@
 #include <gui/GUIComponents.h>
 #include <font/IFont.h>
+#include <sstream>
 
 Textbox::Textbox()
 {
@@ -105,17 +106,17 @@ void Textbox::SetColour(float r, float g, float b, float a)
 
 void Textbox::Initialise(WndComponentSetup *e, SceneGraph *scenegraph)
 {
-	TextBoxSetup *tb	=	reinterpret_cast<TextBoxSetup *>(e);
+	TextBoxSetup *tb = (TextBoxSetup *)e;
 
 	//	Update the string before setting any paramaters
 	UpdateString(tb->m_text);
 
-	m_font				=	tb->m_font;
-	m_width				=	tb->m_width;
-	m_x						=	tb->m_x;
-	m_y						=	tb->m_y;
-	m_depth				=	tb->m_depth;
-	m_caps				=	tb->m_caps;
+	m_font	=	tb->m_font;
+	m_width	=	tb->m_width;
+	m_x		=	tb->m_x;
+	m_y		=	tb->m_y;
+	m_depth	=	tb->m_depth;
+	m_caps	=	tb->m_caps;
 
 	//	Calculate the width of the textbox
 	//	is this necessary?
@@ -140,9 +141,15 @@ void Textbox::UpdateString(std::string str)
 		//	length of the box as you wish
 	}
 
-	if(str.empty() != false){
+	if(str.empty() == false){
 		m_string = str;
 	}
+}
+
+void Textbox::UpdateString(unsigned int number)
+{
+	std::stringstream s; s << number << std::ends;
+	UpdateString(s.str());
 }
 
 std::string Textbox::GetString(void)
