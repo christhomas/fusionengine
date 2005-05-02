@@ -23,22 +23,23 @@ fso.CreateFolder(fusion);
 
 /*
 	Have to copy all the fusion headers into 
-	Zargadia/fusion/include
+	fusion/include
 */
 fso.CreateFolder(include);
 fso.CopyFolder(src+"\\include",include);
 
 /*
 	Have to copy all the fusion libraries into
-	Zargadia/fusion/lib
+	fusion/lib
 */
 fso.CreateFolder(lib);
 fso.CopyFile(src+"\\bin\\*.lib",lib,true);
 
 /*
 	Have to copy all the fusion dll's into
-	Zargadia/bin/system
+	bin/system
 */
+fso.CreateFolder(system);
 fso.CopyFile(src+"\\bin\\*.dll",system+"\\",true);
 //	Also copy the FMOD.dll file to the executable directory
 fso.CopyFile(src+"\\external\\lib\\fmod.dll",bin+"\\",true);
