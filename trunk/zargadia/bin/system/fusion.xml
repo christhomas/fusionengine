@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine>
+	<fusion>
+		<setup name="moduledb" path="system" />
+		<subsystem name="graphics" module="libOGLGraphics.dll" />
+		<subsystem name="input" module="libDirectInput8.dll" />
+		<subsystem name="sound" module="libFMOD.dll" />
+		<subsystem name="vfs" module="libVFS.dll" />
+	</fusion>
+
+	<vfs>
+		<plugin filetype="tga" module="VFSPlugin_TGA.dll" />
+	</vfs>
+
+	<sound>
+		<track name="titlemusic" file="sounds/music/titletrack_drum_and_bass.xm" />
+		<track name="gamemusic" file="sounds/music/gametrack_shadow.xm" />
+		<track name="credits" file="sounds/music/credits_draft.xm" />
+		<track name="title zargadia" file="sounds/sfx/zargadia.mp3" />
+		<track name="title whoosh" file="sounds/sfx/whoosh.mp3" />
+		<track name="alien fire" file="sounds/sfx/alien_fire.mp3" />
+		<track name="alien explode" file="sounds/sfx/alien_explode.mp3" />
+		<track name="mothership" file="sounds/sfx/mothership.mp3" />
+		<track name="mothership fire" file="sounds/sfx/mothership_fire.mp3" />
+		<track name="mothership explode" file="sounds/sfx/alien_mothership_explode.mp3" />
+		<track name="defence hit" file="sounds/sfx/defence_hit.mp3" />
+		<track name="defence damage" file="sounds/sfx/defence_damage.mp3" />
+		<track name="defence explode" file="sounds/sfx/defence_explode.mp3" />
+		<track name="player fire" file="sounds/sfx/player_fire.mp3" />
+		<track name="player explode" file="sounds/sfx/player_explode.mp3" />
+	</sound>
+</engine>
