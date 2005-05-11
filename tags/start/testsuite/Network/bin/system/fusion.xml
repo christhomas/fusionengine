@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine>
+	<fusion>
+		<setup name="moduledb" path="system" />
+		<subsystem name="network" module="libWin32Network.dll" />
+	</fusion>
+</engine>
