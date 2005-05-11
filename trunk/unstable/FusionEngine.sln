@@ -98,7 +98,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmod", "sound\fmod\fmod.vcp
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Network", "network\win32\Win32Network.vcproj", "{EF034569-00EB-458E-809F-CE7715C5B07C}"
 	ProjectSection(ProjectDependencies) = postProject
-		{147F7B68-AC15-4C75-A374-DAD72029BE21} = {147F7B68-AC15-4C75-A374-DAD72029BE21}
 	EndProjectSection
 EndProject
 Global

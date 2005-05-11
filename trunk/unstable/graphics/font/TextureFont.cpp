@@ -323,10 +323,6 @@ VertexData * TextureFont::GetGlyph(int c)
 	if ((c >= m_min_glyph) && (c < m_min_glyph + m_range)) {
 		gd = m_lut[c - m_min_glyph];
 		
-		if((unsigned int)gd == 0xcdcdcdcd){
-			fusion->errlog << "Fucks sake, glyph data is 0xcdcdcdcd again" << std::endl;
-		}
-		
 		if(gd)	return gd;
 
 		if(islower(c))	c = toupper(c);

@@ -341,7 +341,7 @@ void Mesh::Finalise(void)
 		memset(tt,0,totalvertex*sizeof(Vertex2f));
 
 		if(m_position	!= NULL)	memcpy(tp,m_position,	m_numvertex	*	sizeof(Vertex3f));
-		if(m_normal	!= NULL)		memcpy(tn,m_normal,		m_numvertex	*	sizeof(Vertex3f));
+		if(m_normal		!= NULL)	memcpy(tn,m_normal,		m_numvertex	*	sizeof(Vertex3f));
 		if(m_texcoord	!= NULL)	memcpy(tt,m_texcoord,	m_numvertex	*	sizeof(Vertex2f));
 
 		delete[] m_position;
@@ -349,7 +349,7 @@ void Mesh::Finalise(void)
 		delete[] m_texcoord;
 
 		m_position	=	tp;
-		m_normal		=	tn;
+		m_normal	=	tn;
 		m_texcoord	=	tt;
 	}else{
 		totalvertex = m_numvertex;
@@ -430,8 +430,8 @@ void Mesh::Finalise(void)
  *		-#	use i/j/k to define which indices are used in what order
  *		-#	Generate two vectors from the three vertices
  *		-#	Calculate the cross product of those two vertices
- *		-#	m_normalise the result to produce a m_normal
- *		-#	Add the m_normal to the appropriate m_normals in the mesh object
+ *		-#	normalise the result to produce a normal
+ *		-#	Add the normal to the appropriate normals in the mesh object
  *
  *	Explanation 2:
  *		-#	Loop through all the Surfaces
@@ -445,15 +445,15 @@ void Mesh::Finalise(void)
  */
 void Mesh::GenerateNormals(int i, int j, int k)
 {
-	int			a,b,c;
+	int	a,b,c;
 
-	int			nvb	=	m_numvb;	//	Number of Surface objects
+	int nvb	=	m_numvb; // Number of Surface objects
 
-	unsigned int			*si	=	NULL;		//	Source Index list
+	unsigned int *si = NULL; // Source Index list
 
-	int			sni	=	0;			//	Number of Source Indices
+	int	sni	=	0; // Number of Source Indices
 
-	IVertexBuffer	*src	=	NULL;		//	Source vertexbuffer ptr
+	IVertexBuffer *src = NULL; // Source vertexbuffer ptr
 
 	memset(m_normal,0,m_numvertex*sizeof(Vertex3f));
 
@@ -476,7 +476,7 @@ void Mesh::GenerateNormals(int i, int j, int k)
 			va.Set(v[1]->x-v[0]->x, v[1]->y-v[0]->y, v[1]->z-v[0]->z);
 			vb.Set(v[2]->x-v[0]->x, v[2]->y-v[0]->y, v[2]->z-v[0]->z);
 
-			//	Cross the two vectors, then m_normalise it
+			//	Cross the two vectors, then normalise it
 			va = va.CrossProduct(vb);
 			va /= va.Length();
 			

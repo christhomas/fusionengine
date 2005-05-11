@@ -8,7 +8,7 @@ static void ReverseByteOrder(char *bp, int size, int count)
 
 	for(a=0,baseoffset=0;a<count;a++,baseoffset=a*size)	for(b=0,c=size-1;c>=size/2;b++,c--)
 	{
-		temp							= bp[baseoffset+b];
+		temp				= bp[baseoffset+b];
 		bp[baseoffset+b]	= bp[baseoffset+c];
 		bp[baseoffset+c]	= temp;
 	}
@@ -40,8 +40,8 @@ FileInfo * VFSPlugin_LWO::Read(unsigned char *buffer, unsigned int length)
 	m_buffer	= buffer;
 	m_length	= length;
 
-	m_fileinfo					=	new MeshFileInfo();
-	m_fileinfo->mesh			=	fusion->Mesh->CreateMesh();
+	m_fileinfo				=	new MeshFileInfo();
+	m_fileinfo->mesh		=	fusion->Mesh->CreateMesh();
 	m_fileinfo->filelength	=	m_length;
 
 	//	Read the FORM tag
@@ -79,17 +79,17 @@ long VFSPlugin_LWO::ReadChunk(void)
 
 	switch(id)
 	{
-		case ID_TAGS:	{	read_tags(len);			}break;
-		case ID_LAYR:	{	read_layr(len);			}break;
-		case ID_PNTS:	{	read_pnts(len);			}break;
-		case ID_BBOX:	{	read_bbox(len);			}break;
-		case ID_POLS:	{	read_pols(len);			}break;
-		case ID_PTAG:	{	read_ptag(len);			}break;
-		case ID_SURF:	{	read_surf(len);			}break;
-		case ID_CLIP:	{	read_clip(len);			}break;
-		case ID_ENVL:	{	read_envl(len);			}break;
-		case ID_VMAP:	{	read_vmap(len);			}break;
-		default:			{	read_unkn(id,len);	}break;
+		case ID_TAGS:	{	read_tags(len);		}break;
+		case ID_LAYR:	{	read_layr(len);		}break;
+		case ID_PNTS:	{	read_pnts(len);		}break;
+		case ID_BBOX:	{	read_bbox(len);		}break;
+		case ID_POLS:	{	read_pols(len);		}break;
+		case ID_PTAG:	{	read_ptag(len);		}break;
+		case ID_SURF:	{	read_surf(len);		}break;
+		case ID_CLIP:	{	read_clip(len);		}break;
+		case ID_ENVL:	{	read_envl(len);		}break;
+		case ID_VMAP:	{	read_vmap(len);		}break;
+		default:		{	read_unkn(id,len);	}break;
 	}
 
 	return len+8;
@@ -103,24 +103,24 @@ long VFSPlugin_LWO::ReadSubChunk(void)
 	switch(id)
 	{
 		case ID_STIL:	{	read_unkn(id,len);	}break;
-		case ID_COLR:	{	read_colr(len);			}break;
-		case ID_DIFF:	{	read_diff(len);			}break;
-		case ID_LUMI:	{	read_lumi(len);			}break;
-		case ID_SPEC:	{	read_spec(len);			}break;
-		case ID_REFL:	{	read_refl(len);			}break;
-		case ID_TRAN:	{	read_tran(len);			}break;
-		case ID_TRNL:	{	read_trnl(len);			}break;
-		case ID_GLOS:	{	read_glos(len);			}break;
-		case ID_SHRP:	{	read_shrp(len);			}break;
-		case ID_SMAN:	{	read_sman(len);			}break;
-		case ID_BUMP:	{	read_bump(len);			}break;
+		case ID_COLR:	{	read_colr(len);		}break;
+		case ID_DIFF:	{	read_diff(len);		}break;
+		case ID_LUMI:	{	read_lumi(len);		}break;
+		case ID_SPEC:	{	read_spec(len);		}break;
+		case ID_REFL:	{	read_refl(len);		}break;
+		case ID_TRAN:	{	read_tran(len);		}break;
+		case ID_TRNL:	{	read_trnl(len);		}break;
+		case ID_GLOS:	{	read_glos(len);		}break;
+		case ID_SHRP:	{	read_shrp(len);		}break;
+		case ID_SMAN:	{	read_sman(len);		}break;
+		case ID_BUMP:	{	read_bump(len);		}break;
 		case ID_SIDE:	{	read_unkn(id,len);	}break;
 		case ID_BLOK:	{	read_unkn(id,len);	}break;
 		case ID_IMAP:	{	read_unkn(id,len);	}break;
 		case ID_TMAP:	{	read_unkn(id,len);	}break;
 		case ID_IMAG:	{	read_unkn(id,len);	}break;
 		case ID_CHAN:	{	read_unkn(id,len);	}break;
-		default:			{	read_unkn(id,len);	}break;
+		default:		{	read_unkn(id,len);	}break;
 
 	};
 
@@ -191,7 +191,7 @@ void VFSPlugin_LWO::read_pnts(long length)
 	//	Calculate the number of vertex in the mesh
 	int numvertex = length/sizeof(Vertex3f);
 
-	Mesh *m = reinterpret_cast<Mesh *>(m_fileinfo->mesh);
+	Mesh *m = (Mesh *)m_fileinfo->mesh;
 	m->Initialise(numvertex);
 
 	Vertex3f *v = new Vertex3f[numvertex];
@@ -235,12 +235,12 @@ void VFSPlugin_LWO::read_pols(long length)
 	//	Determine which method to use in reading the polygon data
 	switch(chunkid)
 	{
-		case ID_FACE:	{	read_face(length);					}break;
-		case ID_CURV:	{	read_curv(length);					}break;
-		case ID_PTCH:	{	read_ptch(length);					}break;
-		case ID_MBAL:	{	read_mbal(length);					}break;
-		case ID_BONE:	{	read_bone(length);					}break;
-		default:			{	read_unkn(chunkid,length);	}break;
+		case ID_FACE:	{	read_face(length);			}break;
+		case ID_CURV:	{	read_curv(length);			}break;
+		case ID_PTCH:	{	read_ptch(length);			}break;
+		case ID_MBAL:	{	read_mbal(length);			}break;
+		case ID_BONE:	{	read_bone(length);			}break;
+		default:		{	read_unkn(chunkid,length);	}break;
 	};
 }
 
@@ -259,7 +259,7 @@ void VFSPlugin_LWO::read_ptag(long length)
 	{
 		//	Read what polygon this tag belongs to and what tag to apply to the polygon
 		polygonid	=	ReadVariableLength(&vxlength);
-		tag				=	ReadShort();
+		tag			=	ReadShort();
 
 		//	Store the polygon id and tag data
 		polygontags.push_back(tag);
@@ -702,11 +702,11 @@ void VFSPlugin_LWO::SortPolygonTags(void)
 	for(i=0;i<size-2;i+=2){
 		for(j=0;j<size-2-i;j+=2){
 			if(polygontags[j+2] < polygontags[j]){
-				tmp[0]							=	polygontags[j+0];
-				tmp[1]							=	polygontags[j+1];
+				tmp[0]				=	polygontags[j+0];
+				tmp[1]				=	polygontags[j+1];
 
-				polygontags[j+0]		=	polygontags[j+2+0];
-				polygontags[j+1]		=	polygontags[j+2+1];
+				polygontags[j+0]	=	polygontags[j+2+0];
+				polygontags[j+1]	=	polygontags[j+2+1];
 
 				polygontags[j+2+0]	=	tmp[0];
 				polygontags[j+2+1]	=	tmp[1];

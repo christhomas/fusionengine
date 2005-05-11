@@ -1,11 +1,11 @@
 #ifndef _IINPUTDEVICE_H_
-	#define _IINPUTDEVICE_H_
+#define _IINPUTDEVICE_H_
+
+#include <vector>
 
 struct	PlatformData;
-class		InputEvent;
-class		Entity;
-
-#include <cstdio>
+class	InputEvent;
+class	Entity;
 
 /**	@ingroup	Input_Group
  *	@brief		Defines a method for listening objects to access events made by a device

@@ -139,7 +139,6 @@ bool OGLGraphics::Enable(int flag, int options)
 			glEnable(GL_DEPTH_TEST);	//	Enables Depth Testing
 
 			glDisable(GL_BLEND);		//	Disable blending I set in Begin2D() if called
-			glEnable(GL_DEPTH_FUNC);	//	Enable the depth buffer
 				
 			glMatrixMode(GL_PROJECTION);//	Select The Projection Matrix
 			glPopMatrix();				//	Restore The Old Projection Matrix
@@ -149,7 +148,7 @@ bool OGLGraphics::Enable(int flag, int options)
 
 		case IGraphics::MODE2D:{
 			Enable3DMode = false;
-			glDisable(GL_DEPTH_FUNC);					//	Disable the depth buffer
+			glDisable(GL_DEPTH_TEST);					//	Disable the depth buffer
 			glBlendFunc(	GL_SRC_ALPHA,
 							GL_ONE_MINUS_SRC_ALPHA);	//	Enable cutout type transparency
 			glEnable(GL_BLEND);							//	Enable blending

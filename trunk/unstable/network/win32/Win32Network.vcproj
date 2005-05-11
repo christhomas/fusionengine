@@ -38,7 +38,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalDependencies="ws2_32.lib"
-				OutputFile="$(OutDir)/$(ProjectName)_d.dll"
+				OutputFile="$(OutDir)/lib$(ProjectName)_d.dll"
 				LinkIncremental="1"
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
@@ -97,7 +97,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
 				AdditionalDependencies="ws2_32.lib"
-				OutputFile="$(OutDir)/$(ProjectName).dll"
+				OutputFile="$(OutDir)/lib$(ProjectName).dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
 				AdditionalLibraryDirectories="$(SolutionDir)bin;$(SolutionDir)external\lib"
@@ -139,10 +139,10 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath=".\NetworkCore.cpp">
+				RelativePath=".\Win32Network_dll.cpp">
 			</File>
 			<File
-				RelativePath=".\Win32Network_dll.cpp">
+				RelativePath=".\Win32NetworkCore.cpp">
 			</File>
 		</Filter>
 		<Filter
@@ -153,7 +153,10 @@
 				RelativePath="..\..\include\INetworkCore.h">
 			</File>
 			<File
-				RelativePath=".\NetworkCore.h">
+				RelativePath=".\Win32NetworkCore.h">
+			</File>
+			<File
+				RelativePath=".\Win32SocketEvents.h">
 			</File>
 		</Filter>
 	</Files>

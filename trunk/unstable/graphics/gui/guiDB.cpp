@@ -1,5 +1,5 @@
-#include <gui/gui.h>
 #include <Fusion.h>
+#include <gui/gui.h>
 
 ComponentLibrary UserInterfaceDB::m_library = ComponentLibrary();
 

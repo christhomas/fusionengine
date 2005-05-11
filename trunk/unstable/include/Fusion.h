@@ -1,18 +1,13 @@
 #ifndef _FUSION_H_
 	#define _FUSION_H_
 
-//	Fusion helper classes + data
-#include <PlatformData.h>
-#include <Rect.h>
-#include <IModuleDB.h>
-#include <dbstream.h>
-
 //	STL headers
 #include <fstream>
 #include <vector>
 #include <string>
 
 //	Subsystem include files
+#include <INetworkCore.h>
 #include <font/IFont.h>
 #include <gui/gui.h>
 #include <mesh/MeshDB.h>
@@ -21,9 +16,14 @@
 #include <graphics/SceneGraphDB.h>
 #include <vfs/VirtualFS.h>
 #include <sound/ISound.h>
-#include <INetworkCore.h>
 #include <FusionSubsystem.h>
 #include <XMLConfig.h>
+
+//	Fusion helper classes + data
+#include <PlatformData.h>
+#include <Rect.h>
+#include <IModuleDB.h>
+#include <dbstream.h>
 
 /** @ingroup	Fusion_Group
  *	@brief		The core of the Fusion system

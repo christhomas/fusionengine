@@ -1,4 +1,4 @@
-#include <NetworkCore.h>
+#include <Win32NetworkCore.h>
 #include <Fusion.h>
 #include <FusionPlugin.h>
 
