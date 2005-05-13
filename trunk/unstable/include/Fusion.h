@@ -7,7 +7,9 @@
 #include <string>
 
 //	Subsystem include files
-#include <INetworkCore.h>
+#include <FusionSubsystem.h>
+#include <XMLConfig.h>
+#include <network/INetworkCore.h>
 #include <font/IFont.h>
 #include <gui/gui.h>
 #include <mesh/MeshDB.h>
@@ -16,8 +18,6 @@
 #include <graphics/SceneGraphDB.h>
 #include <vfs/VirtualFS.h>
 #include <sound/ISound.h>
-#include <FusionSubsystem.h>
-#include <XMLConfig.h>
 
 //	Fusion helper classes + data
 #include <PlatformData.h>

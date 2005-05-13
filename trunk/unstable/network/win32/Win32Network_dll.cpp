@@ -14,7 +14,7 @@ FUSIONPLUGIN void GetInstance(Fusion &f)
 	fusion = &f;
 
 	if(fusion->Network == NULL){
-		fusion->Network = new NetworkCore();
+		fusion->Network = new Win32NetworkCore();
 
 		if(fusion->Network->Initialise() == false){
 			DestroyInstance();
