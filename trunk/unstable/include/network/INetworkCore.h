@@ -1,12 +1,15 @@
 #ifndef _INETWORKCORE_H_
 	#define _INETWORKCORE_H_
 
-#ifndef _WINSOCKAPI_
-#include <winsock2.h>
-#endif
-
 #include <vector>
 #include <FusionSubsystem.h>
+
+#ifdef _WIN32
+#include <winsock2.h>
+#else
+#include <sys/socket.h>
+#define INFINITE (~0)
+#endif // ifdef _WIN32
 
 // This indicates how much data one packet can contain, maximum (32KB)
 #define MAX_SEND	32768
@@ -51,28 +54,23 @@ public:
 	//	Connects this computer to the remote host
 	virtual bool Connect(char *ip, int port) = 0;
 	
+	//	Connects a socket, which the server accepted
+	virtual void Connect(unsigned int socket) = 0;
+	
 	//	Overrides the connected status
 	virtual void SetConnected(bool status) = 0;
-	
-	//	Adds a packet to this sockets data stack
-	virtual void AddDataPacket(NetworkPacket *packet) = 0;
 	
 	//	Sends data to the remote host
 	virtual void Send(char *data, int length, bool wait=false) = 0;
 	
-	//	Notifies when the send has completed
-	virtual void SendComplete(void) = 0;
-	
 	//	Receives data from the remote host
-	virtual NetworkPacket *Receive(int milliseconds = INFINITE) = 0;
+	virtual NetworkPacket *Receive(unsigned int milliseconds = INFINITE) = 0;
 };
 
 class IServerSocket: public ISocket{
 protected:
 	socketlist_t m_Connections;
 public:
-	HANDLE m_ConnectionEvent;
-	
 	IServerSocket(){}
 	
 	virtual ~IServerSocket(){}
@@ -84,7 +82,7 @@ public:
 	virtual socketlist_t & GetConnections(void) = 0;
 	
 	// Waits x number of milliseconds for a connection to be made (wait stated)
-	virtual bool WaitForConnections(int milliseconds = INFINITE) = 0;
+	virtual bool WaitForConnections(unsigned int milliseconds = INFINITE) = 0;
 
 	// Adds a child socket to the server
 	virtual void AddConnection(ISocket *child) = 0;

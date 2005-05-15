@@ -12,6 +12,8 @@ public:
 	//	Connects this computer to the remote host
 	virtual bool Connect(char *ip, int port);
 	
+	virtual void Connect(unsigned int socket);
+	
 	//	Disconnects the socket from the remote host
 	virtual void Disconnect(void);
 

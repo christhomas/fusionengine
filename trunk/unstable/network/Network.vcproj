@@ -20,7 +20,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="_WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -62,7 +62,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch"
-				PreprocessorDefinitions="_WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"

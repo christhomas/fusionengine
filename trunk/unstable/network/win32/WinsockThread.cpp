@@ -4,25 +4,19 @@
 
 DWORD WINAPI NetworkCoreThread(void *data)
 {
-    //      Generic Thread variables
-    Win32NetworkCore	*network = (Win32NetworkCore *)data;
-    Win32SocketEvents	*socket_events = network->getSocketEvents();
-    WSANETWORKEVENTS	network_event;
-    NetworkPacket		*send_packet = NULL;
+    //	Generic Thread variables
+	Win32NetworkCore	*network = (Win32NetworkCore *)data;
+	Win32SocketEvents	*socket_events = network->getSocketEvents();
+	NetworkPacket		*send_packet = NULL;
+	WSANETWORKEVENTS	network_event;
+	int event_id;
 
-    ResetEvent(network->m_TerminateThread);
+    network->startThread();
 
     while (true) {
-		if (network->m_destroy_threads == true) {
-			SetEvent(network->m_TerminateThread);
-			ExitThread(0);
-		}
+		//	This will either kill the thread, or return ok
+		network->killThread();
 
-		if (network->m_sockets.size() == 0) {
-			SuspendThread(network->m_Thread);
-		}
-
-		int event_id;
 		if ((event_id = WSAWaitForMultipleEvents(
 								socket_events->numEvents(),	//      The number of event to wait on
 								socket_events->getEvents(),	//      the array of events you´re waiting on
@@ -32,47 +26,61 @@ DWORD WINAPI NetworkCoreThread(void *data)
 								!= WSA_WAIT_TIMEOUT)
 		{
 											
-			if (event_id != Win32SocketEvents::SEND_TRIGGER) {
+			if (event_id != Win32SocketEvents::SEND_TRIGGER){
 				if(event_id == Win32SocketEvents::QUIT_TRIGGER) continue;
 				
 				ISocket *socket = socket_events->m_sockets[event_id];
 				
 				WSAEnumNetworkEvents(socket->m_socket, socket_events->m_events[event_id], &network_event);
-				if (network_event.lNetworkEvents & FD_ACCEPT) {
+				if(network_event.lNetworkEvents & FD_ACCEPT){
 					//      Process server sockets
-					IServerSocket *server = (IServerSocket *)socket;
+					Win32ServerSocket *server = (Win32ServerSocket *)socket;
 
 					IClientSocket *client = new Win32ClientSocket(network);
-					int sockaddr_len = sizeof(client->m_socket_info);
+					
+					client->Connect(server->m_socket);
 
-					client->m_socket = accept(server->m_socket,(sockaddr *) & client->m_socket_info,&sockaddr_len);
-					client->SetConnected(true);
-
-					server->AddConnection(client);
 					network->AddSocket(client, FD_READ);
-					SetEvent(server->m_ConnectionEvent);
-				} else if (network_event.lNetworkEvents & FD_READ) {
+					server->AddConnection(client);
+					server->SignalConnect();					
+				}else if(network_event.lNetworkEvents & FD_READ){
 					//	Process client sockets
-					IClientSocket *client = (IClientSocket *)socket;
+					Win32ClientSocket *client = (Win32ClientSocket *)socket;
 
-					//	Receive data from network
-					NetworkPacket *packet = new NetworkPacket;
-					packet->socket = client->m_socket;
-					memset(packet->data, 0, MAX_RECV);
-
-					packet->length = recv(client->m_socket, packet->data, MAX_RECV, 0);
-
-					if (packet->length > 0) {
-						//	FIXME:	Do I need to lock sockets here? or around the recv() call?
-						//			or perhaps neither?
-						network->LockSockets();
-						{
-							client->AddDataPacket(packet);
-						}
-						network->UnlockSockets();
+					network->LockSockets();
+					{
+						client->socketReceive();
 					}
+					network->UnlockSockets();
 				}
 			}else{
+				NetworkPacket *packet;
+
+				for(packet = network->getNetworkPacket();packet!=NULL;packet=network->getNetworkPacket())
+				{
+					int bytes_sent =0;
+					int offset = 0;
+					
+					while(packet->length > 0){
+						bytes_sent = send(packet->socket, &packet->data[offset],packet->length, 0);
+						
+						if(bytes_sent > 0){
+							offset += bytes_sent;
+							packet->length -= bytes_sent;
+						}
+					}
+					
+					if(packet->socketobj != NULL){
+						Win32ClientSocket *client = (Win32ClientSocket *)packet->socketobj;
+						client->SignalSend();
+					}
+					
+					delete packet;
+				}
+				
+				socket_events->ResetSendEvent();
+
+				/*
 				//      Send data across network
 				while (network->m_senddata.size() > 0) {
 					delete send_packet;
@@ -99,13 +107,13 @@ DWORD WINAPI NetworkCoreThread(void *data)
 					}
 					
 					if(send_packet->socketobj != NULL){
-						IClientSocket *client = (IClientSocket *)send_packet->socketobj;
-						client->SendComplete();
+						Win32ClientSocket *client = (Win32ClientSocket *)send_packet->socketobj;
+						client->SignalSend();
 					}
 				}
 				
 				WSAResetEvent(network->m_network_events.m_events[0]);
-				
+				*/
 			}	//     if(event_id!=0)'s else statement
 		}		//     WSAWaitForMultipleEvents
     }			//     While loop

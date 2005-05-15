@@ -1,6 +1,7 @@
 #ifndef _WIN32PLATFORMDATA_H_
 	#define _WIN32PLATFORMDATA_H_
 
+#include <winsock2.h>
 #include <windows.h>
 
 struct Win32PlatformData: public PlatformData{

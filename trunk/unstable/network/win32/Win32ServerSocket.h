@@ -15,6 +15,8 @@ protected:
 	void LockConnections(void);
 	void UnlockConnections(void);
 public:
+	HANDLE m_ConnectionEvent;
+	
 	Win32ServerSocket(INetworkCore *network);
 	
 	virtual ~Win32ServerSocket();
@@ -25,8 +27,10 @@ public:
 	//      Removes and disconnects a child socket to this server
 	virtual void RemoveConnection(ISocket * child);
 	
+	virtual void SignalConnect(void);
+	
 	//      Waits x number of milliseconds for a connection to be made (wait stated)
-	virtual bool WaitForConnections(int milliseconds = INFINITE);
+	virtual bool WaitForConnections(unsigned int milliseconds = INFINITE);
 };
 
 

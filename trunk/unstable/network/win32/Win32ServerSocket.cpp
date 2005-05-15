@@ -43,7 +43,12 @@ void Win32ServerSocket::RemoveConnection(ISocket * socket)
     }
 }
 
-bool Win32ServerSocket::WaitForConnections(int milliseconds)
+void Win32ServerSocket::SignalConnect(void)
+{
+	SetEvent(m_ConnectionEvent);
+}
+
+bool Win32ServerSocket::WaitForConnections(unsigned int milliseconds)
 {
     if (WaitForSingleObject(m_ConnectionEvent, milliseconds) ==	WAIT_TIMEOUT) {
 		return false;

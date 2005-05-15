@@ -5,29 +5,13 @@
 //==================================
 //	Socket Container class methods
 //==================================
-Win32NetworkCore::Win32NetworkCore()
-{
-    m_Thread = NULL;
-    m_ThreadID = 0;
-    m_SendEvent = CreateEvent(NULL, false, false, NULL);
-
-    //	Trigger + Events to terminate the threads when object dtor is called
-    m_destroy_threads = false;
-    m_TerminateThread = CreateEvent(NULL, false, true, NULL);
-
-    //	Initialise all Critical sections
-    InitializeCriticalSection(&m_sockets_lock);
-    InitializeCriticalSection(&m_senddata_lock);
-}
+Win32NetworkCore::Win32NetworkCore(){}
 
 Win32NetworkCore::~Win32NetworkCore()
 {
     //	trigger the threads to quit
     m_destroy_threads = true;
 
-    //	Resumes all threads so you can kill them
-    ResumeThread(m_Thread);
-    
     //===================================
     //      Clear the send data stack
     //===================================
@@ -71,7 +55,20 @@ Win32NetworkCore::~Win32NetworkCore()
 
 bool Win32NetworkCore::Initialise(void)
 {
-    if (WSAStartup(WINSOCK_VERSION, &m_WSAData) == 0){
+    if (WSAStartup(WINSOCK_VERSION, &m_WSAData) == 0)
+    {
+		m_Thread = NULL;
+		m_ThreadID = 0;
+		m_SendEvent = CreateEvent(NULL, false, false, NULL);
+
+		//	Trigger + Events to terminate the threads when object dtor is called
+		m_destroy_threads = false;
+		m_TerminateThread = CreateEvent(NULL, false, true, NULL);
+
+		//	Initialise all Critical sections
+		InitializeCriticalSection(&m_sockets_lock);
+		InitializeCriticalSection(&m_senddata_lock);    
+
 		return true;
     }
     // failure
@@ -103,13 +100,8 @@ void Win32NetworkCore::AddSocket(ISocket *socket, int events)
     //	a)	not been created yet
     //	b)	been suspended and need resuming
     if (m_sockets.size() == 1) {
-		if (m_Thread == NULL) {
-			//	Create the network core thread
-			m_Thread = CreateThread(NULL, 0, NetworkCoreThread, this, 0,&m_ThreadID);
-		}else{
-			//	Resume the network core thread
-			ResumeThread(m_Thread);
-		}
+		//	Create the network core thread
+		m_Thread = CreateThread(NULL, 0, NetworkCoreThread, this, 0,&m_ThreadID);
     }
 }
 
@@ -138,7 +130,7 @@ bool Win32NetworkCore::RemoveSocket(ISocket *socket)
     return success;
 }
 
-void Win32NetworkCore::Send(NetworkPacket * packet)
+void Win32NetworkCore::Send(NetworkPacket *packet)
 {
     //	Lock/Unlock the send data stack
     LockSendStack();
@@ -155,6 +147,21 @@ Win32SocketEvents * Win32NetworkCore::getSocketEvents(void)
 {
 	return &m_network_events;
 }
+
+NetworkPacket * Win32NetworkCore::getNetworkPacket(void)
+{
+	NetworkPacket *packet = NULL;
+	LockSendStack();
+	{
+		if(m_senddata.size() > 0){
+			packet = m_senddata[0];
+			m_senddata.erase(m_senddata.begin());
+		}
+	}
+	UnlockSendStack();
+	
+	return packet;
+}	
 
 /*
 *	CRITICAL SECTION METHODS
@@ -177,5 +184,18 @@ void Win32NetworkCore::LockSendStack(void)
 void Win32NetworkCore::UnlockSendStack(void)
 {
     LeaveCriticalSection(&m_senddata_lock);
+}
+
+void Win32NetworkCore::startThread(void)
+{
+	ResetEvent(m_TerminateThread);
+}
+
+void Win32NetworkCore::killThread(void)
+{
+	if(m_destroy_threads == true || m_sockets.size() == 0){	
+		SetEvent(m_TerminateThread);
+		ExitThread(0);
+	}
 }
 

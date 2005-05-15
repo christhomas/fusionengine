@@ -1,7 +1,8 @@
 #ifndef _OPENGL12_H_
 	#define _OPENGL12_H_
 
-#include <windows.h>
+//	Solving the winsock2 madness, fighting together! for a better future!
+#include <PlatformData.h>
 
 #include <gl/gl.h>
 #include <gl/glu.h>

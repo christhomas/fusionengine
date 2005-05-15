@@ -34,6 +34,13 @@ bool ClientSocket::Connect(char *ip, int port)
     return m_Connected;
 }
 
+void ClientSocket::Connect(unsigned int socket)
+{
+	int socklen = sizeof(sockaddr_in);
+	m_socket = accept(socket, (sockaddr *)&m_socket_info,&socklen);
+	SetConnected(true);	
+}
+
 void ClientSocket::Disconnect(void)
 {
     if (m_Connected == true) {

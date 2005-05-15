@@ -10,12 +10,19 @@ class Win32NetworkCore: public NetworkCore{
 protected:
 	WSADATA m_WSAData;
 	Win32SocketEvents m_network_events;
-	HANDLE m_Thread, m_SendEvent;
+	
+	HANDLE m_Thread;
 	unsigned long m_ThreadID;
+	
 	CRITICAL_SECTION m_sockets_lock, m_senddata_lock;
 	bool m_destroy_threads;
-	HANDLE m_TerminateThread;
+	HANDLE m_SendEvent,m_TerminateThread;
 
+	//=============================
+	//	friends
+	//=============================
+	friend DWORD WINAPI NetworkCoreThread(void *);
+	
 	//====================================
 	//	Critical Section Locks/Unlocks
 	//====================================
@@ -26,11 +33,6 @@ protected:
 	//	Send Data stack locks
 	inline virtual void LockSendStack(void);
 	inline virtual void UnlockSendStack(void);
-
-	//=============================
-	//	friends
-	//=============================
-	friend DWORD WINAPI NetworkCoreThread(void *);
 public:
 	Win32NetworkCore();
 	
@@ -49,6 +51,12 @@ public:
 	virtual void Send(NetworkPacket *packet);	
 	
 	virtual Win32SocketEvents * getSocketEvents(void);
+	
+	virtual NetworkPacket * getNetworkPacket(void);	
+	
+	virtual void startThread(void);
+	
+	virtual void killThread(void);
 };
 
 #endif // #ifndef _WIN32NETWORKCORE_H_

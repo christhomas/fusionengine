@@ -133,7 +133,7 @@ bool Collision_OBB2D::Intersect(void)
 				temp = acos(v1.DotProduct(v2));
 
 				//	TODO: PORTING required here _isnan is a win32 function
-				#ifdef WIN32
+				#ifdef _WIN32
 				if(_isnan(temp)) temp = 0;
 				#endif
 

@@ -1,7 +1,7 @@
 #ifndef _MATRIX_H_
 	#define _MATRIX_H_
 
-#if defined (WIN32)
+#if defined (_WIN32)
 #pragma warning (disable:4244)	// disable conversion warnings (dbl -> fl)
 #endif
 

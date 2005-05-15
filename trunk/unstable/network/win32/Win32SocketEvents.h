@@ -52,7 +52,7 @@ public:
 		m_triggersize = triggersize;
 	}
 
-	inline void AddEvent(ISocket * socket, unsigned int event)
+	inline void AddEvent(ISocket *socket, unsigned int event)
 	{
 		if (m_free_places <= m_triggersize) {
 			m_events = (WSAEVENT *) realloc(m_events,(m_cachesize+m_numevents) * sizeof(WSAEVENT));
@@ -112,9 +112,14 @@ public:
 		WSASetEvent(m_events[SEND_TRIGGER]);
 	}
 	
+	inline void ResetSendEvent(void)
+	{
+		WSAResetEvent(m_events[SEND_TRIGGER]);
+	}
+	
 	inline void SetQuitEvent(void)
 	{
-		// Set the quit thread event (to unblock WSAWaitForMultipleEvents()
+		// Set the quit thread event (to unblock WSAWaitForMultipleEvents() )
 		WSASetEvent(m_events[QUIT_TRIGGER]);
 	}
 };

@@ -1,9 +1,10 @@
 #ifndef _FUSIONPLUGIN_H_
 #define _FUSIONPLUGIN_H_
 
-#if defined(_WIN32) && defined(_WINDLL)
+#if defined(_WIN32)
 	#define WIN32_LEAN_AND_MEAN
-	#include <windows.h>
+	//	Solves the winsock2 problem
+	#include <PlatformData.h>
 	
 	#define FUSIONPLUGIN  extern "C" __declspec(dllexport)
 	

@@ -1,4 +1,5 @@
 #include <Win32ClientSocket.h>
+#include <Win32NetworkCore.h>
 
 Win32ClientSocket::Win32ClientSocket(INetworkCore *network)
 {
@@ -23,21 +24,6 @@ Win32ClientSocket::~Win32ClientSocket()
     DeleteCriticalSection(&m_datastack_lock);
 }
 
-void Win32ClientSocket::SendComplete(void)
-{
-	SetEvent(m_SendEvent);
-}
-
-void Win32ClientSocket::AddDataPacket(NetworkPacket * packet)
-{
-    LockDataStack();
-    {
-		m_datastack.push_back(packet);
-		SetEvent(m_DataEvent);
-    }
-    UnlockDataStack();
-}
-
 void Win32ClientSocket::Send(char *data, int length, bool wait)
 {
     ClientSocket::Send(data,length,wait);
@@ -48,7 +34,12 @@ void Win32ClientSocket::Send(char *data, int length, bool wait)
     }
 }
 
-NetworkPacket * Win32ClientSocket::Receive(int milliseconds)
+void Win32ClientSocket::SignalSend(void)
+{
+	SetEvent(m_SendEvent);
+}
+
+NetworkPacket * Win32ClientSocket::Receive(unsigned int milliseconds)
 {
     delete m_recv_packet;
     m_recv_packet = NULL;
@@ -73,6 +64,27 @@ NetworkPacket * Win32ClientSocket::Receive(int milliseconds)
     ResetEvent(m_DataEvent);
 
     return m_recv_packet;
+}
+
+void Win32ClientSocket::socketReceive(void)
+{
+	//	Receive data from network
+	NetworkPacket *packet = new NetworkPacket;
+	packet->socket = m_socket;
+	memset(packet->data, 0, MAX_RECV);
+
+	packet->length = recv(m_socket, packet->data, MAX_RECV, 0);
+
+	if (packet->length > 0) {
+		//	FIXME:	Do I need to lock sockets here? or around the recv() call?
+		//			or perhaps neither?
+		LockDataStack();
+		{
+			m_datastack.push_back(packet);
+			SetEvent(m_DataEvent);
+		}
+		UnlockDataStack();
+	}
 }
 
 /*

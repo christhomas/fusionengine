@@ -8,7 +8,7 @@
 #include <Mesh/Entity.h>
 #include <Rect.h>
 
-#if defined (WIN32)
+#ifdef _WIN32
 #pragma warning (disable:4244)	// disable conversion warnings (dbl -> fl)
 #endif
 
