@@ -1,16 +1,13 @@
 #include <network/ClientSocket.h>
 
-ClientSocket::ClientSocket()
-{
-
-}
+ClientSocket::ClientSocket(){}
 
 ClientSocket::~ClientSocket()
 {
-
+	Disconnect();	
 }
 
-bool ClientSocket::Connect(char *ip, int port)
+bool ClientSocket::Connect(const char *ip, int port)
 {
     if (m_Connected == false) {
 		if ((m_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
@@ -63,29 +60,34 @@ void ClientSocket::SetConnected(bool status)
     m_Connected = status;
 }
 
-void ClientSocket::Send(char *data, int length, bool wait)
+void ClientSocket::Send(const char *data, int length, bool wait)
 {
+	unsigned int offset = 0;
+	
     while (length > 0) {
-		m_send_packet = new NetworkPacket;
-		m_send_packet->socketobj = NULL;
+		NetworkPacket *packet = new NetworkPacket;
+		packet->socketobj = NULL;
 
 		if (length > MAX_SEND) {
-			m_send_packet->length = MAX_SEND;
+			packet->length = MAX_SEND;
 		} else {
-			m_send_packet->length = length;
+			packet->length = length;
 			//	this is the last packet in the send block
 			//	so set the socketobj, to notify the last packet has
 			//	sent
-			m_send_packet->socketobj = this;
+			packet->socketobj = this;
 		}
 
-		length -= m_send_packet->length;
+		length -= packet->length;
 
-		m_send_packet->socket = m_socket;
+		packet->socket = m_socket;
 
-		memcpy(m_send_packet->data, data, m_send_packet->length);
+		memset(packet->data,0,MAX_SEND);
+		memcpy(packet->data, &data[offset], packet->length);
 
-		m_network->Send(m_send_packet);
+		m_network->Send(packet);
+		
+		offset+=length;
     }
 }
 

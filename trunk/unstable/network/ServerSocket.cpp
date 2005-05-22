@@ -1,13 +1,10 @@
 #include <network/ServerSocket.h>
 
-ServerSocket::ServerSocket()
-{
-
-}
+ServerSocket::ServerSocket(){}
 
 ServerSocket::~ServerSocket()
 {
-
+	Disconnect();
 }
 
 void ServerSocket::Listen(int port, int backlog)
@@ -56,6 +53,10 @@ void ServerSocket::Disconnect(void)
 		m_network->RemoveSocket(this);
 		m_Connected = false;
 
+		//	 Remove all the child client sockets
+		for(unsigned int a=0;a<m_Connections.size();a++){
+			delete m_Connections[a];
+		}
 		m_Connections.clear();
     }
 }

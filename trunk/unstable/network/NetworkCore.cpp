@@ -4,7 +4,7 @@ NetworkCore::NetworkCore(){}
 
 NetworkCore::~NetworkCore(){}
 
-unsigned int NetworkCore::ResolveHost(char *ip)
+unsigned int NetworkCore::ResolveHost(const char *ip)
 {
     // for converting dns names to ip's
     char buffer[80];
