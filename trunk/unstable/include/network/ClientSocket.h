@@ -10,7 +10,7 @@ public:
 	virtual ~ClientSocket();	
 
 	//	Connects this computer to the remote host
-	virtual bool Connect(char *ip, int port);
+	virtual bool Connect(const char *ip, int port);
 	
 	virtual void Connect(unsigned int socket);
 	
@@ -23,7 +23,7 @@ public:
 	virtual bool Connected(void);
 	
 	//	Sends data to the remote host
-	virtual void Send(char *data, int length, bool wait);	
+	virtual void Send(const char *data, int length, bool wait);	
 	
 	//	Retrieve the ip of this connection
 	virtual unsigned int GetIP(void);

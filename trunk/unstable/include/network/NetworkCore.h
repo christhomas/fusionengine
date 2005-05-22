@@ -9,7 +9,7 @@ public:
 			
 	virtual ~NetworkCore();
 	
-	virtual unsigned int ResolveHost(char *ip);
+	virtual unsigned int ResolveHost(const char *ip);
 	
 	virtual bool RemoveSocket(ISocket *socket) = 0;
 };

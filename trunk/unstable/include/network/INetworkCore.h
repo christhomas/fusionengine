@@ -41,30 +41,30 @@ public:
 typedef std::vector<NetworkPacket *> datastack_t;
 
 class IClientSocket: public ISocket{
-protected:
-	NetworkPacket *m_recv_packet;
 public:
 	datastack_t m_datastack;
-	NetworkPacket *m_send_packet;
 	
 	IClientSocket(){}
 	
 	virtual ~IClientSocket(){}
 	
 	//	Connects this computer to the remote host
-	virtual bool Connect(char *ip, int port) = 0;
+	virtual bool Connect(const char *ip, int port) = 0;
 	
 	//	Connects a socket, which the server accepted
 	virtual void Connect(unsigned int socket) = 0;
+	
+	//	Disconnects the socket from the server, if it's connected
+	virtual void Disconnect(void) = 0;
 	
 	//	Overrides the connected status
 	virtual void SetConnected(bool status) = 0;
 	
 	//	Sends data to the remote host
-	virtual void Send(char *data, int length, bool wait=false) = 0;
+	virtual void Send(const char *data, int length, bool wait=false) = 0;
 	
 	//	Receives data from the remote host
-	virtual NetworkPacket *Receive(unsigned int milliseconds = INFINITE) = 0;
+	virtual NetworkPacket * Receive(unsigned int milliseconds = INFINITE) = 0;
 };
 
 class IServerSocket: public ISocket{
@@ -77,6 +77,9 @@ public:
 	
 	// Tells the socket what port to listen on (no parameter passed, server decides port)
 	virtual void Listen(int port = 0, int backlog = 1) = 0;
+	
+	//	Tells the server to close the listening socket and disconnect all clients connected through it
+	virtual void Disconnect(void) = 0;
 	
 	// Returns a reference to the children this socket has accepted
 	virtual socketlist_t & GetConnections(void) = 0;
@@ -96,7 +99,7 @@ public:
 							INetworkCore		(){};
 	virtual					~INetworkCore		(){};
 	virtual bool			Initialise			(void)						=	0;
-	virtual unsigned int	ResolveHost			(char *ip)					=	0;
+	virtual unsigned int	ResolveHost			(const char *ip)			=	0;
 	virtual IClientSocket *	CreateSocket		(void)						=	0;
 	virtual IServerSocket *	CreateServerSocket	(void)						=	0;
 	
