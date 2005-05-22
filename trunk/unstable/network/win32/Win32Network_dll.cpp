@@ -1,4 +1,4 @@
-#include <Win32NetworkCore.h>
+#include <WSANetworkCore.h>
 #include <PTNetworkCore.h>
 #include <Fusion.h>
 #include <FusionPlugin.h>
@@ -15,7 +15,7 @@ FUSIONPLUGIN void GetInstance(Fusion &f)
 	fusion = &f;
 
 	if(fusion->Network == NULL){
-		fusion->Network = new PTNetworkCore();
+		fusion->Network = new WSANetworkCore();
 
 		if(fusion->Network->Initialise() == false){
 			DestroyInstance();

@@ -22,7 +22,7 @@
 				FavorSizeOrSpeed="0"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="FALSE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -37,10 +37,10 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
-				AdditionalDependencies="ws2_32.lib pthreadVC.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/lib$(ProjectName)_d.dll"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="$(SolutionDir)external\lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="TRUE"
 				ProgramDatabaseFile="$(IntDir)\$(TargetName).pdb"
 				SubSystem="2"
@@ -83,7 +83,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
@@ -97,11 +97,11 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="TRUE"
-				AdditionalDependencies="ws2_32.lib pthreadVC.lib"
+				AdditionalDependencies="ws2_32.lib"
 				OutputFile="$(OutDir)/lib$(ProjectName).dll"
 				LinkIncremental="1"
 				SuppressStartupBanner="TRUE"
-				AdditionalLibraryDirectories="$(SolutionDir)external\lib"
+				AdditionalLibraryDirectories=""
 				GenerateDebugInformation="FALSE"
 				SubSystem="2"
 				OptimizeReferences="2"
@@ -136,65 +136,20 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Pthreads"
-			Filter="">
-			<Filter
-				Name="Source Files"
-				Filter="cpp">
-				<File
-					RelativePath=".\PTClientSocket.cpp">
-				</File>
-				<File
-					RelativePath=".\PTFunction.cpp">
-				</File>
-				<File
-					RelativePath=".\PTHelper.cpp">
-				</File>
-				<File
-					RelativePath=".\PTNetworkCore.cpp">
-				</File>
-				<File
-					RelativePath=".\PTServerSocket.cpp">
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				Filter="h">
-				<File
-					RelativePath=".\PTClientSocket.h">
-				</File>
-				<File
-					RelativePath=".\PTHelper.h">
-				</File>
-				<File
-					RelativePath=".\PTNetworkCore.h">
-				</File>
-				<File
-					RelativePath=".\PTServerSocket.h">
-				</File>
-			</Filter>
-		</Filter>
-		<Filter
-			Name="Win32"
+			Name="WSA"
 			Filter="">
 			<Filter
 				Name="Source Files"
 				Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 				<File
-					RelativePath=".\Win32ClientSocket.cpp">
+					RelativePath=".\PTNetworkThread.cpp">
 				</File>
 				<File
 					RelativePath=".\Win32Network_dll.cpp">
 				</File>
 				<File
-					RelativePath=".\Win32NetworkCore.cpp">
-				</File>
-				<File
-					RelativePath=".\Win32ServerSocket.cpp">
-				</File>
-				<File
-					RelativePath=".\WinsockThread.cpp">
+					RelativePath=".\WSANetworkCore.cpp">
 				</File>
 			</Filter>
 			<Filter
@@ -202,16 +157,10 @@
 				Filter="h;hpp;hxx;hm;inl;inc;xsd"
 				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 				<File
-					RelativePath=".\Win32ClientSocket.h">
+					RelativePath=".\WSANetworkCore.h">
 				</File>
 				<File
-					RelativePath=".\Win32NetworkCore.h">
-				</File>
-				<File
-					RelativePath=".\Win32ServerSocket.h">
-				</File>
-				<File
-					RelativePath=".\Win32SocketEvents.h">
+					RelativePath=".\WSASocketEvents.h">
 				</File>
 			</Filter>
 		</Filter>
