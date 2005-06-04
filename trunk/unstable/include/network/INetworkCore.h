@@ -42,17 +42,12 @@ typedef std::vector<NetworkPacket *> datastack_t;
 
 class IClientSocket: public ISocket{
 public:
-	datastack_t m_datastack;
-	
 	IClientSocket(){}
 	
 	virtual ~IClientSocket(){}
 	
 	//	Connects this computer to the remote host
 	virtual bool Connect(const char *ip, int port) = 0;
-	
-	//	Connects a socket, which the server accepted
-	virtual void Connect(unsigned int socket) = 0;
 	
 	//	Disconnects the socket from the server, if it's connected
 	virtual void Disconnect(void) = 0;
@@ -106,6 +101,8 @@ public:
 	virtual void			AddSocket			(ISocket *socket,int events)=	0;
 	virtual bool			RemoveSocket		(ISocket *socket)			=	0;
 	virtual void			Send				(NetworkPacket *packet)		=	0;	
+	
+	virtual void			error				(void)						=	0;
 };
 
 #endif //	#ifndef	_INETWORKCORE_H_
