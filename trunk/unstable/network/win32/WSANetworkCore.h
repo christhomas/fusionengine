@@ -1,12 +1,10 @@
 #ifndef _WSANETWORKCORE_H_
 #define _WSANETWORKCORE_H_
 
-#include <PTNetworkCore.h>
-
+#include <network/NetworkCore.h>
 #include <WSASocketEvents.h>
-#include <winsock2.h>
 
-class WSANetworkCore: public PTNetworkCore{
+class WSANetworkCore: public NetworkCore{
 protected:
 	WSADATA m_WSAData;
 	WSASocketEvents m_network_events;
@@ -24,6 +22,8 @@ public:
 	virtual void Send(NetworkPacket *packet);
 	
 	virtual WSASocketEvents * getSocketEvents(void);
+	
+	virtual void error(void);
 };
 
 #endif // #ifndef _WSANETWORKCORE_H_

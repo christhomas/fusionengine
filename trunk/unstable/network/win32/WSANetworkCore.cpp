@@ -28,7 +28,7 @@ bool WSANetworkCore::Initialise(void)
 {
     if (WSAStartup(WINSOCK_VERSION, &m_WSAData) == 0)
     {	
-		return PTNetworkCore::Initialise();
+		return NetworkCore::Initialise();
     }
     // failure
     return false;
@@ -81,7 +81,7 @@ bool WSANetworkCore::RemoveSocket(ISocket *socket)
 
 void WSANetworkCore::Send(NetworkPacket *packet)
 {
-	PTNetworkCore::Send(packet);
+	NetworkCore::Send(packet);
 	
 	m_network_events.SetSendEvent();
 }
@@ -89,4 +89,33 @@ void WSANetworkCore::Send(NetworkPacket *packet)
 WSASocketEvents * WSANetworkCore::getSocketEvents(void)
 {
 	return &m_network_events;
+}
+
+//	 FIXME:	This method means I am tying the network system to fusion, whereas before, 
+//			I could use it, without using fusion, future policy decision?
+#include <fusion.h>
+void WSANetworkCore::error(void)
+{
+	int error = WSAGetLastError();
+	
+	switch(error){
+		case WSANOTINITIALISED:{ fusion->errlog << "A successful WSAStartup call must occur before using this function." << std::endl; }break;
+		case WSAENETDOWN:{ fusion->errlog << "The network subsystem has failed." << std::endl; }break;
+		case WSAEADDRINUSE:{ fusion->errlog << "The socket's local address is already in use and the socket was not marked to allow address reuse with SO_REUSEADDR. This error usually occurs when executing bind, but could be delayed until this function if the bind was to a partially wildcard address (involving ADDR_ANY) and if a specific address needs to be committed at the time of this function." << std::endl; }break;
+		case WSAEINTR:{ fusion->errlog << "The blocking Windows Socket 1.1 call was canceled through WSACancelBlockingCall." << std::endl; }break;
+		case WSAEINPROGRESS:{ fusion->errlog << "A blocking Windows Sockets 1.1 call is in progress, or the service provider is still processing a callback function." << std::endl; }break;
+		case WSAEALREADY:{ fusion->errlog << "A nonblocking connect call is in progress on the specified socket.\nNote  In order to preserve backward compatibility, this error is reported as WSAEINVAL to Windows Sockets 1.1 applications that link to either Winsock.dll or Wsock32.dll." << std::endl; }break;
+		case WSAEADDRNOTAVAIL:{ fusion->errlog << "The remote address is not a valid address (such as ADDR_ANY)." << std::endl; }break;
+		case WSAEAFNOSUPPORT:{ fusion->errlog << "Addresses in the specified family cannot be used with this socket." << std::endl; }break;
+		case WSAECONNREFUSED:{ fusion->errlog << "The attempt to connect was forcefully rejected." << std::endl; }break;
+		case WSAEFAULT:{ fusion->errlog << "The name or the namelen parameter is not a valid part of the user address space, the namelen parameter is too small, or the name parameter contains incorrect address format for the associated address family." << std::endl; }break;
+		case WSAEINVAL:{ fusion->errlog << "The parameter s is a listening socket." << std::endl; }break;
+		case WSAEISCONN:{ fusion->errlog << "The socket is already connected (connection-oriented sockets only)." << std::endl; }break;
+		case WSAENETUNREACH:{ fusion->errlog << "The network cannot be reached from this host at this time." << std::endl; }break;
+		case WSAENOBUFS:{ fusion->errlog << "No buffer space is available. The socket cannot be connected." << std::endl; }break;
+		case WSAENOTSOCK:{ fusion->errlog << "The descriptor is not a socket." << std::endl; }break;
+		case WSAETIMEDOUT:{ fusion->errlog << "Attempt to connect timed out without establishing a connection." << std::endl; }break;
+		case WSAEWOULDBLOCK:{ fusion->errlog << "The socket is marked as nonblocking and the connection cannot be completed immediately." << std::endl; }break;
+		case WSAEACCES:{ fusion->errlog << "Attempt to connect datagram socket to broadcast address failed because setsockopt option SO_BROADCAST is not enabled." << std::endl; }break;		
+	};
 }

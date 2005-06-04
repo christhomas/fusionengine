@@ -128,8 +128,9 @@ public:
 		int result = 0;
 		
 		pthread_mutex_lock(&mutex);
-		if(trigger == 0) result = pthread_cond_wait(&cond,&mutex);
-		trigger--;
+		if(trigger == 0){
+			result = pthread_cond_wait(&cond,&mutex);
+		}else{ trigger--; }
 		pthread_mutex_unlock(&mutex);
 		
 		return result;
@@ -150,7 +151,7 @@ public:
 
 			result = pthread_cond_timedwait(&cond,&mutex,&time);
 			if(result != ETIMEDOUT) trigger--;
-		}else trigger--;
+		}else{ trigger--; }
 	
 		pthread_mutex_unlock(&mutex);
 		

@@ -80,13 +80,17 @@ public:
 		
 		for (unsigned int a = 0; a < m_numevents; a++) {
 			if (m_sockets[a] == socket) {
+				//WSAEventSelect(socket->m_socket,m_events[a],0);
 				WSACloseEvent(m_events[a]);
-				while (a < m_numevents) {
+				//while (a < m_numevents-1) {
+				while(a < m_numevents){
 					m_events[a] = m_events[a + 1];
 					m_sockets[a] = m_sockets[a + 1];
 
 					a++;
 				}
+				//m_events[a]		= 0;
+				//m_sockets[a]	= NULL;
 
 				m_numevents--;
 				m_free_places++;

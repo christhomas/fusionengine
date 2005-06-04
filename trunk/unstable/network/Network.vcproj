@@ -123,6 +123,9 @@
 				RelativePath="..\include\network\ClientSocket.h">
 			</File>
 			<File
+				RelativePath=".\fusion_pthread.h">
+			</File>
+			<File
 				RelativePath="..\include\network\INetworkCore.h">
 			</File>
 			<File
@@ -131,39 +134,6 @@
 			<File
 				RelativePath="..\include\network\ServerSocket.h">
 			</File>
-		</Filter>
-		<Filter
-			Name="PThread"
-			Filter="">
-			<Filter
-				Name="Source Files"
-				Filter="">
-				<File
-					RelativePath=".\PTClientSocket.cpp">
-				</File>
-				<File
-					RelativePath=".\PTNetworkCore.cpp">
-				</File>
-				<File
-					RelativePath=".\PTServerSocket.cpp">
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				Filter="">
-				<File
-					RelativePath=".\fusion_pthread.h">
-				</File>
-				<File
-					RelativePath=".\PTClientSocket.h">
-				</File>
-				<File
-					RelativePath=".\PTNetworkCore.h">
-				</File>
-				<File
-					RelativePath=".\PTServerSocket.h">
-				</File>
-			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

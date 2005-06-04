@@ -1,10 +1,26 @@
 #include <network/ClientSocket.h>
 
-ClientSocket::ClientSocket(){}
+ClientSocket::ClientSocket(INetworkCore *network)
+{
+    m_network = network;
+    m_Connected = false;
+    
+	pthread_mutex_init(&m_recvStack_lock, NULL);
+	pthread_mutex_init(&m_sendStack_lock, NULL);
+	
+	m_recvEvent = new Event();
+	m_sendEvent = new Event(); 
+}
 
 ClientSocket::~ClientSocket()
 {
-	Disconnect();	
+	Disconnect();
+    
+    pthread_mutex_destroy(&m_recvStack_lock);
+    pthread_mutex_destroy(&m_sendStack_lock);
+    
+    delete m_recvEvent;
+    delete m_sendEvent;	
 }
 
 bool ClientSocket::Connect(const char *ip, int port)
@@ -19,33 +35,26 @@ bool ClientSocket::Connect(const char *ip, int port)
 		m_socket_info.sin_port = htons(port);
 		memset(&m_socket_info.sin_zero, 0, 8);
 
-		if (connect(m_socket, (sockaddr *) & m_socket_info,sizeof(sockaddr)) < 0) {
+		if (connect(m_socket, (sockaddr *) & m_socket_info,sizeof(sockaddr)) == SOCKET_ERROR) {
+			m_network->error();
 			Disconnect();
 			return m_Connected;
 		}
 
 		m_network->AddSocket(this, FD_READ);
-		m_Connected = true;
+		SetConnected(true);
     }
 
     return m_Connected;
 }
 
-void ClientSocket::Connect(unsigned int socket)
-{
-	int socklen = sizeof(sockaddr_in);
-	m_socket = accept(socket, (sockaddr *)&m_socket_info,&socklen);
-	SetConnected(true);	
-}
-
 void ClientSocket::Disconnect(void)
 {
     if (m_Connected == true) {
-		if (closesocket(m_socket) == SOCKET_ERROR) {
-			return;
-		}
-		
 		m_network->RemoveSocket(this);
+
+		if (closesocket(m_socket) == SOCKET_ERROR) return;
+	
 		m_Connected = false;
     }
 }
@@ -60,8 +69,17 @@ void ClientSocket::SetConnected(bool status)
     m_Connected = status;
 }
 
+void ClientSocket::SignalSend(void)
+{
+	m_sendEvent->signal();
+}
+
 void ClientSocket::Send(const char *data, int length, bool wait)
 {
+	/*	FIXME:	Should a socket, have a sync/async property, 
+				so you can set a socket to always wait, or 
+				never wait for completion of sending data?
+	*/
 	unsigned int offset = 0;
 	
     while (length > 0) {
@@ -89,6 +107,27 @@ void ClientSocket::Send(const char *data, int length, bool wait)
 		
 		offset+=length;
     }
+    
+    if(wait == true) m_sendEvent->wait();
+    SignalSend();	//	reset the event    
+}
+
+NetworkPacket * ClientSocket::Receive(unsigned int milliseconds)
+{
+    NetworkPacket *packet = NULL;
+    
+	if(m_recvEvent->timedwait(milliseconds) != ETIMEDOUT){		
+		pthread_mutex_lock(&m_recvStack_lock);
+		{
+			if (m_recvStack.size() > 0){
+				packet = m_recvStack[0];
+				m_recvStack.erase(m_recvStack.begin());
+			}
+		}
+		pthread_mutex_unlock(&m_recvStack_lock);
+    }
+
+    return packet;
 }
 
 unsigned int ClientSocket::GetIP(void)
@@ -99,4 +138,33 @@ unsigned int ClientSocket::GetIP(void)
 unsigned int ClientSocket::GetPort(void)
 {
     return m_socket_info.sin_port;
+}
+
+void ClientSocket::threadConnect(unsigned int socket)
+{
+	if(m_Connected == false){
+		int socklen = sizeof(sockaddr_in);
+		m_socket = accept(socket, (sockaddr *)&m_socket_info,&socklen);
+		
+		m_network->AddSocket(this, FD_READ);
+		SetConnected(true);	
+	}
+}
+
+void ClientSocket::threadReceive(void)
+{
+	NetworkPacket *packet = new NetworkPacket;
+	packet->socket = m_socket;
+	memset(packet->data, 0, MAX_RECV);
+
+	packet->length = recv(packet->socket, packet->data, MAX_RECV, 0);
+	
+	if(packet->length > 0){
+		pthread_mutex_lock(&m_recvStack_lock);
+		{
+			m_recvStack.push_back(packet);
+			m_recvEvent->signal();
+		}
+		pthread_mutex_unlock(&m_recvStack_lock);
+	}
 }
