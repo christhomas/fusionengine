@@ -114,6 +114,14 @@ namespace dbg{
 		
 		void output(void)
 		{
+			/*	FIXME:	There is perhaps a bug here, it says, if you find \n in the buffer
+						output the entire buffer to one of the output destrinations
+						except, what if \n is in the middle of the buffer? you end up
+						outputting the entire buffer, whereas AFAIK the idea was to output
+						line by line.
+						
+						probably not serious			
+			*/
 			if(m_buffer.find("\n") != std::string::npos){
 				unsigned int matches = 0,a;
 			
