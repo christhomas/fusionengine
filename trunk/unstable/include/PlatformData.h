@@ -7,9 +7,9 @@ struct PlatformData{
 };
 
 #ifdef _WIN32
-	#include <win32/Win32PlatformData.h>
+	#include <Win32PlatformData.h>
 #else
-	#include <unix/UnixPlatformData.h>
+	#include <UnixPlatformData.h>
 #endif 
 
 #endif	// #ifndef _PLATFORMDATA_H_

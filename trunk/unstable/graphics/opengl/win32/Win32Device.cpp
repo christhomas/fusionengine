@@ -367,7 +367,7 @@ void Win32Device::Update(void)
 	if(a & 64){		
 		fps.Tick();
 
-		//	Build the window title (default, I should let people configure this, but fuck em for now)
+		//	FIXME: Build the window title (default, I should let people configure this, but fuck em for now)
 		sprintf(buffer,"%s -=[ FPS:%d ]=-", m_apptitle.c_str(), (1000 / (fps.GetMillisecondsDiff() >> 6)));
 		SetWindowText(m_platform->m_hwnd,buffer);
 

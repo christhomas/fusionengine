@@ -1,8 +1,4 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "A FusionEngine", "FusionEngine.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE20}"
-	ProjectSection(ProjectDependencies) = postProject
-	EndProjectSection
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FusionCore", "FusionCore\FusionCore.vcproj", "{147F7B68-AC15-4C75-A374-DAD72029BE21}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
@@ -96,13 +92,18 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fmod", "sound\fmod\fmod.vcp
 		{147F7B68-AC15-4C75-A374-DAD72029BE21} = {147F7B68-AC15-4C75-A374-DAD72029BE21}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Network", "network\win32\Win32Network.vcproj", "{EF034569-00EB-458E-809F-CE7715C5B07C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "network\Network.vcproj", "{DF810A7E-03CC-4615-BA8E-D62C930B5713}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BSDNetwork", "network\BSDNetwork.vcproj", "{EF034569-00EB-458E-809F-CE7715C5B07C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{DF810A7E-03CC-4615-BA8E-D62C930B5713} = {DF810A7E-03CC-4615-BA8E-D62C930B5713}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Network", "network\Network.vcproj", "{DF810A7E-03CC-4615-BA8E-D62C930B5713}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Win32Network", "network\win32\Win32Network.vcproj", "{EF034569-00EB-458E-809F-CE7715C5B07C}"
 	ProjectSection(ProjectDependencies) = postProject
+		{DF810A7E-03CC-4615-BA8E-D62C930B5713} = {DF810A7E-03CC-4615-BA8E-D62C930B5713}
 	EndProjectSection
 EndProject
 Global
@@ -111,10 +112,6 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{147F7B68-AC15-4C75-A374-DAD72029BE20}.Debug.ActiveCfg = Debug|Win32
-		{147F7B68-AC15-4C75-A374-DAD72029BE20}.Debug.Build.0 = Debug|Win32
-		{147F7B68-AC15-4C75-A374-DAD72029BE20}.Release.ActiveCfg = Release|Win32
-		{147F7B68-AC15-4C75-A374-DAD72029BE20}.Release.Build.0 = Release|Win32
 		{147F7B68-AC15-4C75-A374-DAD72029BE21}.Debug.ActiveCfg = Debug|Win32
 		{147F7B68-AC15-4C75-A374-DAD72029BE21}.Debug.Build.0 = Debug|Win32
 		{147F7B68-AC15-4C75-A374-DAD72029BE21}.Release.ActiveCfg = Release|Win32
@@ -191,14 +188,18 @@ Global
 		{6A765FF2-B8B5-4376-91B0-80CE4999A9B8}.Debug.Build.0 = Debug|Win32
 		{6A765FF2-B8B5-4376-91B0-80CE4999A9B8}.Release.ActiveCfg = Release|Win32
 		{6A765FF2-B8B5-4376-91B0-80CE4999A9B8}.Release.Build.0 = Release|Win32
-		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.ActiveCfg = Debug|Win32
-		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.Build.0 = Debug|Win32
-		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.ActiveCfg = Release|Win32
-		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.Build.0 = Release|Win32
 		{DF810A7E-03CC-4615-BA8E-D62C930B5713}.Debug.ActiveCfg = Debug|Win32
 		{DF810A7E-03CC-4615-BA8E-D62C930B5713}.Debug.Build.0 = Debug|Win32
 		{DF810A7E-03CC-4615-BA8E-D62C930B5713}.Release.ActiveCfg = Release|Win32
 		{DF810A7E-03CC-4615-BA8E-D62C930B5713}.Release.Build.0 = Release|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.ActiveCfg = Debug|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.Build.0 = Debug|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.ActiveCfg = Release|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.Build.0 = Release|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.ActiveCfg = Debug|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Debug.Build.0 = Debug|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.ActiveCfg = Release|Win32
+		{EF034569-00EB-458E-809F-CE7715C5B07C}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection

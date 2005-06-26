@@ -2,6 +2,7 @@
 	#define _FUSIONSUBSYSTEM_H_
 	
 #include <string>
+#include <dbstream.h>
 
 //	Predeclared Fusion class to avoid circular #include'ing
 class Fusion;
@@ -11,12 +12,12 @@ class Fusion;
  */
 class FusionSubsystem{
 public:
-	/**	@var		char *object_name
+	/**	@var	char *object_name
 	 *	@brief	Name of the Subsystem
 	 */
 	std::string object_name;
 
-	/**	@var		char *object_filename
+	/**	@var	char *object_filename
 	 *	@brief	Name of the DLL Module this object was created by
 	 */
 	std::string object_filename;

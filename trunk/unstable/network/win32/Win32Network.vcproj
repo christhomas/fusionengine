@@ -22,7 +22,7 @@
 				FavorSizeOrSpeed="0"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="FALSE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
@@ -83,7 +83,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include\pthread;$(SolutionDir)\network"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				BufferSecurityCheck="FALSE"
@@ -135,35 +135,24 @@
 	<References>
 	</References>
 	<Files>
-		<Filter
-			Name="WSA"
-			Filter="">
-			<Filter
-				Name="Source Files"
-				Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-				UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
-				<File
-					RelativePath=".\PTNetworkThread.cpp">
-				</File>
-				<File
-					RelativePath=".\Win32Network_dll.cpp">
-				</File>
-				<File
-					RelativePath=".\WSANetworkCore.cpp">
-				</File>
-			</Filter>
-			<Filter
-				Name="Header Files"
-				Filter="h;hpp;hxx;hm;inl;inc;xsd"
-				UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
-				<File
-					RelativePath=".\WSANetworkCore.h">
-				</File>
-				<File
-					RelativePath=".\WSASocketEvents.h">
-				</File>
-			</Filter>
-		</Filter>
+		<File
+			RelativePath=".\Win32Network_dll.cpp">
+		</File>
+		<File
+			RelativePath=".\WSANetworkCore.cpp">
+		</File>
+		<File
+			RelativePath="..\..\include\arch\win32\network\WSANetworkCore.h">
+		</File>
+		<File
+			RelativePath=".\WSANetworkThread.cpp">
+		</File>
+		<File
+			RelativePath=".\WSASocketEvents.cpp">
+		</File>
+		<File
+			RelativePath="..\..\include\arch\win32\network\WSASocketEvents.h">
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

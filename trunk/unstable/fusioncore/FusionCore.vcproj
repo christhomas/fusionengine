@@ -20,7 +20,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -72,7 +72,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				StringPooling="FALSE"
 				RuntimeLibrary="2"
@@ -157,6 +157,9 @@
 			</File>
 			<File
 				RelativePath=".\PlatformData.h">
+			</File>
+			<File
+				RelativePath="..\include\arch\win32\Timer.h">
 			</File>
 			<File
 				RelativePath=".\Win32Module.h">

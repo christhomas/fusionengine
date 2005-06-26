@@ -20,9 +20,6 @@ void WindowDestroyEvent( void ){}
  */
 Fusion::Fusion()
 {
-	//	Setup the errlog system
-	errlog.enableFile("errlog.txt");
-
 #ifdef _WIN32
 	m_moduledb	= new Win32ModuleDB;
 	m_platform	= new Win32PlatformData;

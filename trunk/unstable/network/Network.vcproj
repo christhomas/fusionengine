@@ -19,12 +19,14 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include\pthread"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc70.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
@@ -33,7 +35,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=" pthreadVC.lib"
-				OutputFile="$(OutDir)/lib$(ProjectName)_d.lib"
+				OutputFile="$(OutDir)\lib$(ProjectName)_d.lib"
 				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -63,10 +65,12 @@
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include\pthread"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include\pthread"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="$(IntDir)\vc70.pdb"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
@@ -75,7 +79,7 @@
 			<Tool
 				Name="VCLibrarianTool"
 				AdditionalOptions=" pthreadVC.lib"
-				OutputFile="$(OutDir)/lib$(ProjectName).lib"
+				OutputFile="$(OutDir)\lib$(ProjectName).lib"
 				AdditionalLibraryDirectories="$(SolutionDir)external\lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
@@ -106,10 +110,19 @@
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
+				RelativePath=".\BSDNetworkThread.cpp">
+			</File>
+			<File
+				RelativePath=".\BSDSocketEvents.cpp">
+			</File>
+			<File
 				RelativePath=".\ClientSocket.cpp">
 			</File>
 			<File
 				RelativePath=".\NetworkCore.cpp">
+			</File>
+			<File
+				RelativePath=".\PacketManager.cpp">
 			</File>
 			<File
 				RelativePath=".\ServerSocket.cpp">
@@ -119,6 +132,9 @@
 			Name="Header Files"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
+			<File
+				RelativePath="..\include\network\BSDSocketEvents.h">
+			</File>
 			<File
 				RelativePath="..\include\network\ClientSocket.h">
 			</File>
@@ -130,6 +146,9 @@
 			</File>
 			<File
 				RelativePath="..\include\network\NetworkCore.h">
+			</File>
+			<File
+				RelativePath=".\PacketManager.h">
 			</File>
 			<File
 				RelativePath="..\include\network\ServerSocket.h">

@@ -1,40 +1,52 @@
 #ifndef _SERVERSOCKET_H_
 #define _SERVERSOCKET_H_
 
-#include <network/INetworkCore.h>
+#include <network/NetworkCore.h>
 #include <fusion_pthread.h>
 
 class ServerSocket: public IServerSocket{
 protected:
-	friend void * PTNetworkCoreThread(void *);
+	bool m_Connected, m_ready;
+	SOCKET m_socket;
+	sockaddr_in m_socket_info;
+	NetworkCore *m_network;
+	ISocketEvents *m_events;
+	
+	socketlist_t m_Connections;
 
 	pthread_mutex_t m_socketLock;
-	Event *m_connectEvent;	
+	Event *m_connectEvent;
+	
+	unsigned int m_port;
+	
+	SMap *m_smap;
 public:
-	ServerSocket(INetworkCore *network);
+	ServerSocket(NetworkCore *network);
 	
 	virtual ~ServerSocket();
 	
-	virtual void Listen(int port, int backlog);
+	virtual void listen(int port, int backlog);
 	
-	virtual void Disconnect(void);
+	virtual void disconnect(void);
 	
-	virtual socketlist_t & GetConnections(void);
+	virtual socketlist_t & getConnections(void);
 	
-	//      Adds a child socket to the server
-	virtual void AddConnection(ISocket * child);
+	//	Adds a child socket to the server
+	virtual void addConnection(ISocket *child);
 	
-	//      Removes and disconnects a child socket to this server
-	virtual void RemoveConnection(ISocket * child);
+	//	Signals either a connection, or disconnection (completed) event
+	virtual void emitSignal(void);
 	
-	virtual void SignalConnect(void);
+	//	Waits x number of milliseconds for a connection to be made (wait stated)
+	virtual bool waitForConnections(unsigned int milliseconds = INFINITE);
 	
-	//      Waits x number of milliseconds for a connection to be made (wait stated)
-	virtual bool WaitForConnections(unsigned int milliseconds = INFINITE);
+	virtual unsigned int numConnections(void);
 	
-	virtual unsigned int NumberConnections(void);
+	virtual unsigned int getPort(void);
 	
-	virtual unsigned int GetIP(void);
+	virtual SOCKET threadAccept(void);
+
+	virtual void threadDisconnect(void);	
 };
 
 #endif // #ifndef _SERVERSOCKET_H_

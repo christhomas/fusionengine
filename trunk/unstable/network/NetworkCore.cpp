@@ -1,27 +1,42 @@
 #include <network/NetworkCore.h>
 #include <network/ClientSocket.h>
 #include <network/ServerSocket.h>
+#include <network/BSDSocketEvents.h>
+
+void * BSDNetworkThread(void *);
+
+/*	EXPLANATION: m_TerminateThread event
+
+	The terminate thread has to be handled correctly, since there are two possible situations
+	the code can be in, You have to make sure that destroying this object, will not block 
+	waiting for the event to signal:
+	
+	1)	where this object is created, but the thread has not been started
+		
+		so you set the event to be signalled by default, then if you dont create the thread, but destroy the
+		object, it'll wait(), but drop straight through, cause it's already signalled.
+			
+	2)	where the object is created and the thread started.
+		
+		if you create the thread, it'll wait on the signal but drop straight through, cause it's already signalled
+		then if you want to destroy this object, the destructor sets m_destroy_threads to true and call 
+		socketEvents->sendQuitSignal() which unblocks the wait state inside the thread and allows it to cycle 
+		around, where it'll enter killThread, which in turn, signals the event (unblocking it) and destroys the thread
+*/
 
 NetworkCore::NetworkCore(){}
+
 NetworkCore::~NetworkCore()
 {
 	//	trigger the threads to quit
     m_destroy_threads = true;
-
-    //===================================
-    //      Clear the send data stack
-    //===================================
-    m_senddata.clear();
+    m_socketEvents->setBreakEvent();
 
     //	Wait until all the threads exit
 	m_TerminateThread->wait();
-
-    //==============================
-    //	Close all the event handles
-    //==============================
-
-    //	Close the send/recv event signals
-    delete m_SendEvent;
+	
+	clearSockets();
+	delete m_socketEvents;
 	
     //	Close the thread termination events
     delete m_TerminateThread;
@@ -29,11 +44,8 @@ NetworkCore::~NetworkCore()
     //	Close the thread handles
     pthread_join(m_Thread,NULL);
 
-    //===================================
     //	Delete all the mutexes
-    //===================================
     pthread_mutex_destroy(&m_sockets_lock);
-    pthread_mutex_destroy(&m_senddata_lock);
 }
 
 bool NetworkCore::Initialise(void)
@@ -41,123 +53,150 @@ bool NetworkCore::Initialise(void)
 	m_Thread = NULL;
 	m_ThreadID = 0;
 	
-	m_SendEvent = new Event();
-
 	//	Trigger + Events to terminate the threads when object dtor is called
 	m_destroy_threads = false;
 	m_TerminateThread = new Event(1);
 
 	//	Initialise all Critical sections
 	pthread_mutex_init(&m_sockets_lock, NULL);
-	pthread_mutex_init(&m_senddata_lock, NULL);
+	
+	initSocketEvents();
 
 	return true;
 }
 
-IClientSocket * NetworkCore::CreateSocket(void)
+void NetworkCore::initSocketEvents(void)
+{
+	m_socketEvents = new BSDSocketEvents();
+}
+
+ISocketEvents * NetworkCore::getSocketEvents(void)
+{
+	return m_socketEvents;
+}
+
+IClientSocket * NetworkCore::createSocket(void)
 {
     return new ClientSocket(this);
 }
 
-IServerSocket * NetworkCore::CreateServerSocket(void)
+IServerSocket * NetworkCore::createServerSocket(void)
 {
     return new ServerSocket(this);
 }
 
-unsigned int NetworkCore::ResolveHost(const char *ip)
+SMap * NetworkCore::addSocket(IClientSocket *socket, SOCKET s)
 {
-    // for converting dns names to ip's
-    char buffer[80];
-    memset(buffer, 0, 80);
-    hostent *host;
-
-    // for storing the final ip address
-    unsigned int address = -1;
-
-    // convert the string to an ip
-    address = inet_addr(ip);
-
-    //      if the conversion didnt work, it's cause it has to be resolved first
-    //      so this test will succeed if the address needs to be resolved
-    if (address == -1) {
-		// conver that hostname into a hostent structure
-		host = gethostbyname(ip);
-
-		if (host != NULL) {
-			// extract the ip address from the hostent structure
-			address = (*((in_addr *) host->h_addr)).s_addr;
-		}
-    }
-    //      if the address was a valid ip string, it'll return a correct address
-    //      if it's not, it'll attempt to resolve it, if that succeeds, it'll produce a valid ip address
-    //      if both of those fail, it'll return -1, to signal error
-    return address;
+	return addSocket(socket,s,SMap::CLIENT_SOCKET);
 }
 
-
-
-void NetworkCore::Send(NetworkPacket *packet)
+SMap * NetworkCore::addSocket(IServerSocket *socket, SOCKET s)
 {
-    //	Lock/Unlock the send data stack
-    LockSendStack();
-    {
-		//	Put the data onto the send stack
-		m_senddata.push_back(packet);
-    }
-    UnlockSendStack();
+	return addSocket(socket,s,SMap::SERVER_SOCKET);
 }
 
-NetworkPacket * NetworkCore::getNetworkPacket(void)
+SMap * NetworkCore::addSocket(ISocket *socket, SOCKET s, int type)
 {
-	NetworkPacket *packet = NULL;
-	LockSendStack();
-	{
-		if(m_senddata.size() > 0){
-			packet = m_senddata[0];
-			m_senddata.erase(m_senddata.begin());
-		}
-	}
-	UnlockSendStack();
+	SMap *smap = NULL;
 	
-	return packet;
-}
-
-/*
-*	MUTEX/THREAD METHODS
-*/
-void NetworkCore::LockSockets(void)
-{
+    //	Lock/Unlock the server sockets
     pthread_mutex_lock(&m_sockets_lock);
-}
-
-void NetworkCore::UnlockSockets(void)
-{
+    {
+		smap = m_socketEvents->addEvent(socket,s,type);
+    }
     pthread_mutex_unlock(&m_sockets_lock);
+    
+	//	FIXME:	A true/false value is returned, you should probably do something with it
+    startThread();
+    
+    return smap;
 }
 
-void NetworkCore::LockSendStack(void)
+bool NetworkCore::removeSocket(ISocket *socket)
 {
-    pthread_mutex_lock(&m_senddata_lock);
+	bool success = false;
+
+    //	Lock/Unlock the client sockets
+    pthread_mutex_lock(&m_sockets_lock);
+    {
+		success = m_socketEvents->removeEvent(socket);
+    }
+    pthread_mutex_unlock(&m_sockets_lock);
+
+    //	return whether you were successful of not
+    return success;
 }
 
-void NetworkCore::UnlockSendStack(void)
+void NetworkCore::clearSockets(void)
 {
-    pthread_mutex_unlock(&m_senddata_lock);
+	pthread_mutex_lock(&m_sockets_lock);
+	{
+		m_socketEvents->clearEvents();
+	}
+	pthread_mutex_unlock(&m_sockets_lock);
 }
 
-void NetworkCore::startThread(void)
+void NetworkCore::socketSend(IClientSocket *socket)
 {
-	//	you call wait when you start the thread, cause it's initially set to a signalled state
-	//	therefore it'll drop through the funtion without waiting, but it will reset the signal
-	//	state of the event, therefore when you come to kill the thread, it will WAIT properly
-	//	as opposed to dropping straight through that too, which would be bad.
+	pthread_mutex_lock(&m_sockets_lock);
+	{
+		((ClientSocket *)socket)->threadSend();
+	}
+	pthread_mutex_unlock(&m_sockets_lock);
+}
+
+void NetworkCore::socketReceive(IClientSocket *socket)
+{
+	pthread_mutex_lock(&m_sockets_lock);
+	{
+		//	Process client sockets
+		((ClientSocket *)socket)->threadReceive();
+	}
+	pthread_mutex_unlock(&m_sockets_lock);
+}
+
+void NetworkCore::initThread(void)
+{	
+	//	See EXPLANATION: m_TerminateThread event
 	m_TerminateThread->wait();
 }
 
-void NetworkCore::killThread(void)
+bool NetworkCore::startThread(void)
 {
-	if(m_destroy_threads == true || m_sockets.size() == 0){
+    //	If this is the first socket in the list, then either/or the network core's thread has
+    //	a)	not been created yet
+    //	b)	been suspended and need resuming
+    if(m_socketEvents->numEvents() == 1){
+		//	Create the network core thread
+		int error;
+		if((error = pthread_create(&m_Thread, NULL, BSDNetworkThread, this)) != 0){
+			if(error == EAGAIN) fusion->errlog << "The process lacks the resources to create another thread, or the total number of threads in a process would exceed  PTHREAD_THREADS_MAX." << std::endl;
+			if(error == EINVAL)	fusion->errlog << "A value specified by attr is invalid." << std::endl;
+			
+			return false;
+		}
+		
+		return true;
+    }
+    
+    return false;
+}
+
+bool NetworkCore::killThread(void)
+{
+	if(m_destroy_threads == true || m_socketEvents->numEvents() == 0){
 		m_TerminateThread->signal();
 		pthread_exit(0);
+		return true;
 	}
+	
+	return false;
+}
+
+bool NetworkCore::error(void)
+{
+	//	Dont know if this is useful from a BSD point of view, perhaps I can use it 
+	//	as a central function for outputting error messages to fusion->errlog?
+	
+	return true;
 }

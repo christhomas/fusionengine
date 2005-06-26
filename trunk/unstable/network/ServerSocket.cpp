@@ -1,9 +1,11 @@
 #include <network/ServerSocket.h>
 
-ServerSocket::ServerSocket(INetworkCore *network)
+ServerSocket::ServerSocket(NetworkCore *network)
 {
 	m_network = network;
+	m_events = m_network->getSocketEvents();
 	m_Connected = false;
+	m_ready = false;
     
     m_connectEvent = new Event();
     
@@ -12,13 +14,15 @@ ServerSocket::ServerSocket(INetworkCore *network)
 
 ServerSocket::~ServerSocket()
 {
-	delete m_connectEvent; 
-	pthread_mutex_destroy(&m_socketLock);   
-
-	Disconnect();
+	disconnect();
+	
+	m_connectEvent->wait();
+	
+	delete m_connectEvent;
+	pthread_mutex_destroy(&m_socketLock);   	
 }
 
-void ServerSocket::Listen(int port, int backlog)
+void ServerSocket::listen(int port, int backlog)
 {
     if (m_Connected == false) {
 		if ((m_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
@@ -31,6 +35,8 @@ void ServerSocket::Listen(int port, int backlog)
 		m_socket_info.sin_port = htons(port);
 		memset(&m_socket_info.sin_zero, 0, 8);
 
+		m_port = port;
+		
 		unsigned int error;
 
 		//	FIXME:	This code is horrible, it needs cleaning up
@@ -48,35 +54,33 @@ void ServerSocket::Listen(int port, int backlog)
 			return;
 		}
 		
-		if ((error = listen(m_socket, backlog)) < 0) {
+		if ((error = ::listen(m_socket, backlog)) < 0) {
 			return;
 		}
 		
-		m_network->AddSocket(this, FD_ACCEPT);
+		if(m_ready == false){
+			m_smap = m_network->addSocket(this, m_socket);
+			m_ready = true;
+		}
+		
 		m_Connected = true;
     }
 }
 
-void ServerSocket::Disconnect(void)
+void ServerSocket::disconnect(void)
 {
     if (m_Connected == true) {
 		if (closesocket(m_socket) == SOCKET_ERROR) {
 			return;
 		}
-		m_network->RemoveSocket(this);
+		
 		m_Connected = false;
-
-		//	 Remove all the child client sockets
-		for(unsigned int a=0;a<m_Connections.size();a++){
-			delete m_Connections[a];
-		}
-		m_Connections.clear();
     }
 }
 
-socketlist_t & ServerSocket::GetConnections(void)
+socketlist_t & ServerSocket::getConnections(void)
 {
-	/*	FIXME:	might be nice to know what sockets are new and what are old?
+	/*	FIXME:		might be nice to know what sockets are new and what are old?
 		SOLUTION:	could pass an integer pointer and make a null terminated array of ints
 					representing the new connections?
 		PROBLEM:	how do you identify "new connections?"
@@ -84,7 +88,7 @@ socketlist_t & ServerSocket::GetConnections(void)
     return m_Connections;
 }
 
-void ServerSocket::AddConnection(ISocket * socket)
+void ServerSocket::addConnection(ISocket *socket)
 {
     if (socket != NULL) {
 		pthread_mutex_lock(&m_socketLock);
@@ -95,29 +99,34 @@ void ServerSocket::AddConnection(ISocket * socket)
     }
 }
 
-void ServerSocket::RemoveConnection(ISocket * socket)
+SOCKET ServerSocket::threadAccept(void)
 {
-    if (socket != NULL) {
-		pthread_mutex_lock(&m_socketLock);
-		{
-			for (socketlist_t::iterator s = m_Connections.begin();s != m_Connections.end(); s++) {
-				if ((*s) == socket) {
-					m_Connections.erase(s);
-					delete socket;
-					break;
-				}
-			}
-		}
-		pthread_mutex_unlock(&m_socketLock);
-    }
+	int sockLen = sizeof(sockaddr_in);
+	return ::accept(m_socket, NULL, &sockLen);
 }
 
-void ServerSocket::SignalConnect(void)
+void ServerSocket::threadDisconnect(void)
+{
+	pthread_mutex_lock(&m_socketLock);
+	{
+		for (socketlist_t::iterator s = m_Connections.begin();s != m_Connections.end(); s++) {
+			IClientSocket *client = (IClientSocket *)(*s);
+			client->disconnect(true);
+			m_Connections.erase(s);
+		}
+		
+		m_network->removeSocket(this);
+		m_ready = false;
+	}
+	pthread_mutex_unlock(&m_socketLock);	
+}
+
+void ServerSocket::emitSignal(void)
 {
 	m_connectEvent->signal();
 }
 
-bool ServerSocket::WaitForConnections(unsigned int milliseconds)
+bool ServerSocket::waitForConnections(unsigned int milliseconds)
 {
 	/*	FIXME:	If 100 connections attempt at once, the event will trigger 100 times
 				but the timedwait, will only decrease it once for each timed wait call
@@ -132,17 +141,21 @@ bool ServerSocket::WaitForConnections(unsigned int milliseconds)
 					
 		FIXED ?
 	*/
-	if(m_connectEvent->timedwait(milliseconds) == ETIMEDOUT) return false;
+	
+	//	Wait for "milliseconds" to expire waiting for an incoming connection
+	//	To prevent waiting on a disconnected socket, m_ready is used, if this is false
+	//	it means there is no chance this will succeed and returns false
+	if(m_ready == false || m_connectEvent->timedwait(milliseconds) == ETIMEDOUT) return false;
     
     return true;
 }
 
-unsigned int ServerSocket::NumberConnections(void)
+unsigned int ServerSocket::numConnections(void)
 {
     return (unsigned int)m_Connections.size();
 }
 
-unsigned int ServerSocket::GetIP(void)
+unsigned int ServerSocket::getPort(void)
 {
-    return -1;
+	return m_port;
 }

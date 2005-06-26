@@ -19,7 +19,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -69,7 +69,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch;$(SolutionDir)external\include"
+				AdditionalIncludeDirectories="$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch\win32;$(SolutionDir)external\include"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				StringPooling="FALSE"
 				RuntimeLibrary="2"
@@ -173,5 +173,8 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="DevPartner_IsInstrumented"
+			Value="0"/>
 	</Globals>
 </VisualStudioProject>

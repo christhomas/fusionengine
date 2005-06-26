@@ -3,46 +3,54 @@
 
 #include <network/INetworkCore.h>
 #include <fusion_pthread.h>
+#include <fusion.h>
 
 class NetworkCore: public INetworkCore{
-protected:
+protected:	
 	pthread_t m_Thread;
 	unsigned int m_ThreadID;
 	
-	pthread_mutex_t m_sockets_lock, m_senddata_lock;
+	pthread_mutex_t m_sockets_lock;
 	bool m_destroy_threads;
-	Event *m_SendEvent, *m_TerminateThread;
+	Event *m_TerminateThread;
+	
+	ISocketEvents *m_socketEvents;
+	
+	virtual void initSocketEvents(void);
+
+	virtual SMap * addSocket(ISocket *socket, SOCKET s, int type);
+
+	virtual void clearSockets(void);		
 public:
 	NetworkCore();
 			
 	virtual ~NetworkCore();
 	
-	virtual bool Initialise(void);
+	virtual bool Initialise(void);	
+		
+	virtual ISocketEvents * getSocketEvents(void);
 	
-	virtual IClientSocket * CreateSocket(void);
+	virtual IClientSocket * createSocket(void);
 	
-	virtual IServerSocket * CreateServerSocket(void);
+	virtual IServerSocket * createServerSocket(void);
+		
+	virtual SMap * addSocket(IClientSocket *socket, SOCKET s);
 	
-	virtual unsigned int ResolveHost(const char *ip);
+	virtual SMap * addSocket(IServerSocket *socket, SOCKET s);
+		
+	virtual bool removeSocket(ISocket *socket);
+		
+	virtual void socketSend(IClientSocket *socket);
 	
-	virtual void Send(NetworkPacket *packet);	
+	virtual void socketReceive(IClientSocket *socket);
 	
-	virtual NetworkPacket * getNetworkPacket(void);
+	virtual void initThread(void);
 	
-	virtual void startThread(void);
+	virtual bool startThread(void);	
 	
-	virtual void killThread(void);
+	virtual bool killThread(void);
 	
-	//====================================
-	//	Mutex Locks/Unlocks
-	//====================================
-
-	//	Socket Locks
-	inline virtual void LockSockets(void);
-	inline virtual void UnlockSockets(void);
-	//	Send Data stack locks
-	inline virtual void LockSendStack(void);
-	inline virtual void UnlockSendStack(void);
+	virtual bool error(void);
 };
 
 #endif // #ifndef _NETWORKCORE_H_

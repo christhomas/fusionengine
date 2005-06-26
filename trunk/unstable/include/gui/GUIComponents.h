@@ -1,11 +1,7 @@
 #ifndef _GUICOMPONENTS_H_
 	#define _GUICOMPONENTS_H_
 
-#ifdef _WIN32
-	#include <win32/Timer.h>
-#else
-	#include <unix/Timer.h>
-#endif
+#include <Timer.h>
 
 #include <vector>
 #include <mesh/Entity.h>

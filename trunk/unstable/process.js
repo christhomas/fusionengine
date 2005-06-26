@@ -156,7 +156,7 @@ function processStrings(file, sstring, rstring, sterm)
 		processStrings(file,add_quotes(";;"),add_quotes(";"));
 		
 		//	strip any &quot; from the file
-		processStrings(file,"&quot;","");
+		//processStrings(file,"&quot;","");
 		processStrings(file,"$(NOINHERIT)","");
 	}else{
 		WScript.echo("\n+++++++++++++++++++++++++++++++");

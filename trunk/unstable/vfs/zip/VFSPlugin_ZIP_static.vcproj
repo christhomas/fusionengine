@@ -23,7 +23,7 @@
 				FavorSizeOrSpeed="0"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="FALSE"
-				AdditionalIncludeDirectories="$(SolutionDir)external\include\zlib;$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch"
+				AdditionalIncludeDirectories="$(SolutionDir)external\include\zlib;$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch\win32"
 				PreprocessorDefinitions="_WIN32;_DEBUG"
 				MinimalRebuild="FALSE"
 				BasicRuntimeChecks="3"
@@ -72,7 +72,7 @@
 				FavorSizeOrSpeed="1"
 				OptimizeForProcessor="0"
 				OptimizeForWindowsApplication="TRUE"
-				AdditionalIncludeDirectories="$(SolutionDir)external\include\zlib;$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch"
+				AdditionalIncludeDirectories="$(SolutionDir)external\include\zlib;$(ProjectDir);$(SolutionDir)vfs;$(SolutionDir)include;$(SolutionDir)include\arch\win32"
 				PreprocessorDefinitions="_WIN32;NDEBUG"
 				StringPooling="FALSE"
 				RuntimeLibrary="2"
@@ -120,5 +120,8 @@
 		</File>
 	</Files>
 	<Globals>
+		<Global
+			Name="DevPartner_IsInstrumented"
+			Value="0"/>
 	</Globals>
 </VisualStudioProject>

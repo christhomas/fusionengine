@@ -36,7 +36,7 @@
 	#pragma warning(disable: 4355) // using 'this' in the member initialisation list
 	#pragma warning(disable: 4786) // truncating a symbol to 255 characters in debug info
 	#pragma warning(disable: 4244) // conversion from __w64 int, to int, possible loss of data
-	//	WATCHME: is disabling these safe?
+	//	NOTE: is disabling these safe?
 #endif
 
 namespace dbg{
@@ -174,16 +174,26 @@ namespace dbg{
 			m_console = false;
 		}
 
-		virtual void enableFile(std::string fn){
-			m_file = true;
+		virtual bool enableFile(std::string fn){
+			//	Close/clear the current file
+			m_outpfile.clear();
+			
 			m_outpfile.open(fn.c_str(),std::ios::out);
 			
-			if(m_outpfile.is_open() == false)	disableFile();
+			if(m_outpfile.is_open() == false){
+				checkFileState();
+				disableFile();
+			}else{
+				m_file = true;
+			}
+			
+			return m_file;
 		}
 		
 		virtual void disableFile(void){
 			m_file = false;
 			m_outpfile.close();
+			m_outpfile.clear();
 		}
 
 		virtual void enableCustomFunc(dbg::callback func){
@@ -201,14 +211,25 @@ namespace dbg{
 		//	Method to check the current state of the stream
 		//	(can sometimes mess up, this gives an easy way to check)
 		//	Cannot use the debug stream for this, obviously
-		virtual void CheckState(void){
-			int rds = rdstate();
+		virtual void checkState(const std::basic_ostream<char> &stream)
+		{
+			int rds = stream.rdstate();
 			if(rds & std::ios::goodbit)	std::cout << "rdstate(): No error condition" << std::endl;
 			if(rds & std::ios::eofbit)	std::cout << "rdstate(): End of file reached" << std::endl;
 			if(rds & std::ios::failbit)	std::cout << "rdstate(): A possibly recoverable formatting or conversion error" << std::endl;
 			if(rds & std::ios::badbit)	std::cout << "rdstate(): A severe I/O error or unknown state" << std::endl;
-			
+		}
+		
+		virtual void checkState(void)
+		{
+			checkState(*this);
 			clear();
+		}
+		
+		virtual void checkFileState(void)
+		{
+			checkState(m_outpfile);
+			m_outpfile.clear();
 		}
 	};
 

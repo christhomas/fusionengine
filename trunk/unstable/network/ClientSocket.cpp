@@ -1,86 +1,139 @@
 #include <network/ClientSocket.h>
 
-ClientSocket::ClientSocket(INetworkCore *network)
+ClientSocket::ClientSocket(NetworkCore *network)
 {
     m_network = network;
+    m_events = m_network->getSocketEvents();
+    
+    m_smap = NULL;
+    
     m_Connected = false;
+    m_ready = false;
     
 	pthread_mutex_init(&m_recvStack_lock, NULL);
 	pthread_mutex_init(&m_sendStack_lock, NULL);
 	
 	m_recvEvent = new Event();
 	m_sendEvent = new Event(); 
+	m_connectEvent = new Event();
 }
 
 ClientSocket::~ClientSocket()
 {
-	Disconnect();
-    
+	disconnect();
+	
+	m_network->removeSocket(this);
+	
+	//	Clear the send data stack
+    for(unsigned int a=0;a<m_sendStack.size();a++) delete m_sendStack[a];
+    m_sendStack.clear();
+    //	Clear the recv data stack
+    for(unsigned int a=0;a<m_recvStack.size();a++) delete m_recvStack[a];
+    m_recvStack.clear();
+        
     pthread_mutex_destroy(&m_recvStack_lock);
     pthread_mutex_destroy(&m_sendStack_lock);
     
     delete m_recvEvent;
     delete m_sendEvent;	
+    delete m_connectEvent;
 }
 
-bool ClientSocket::Connect(const char *ip, int port)
+bool ClientSocket::connect(std::string ip, int port, unsigned int timeout)
 {
-    if (m_Connected == false) {
-		if ((m_socket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
-			return m_Connected;
+	return connect(ip.c_str(),port, timeout);
+}
+
+bool ClientSocket::connect(const char *ip, int port, unsigned int timeout)
+{    
+    if(connected() == false){
+		if( (m_rsocket = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET){
+			return false;
 		}
 
-		m_socket_info.sin_addr.s_addr = m_network->ResolveHost(ip);
-		m_socket_info.sin_family = AF_INET;
-		m_socket_info.sin_port = htons(port);
-		memset(&m_socket_info.sin_zero, 0, 8);
-
-		if (connect(m_socket, (sockaddr *) & m_socket_info,sizeof(sockaddr)) == SOCKET_ERROR) {
+		//	Setup a sockaddr with some basic information	
+		sockaddr_in socket_info;		
+		socket_info.sin_family = AF_INET;
+		socket_info.sin_port = htons(port);
+		memset(&socket_info.sin_zero, 0, 8);
+		
+		//	Setup the address you want to connect to
+		socket_info.sin_addr.s_addr = resolveHost(ip);
+		//	Store all relevant information here, so you can use it later
+		m_address = ip;
+		m_ipaddress = (unsigned int) socket_info.sin_addr.s_addr;
+		m_port = port;
+		
+		//	Connect to the remote machine
+		if(::connect(m_rsocket,(sockaddr *)&socket_info,sizeof(sockaddr)) == SOCKET_ERROR){
 			m_network->error();
-			Disconnect();
-			return m_Connected;
+			disconnect();
+			return false;
 		}
-
-		m_network->AddSocket(this, FD_READ);
-		SetConnected(true);
+		
+		//	Add the socket to the network core 
+		if(m_ready == false){
+			m_smap = m_network->addSocket(this, m_rsocket);
+			m_ready = true;
+		}
+		
+		//	Wait for the connection to accept and connect fully
+		//	if this fails, the connection fails, regardless of whether
+		//	it connects AFTER the timeout, the whole point is you 
+		//	are giving a maximum time to reply, or fuck off
+		if(m_connectEvent->timedwait(timeout) == ETIMEDOUT){
+			disconnect();
+			return false;
+		}
+		
+		return true;
     }
 
-    return m_Connected;
+    return false;
 }
 
-void ClientSocket::Disconnect(void)
+bool ClientSocket::disconnect(void)
 {
+	//fusion->errlog << "ClientSocket::disconnect()" << std::endl;
     if (m_Connected == true) {
-		m_network->RemoveSocket(this);
-
-		if (closesocket(m_socket) == SOCKET_ERROR) return;
+    	if (closesocket(m_rsocket) == SOCKET_ERROR) return false;
 	
-		m_Connected = false;
+		setConnected(false);
+		return true;
     }
+    
+    return false;
 }
 
-bool ClientSocket::Connected(void)
+bool ClientSocket::disconnect(bool deleteSocket)
+{
+	//	Signals the server socket wants to delete this object
+	//	after it's disconnected itself
+	m_smap->sock = INVALID_SOCKET;
+
+	return disconnect();
+}
+
+bool ClientSocket::connected(void)
 {
     return m_Connected;
 }
 
-void ClientSocket::SetConnected(bool status)
+void ClientSocket::setConnected(bool status)
 {
     m_Connected = status;
 }
 
-void ClientSocket::SignalSend(void)
-{
-	m_sendEvent->signal();
-}
-
-void ClientSocket::Send(const char *data, int length, bool wait)
+bool ClientSocket::send(const char *data, int length, bool wait)
 {
 	/*	FIXME:	Should a socket, have a sync/async property, 
 				so you can set a socket to always wait, or 
 				never wait for completion of sending data?
 	*/
-	unsigned int offset = 0;
+	
+	if(connected() == false) return false;
+	
+	unsigned int offset = 0;	
 	
     while (length > 0) {
 		NetworkPacket *packet = new NetworkPacket;
@@ -98,27 +151,41 @@ void ClientSocket::Send(const char *data, int length, bool wait)
 
 		length -= packet->length;
 
-		packet->socket = m_socket;
-
 		memset(packet->data,0,MAX_SEND);
 		memcpy(packet->data, &data[offset], packet->length);
 
-		m_network->Send(packet);
-		
+		pthread_mutex_lock(&m_sendStack_lock);
+		{
+			m_sendStack.push_back(packet);
+		}
+		pthread_mutex_unlock(&m_sendStack_lock);
+				
 		offset+=length;
     }
     
+	//	Signal the thread data is waiting
+	m_events->setSendEvent(m_smap);    
+    
+    //	wait for thread to send all data and release the event
     if(wait == true) m_sendEvent->wait();
-    SignalSend();	//	reset the event    
+    //	Reset the signal
+    //	FIXME: Is this needed anymore? or will it cause trouble?
+    m_sendEvent->signal();
+    
+    return true;
 }
 
-NetworkPacket * ClientSocket::Receive(unsigned int milliseconds)
+NetworkPacket * ClientSocket::receive(unsigned int milliseconds)
 {
     NetworkPacket *packet = NULL;
     
+    //fusion->errlog << "waiting to recv data" << std::endl;
+    
 	if(m_recvEvent->timedwait(milliseconds) != ETIMEDOUT){		
+		//fusion->errlog << "recvEvent signalled" << std::endl;
 		pthread_mutex_lock(&m_recvStack_lock);
 		{
+			//fusion->errlog << "number of items in stack = " << m_recvStack.size() << std::endl;
 			if (m_recvStack.size() > 0){
 				packet = m_recvStack[0];
 				m_recvStack.erase(m_recvStack.begin());
@@ -130,41 +197,181 @@ NetworkPacket * ClientSocket::Receive(unsigned int milliseconds)
     return packet;
 }
 
-unsigned int ClientSocket::GetIP(void)
+std::string ClientSocket::getAddress(void)
 {
-    return (unsigned int) m_socket_info.sin_addr.s_addr;
+	return m_address;
 }
 
-unsigned int ClientSocket::GetPort(void)
+unsigned int ClientSocket::getIP(void)
 {
-    return m_socket_info.sin_port;
+	return m_ipaddress;
 }
 
-void ClientSocket::threadConnect(unsigned int socket)
+unsigned int ClientSocket::getPort(void)
+{
+	return m_port;
+}
+
+unsigned int ClientSocket::resolveHost(const char *ip)
+{
+    // for converting dns names to ip's
+    char buffer[80];
+    memset(buffer, 0, 80);
+    hostent *host;
+
+    // for storing the final ip address
+    unsigned int address = -1;
+
+    // convert the string to an ip
+    address = inet_addr(ip);
+
+    //      if the conversion didnt work, it's cause it has to be resolved first
+    //      so this test will succeed if the address needs to be resolved
+    if (address == -1) {
+		// conver that hostname into a hostent structure
+		host = gethostbyname(ip);
+
+		if (host != NULL) {
+			// extract the ip address from the hostent structure
+			address = (*((in_addr *) host->h_addr)).s_addr;
+		}
+    }
+    //      if the address was a valid ip string, it'll return a correct address
+    //      if it's not, it'll attempt to resolve it, if that succeeds, it'll produce a valid ip address
+    //      if both of those fail, it'll return -1, to signal error
+    return address;
+}
+
+void ClientSocket::threadConnect(void)
+{
+	setConnected(true);
+	
+	//	Signal ClientSocket::connect() to unblock
+	m_connectEvent->signal();
+}
+
+bool ClientSocket::threadConnect(SOCKET s, unsigned int port)
 {
 	if(m_Connected == false){
-		int socklen = sizeof(sockaddr_in);
-		m_socket = accept(socket, (sockaddr *)&m_socket_info,&socklen);
+		m_rsocket = s;
 		
-		m_network->AddSocket(this, FD_READ);
-		SetConnected(true);	
+		m_smap = m_network->addSocket(this, m_rsocket);
+
+		setConnected(true);
+		
+		return true;
 	}
+	
+	return false;
+}
+
+void ClientSocket::threadDisconnect(void)
+{
+	m_network->removeSocket(this);
+	disconnect();
+	m_ready = false;
 }
 
 void ClientSocket::threadReceive(void)
 {
 	NetworkPacket *packet = new NetworkPacket;
-	packet->socket = m_socket;
 	memset(packet->data, 0, MAX_RECV);
 
-	packet->length = recv(packet->socket, packet->data, MAX_RECV, 0);
+	packet->length = recv(m_rsocket, packet->data, MAX_RECV, 0);
 	
 	if(packet->length > 0){
+		//fusion->errlog << "bytes recv'd from socket = " << packet->length << std::endl;
 		pthread_mutex_lock(&m_recvStack_lock);
 		{
 			m_recvStack.push_back(packet);
 			m_recvEvent->signal();
+			fusion->errlog << "Number of packets on stack = " << m_recvStack.size() << std::endl;
 		}
 		pthread_mutex_unlock(&m_recvStack_lock);
+	}else{
+		if(packet->length == 0){
+			//	remote disconnect
+			fusion->errlog << "Remote disconnect occured" << std::endl;
+			disconnect();
+		}else{
+			//	length < 0, error
+			m_network->error();
+		}
 	}
+}
+
+void ClientSocket::threadSend(void)
+{								
+	NetworkPacket *packet;
+	
+	//	If not connected anymore, clear out the send stack
+	//	FIXME:	Slow as hell, where is my PacketManager code
+	//			I wanted last week?
+	if(m_Connected == false){
+		while(m_sendStack.size() > 0){
+			delete m_sendStack[0];
+			m_sendStack.erase(m_sendStack.begin());
+		}
+	}
+	
+	fusion->errlog << "Number of items on the send stack = " << m_sendStack.size() << std::endl;
+	
+	//	FIXME:	Is it safe to call .size() outside of the mutex?
+	while(m_sendStack.size() > 0){
+		pthread_mutex_lock(&m_sendStack_lock);
+		{
+			packet = m_sendStack[0];
+			m_sendStack.erase(m_sendStack.begin());
+		}
+		pthread_mutex_unlock(&m_sendStack_lock);
+		
+		int bytes_sent = 0;
+		int offset = 0;
+		
+		while(packet->length > 0){
+			bytes_sent = ::send(m_rsocket, &packet->data[offset],packet->length, 0);
+			
+			if(bytes_sent > 0){
+				offset += bytes_sent;
+				packet->length -= bytes_sent;
+			}else{
+				//	send returned 0, this means an error
+				
+				//	You had a problem sending this packet, put it back
+				pthread_mutex_lock(&m_sendStack_lock);
+				{
+					m_sendStack.insert(m_sendStack.begin(), packet);
+				}
+				pthread_mutex_unlock(&m_sendStack_lock);				
+				
+				if(m_network->error() == true){
+					//	Holy shit! get back to the chopper!!!
+					disconnect();
+				}else{
+					//	Non-fatal error, attempt to send again
+					m_events->setSendEvent(m_smap);
+				}
+				
+				return;				
+			}
+		}
+		
+		if(packet->socketobj != NULL) m_sendEvent->signal();
+		
+		delete packet;
+	}
+}
+
+void ClientSocket::threadProcess(SOCKET s)
+{
+//	FIXME: to fix this, make a BSDClientSocket derived class and put all this into there
+/*	if(s == m_rsocket){
+		//	Network recv'd data
+		
+		threadReceive();		
+	}else if(s == m_lsocket){
+		//	You requested a send
+		
+		threadSend();		
+	}*/
 }
