@@ -1,0 +1,257 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: libVFS_st - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68C.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Fo"Release\static\libVFS/" /Fd"Release\static\libVFS/" /FD /c 
+"V:\Fusion\src\VirtualFS\VirtualFS.cpp"
+"V:\Fusion\src\VirtualFS\VFSTransport.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_file.cpp"
+"V:\Fusion\src\VirtualFS\VFSPlugin_BIN.cpp"
+"V:\Fusion\src\VirtualFS\VFSPlugin_TXT.cpp"
+"V:\Fusion\src\VirtualFS\VirtualFS_static.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68C.tmp" 
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68D.tmp" with contents
+[
+/nologo /out:"../../lib/libVFS_st.lib" 
+.\Release\static\libVFS\VirtualFS.obj
+.\Release\static\libVFS\VFSTransport.obj
+.\Release\static\libVFS\VFSHandle_file.obj
+.\Release\static\libVFS\VFSPlugin_BIN.obj
+.\Release\static\libVFS\VFSPlugin_TXT.obj
+.\Release\static\libVFS\VirtualFS_static.obj
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68D.tmp"
+<h3>Output Window</h3>
+Compiling...
+VirtualFS.cpp
+VFSTransport.cpp
+VFSHandle_file.cpp
+VFSPlugin_BIN.cpp
+VFSPlugin_TXT.cpp
+VirtualFS_static.cpp
+Generating Code...
+Creating library...
+<h3>
+--------------------Configuration: libZIP_st - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68F.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /I "v:\fusion\external\include\zlib" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Fo"Release/" /Fd"Release/" /FD /c 
+"V:\Fusion\src\VirtualFS\VFSTransport.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_ZIP_Static.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_file.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_ZIP.cpp"
+"V:\Fusion\External\src\zlib\adler32.c"
+"V:\Fusion\External\src\zlib\compress.c"
+"V:\Fusion\External\src\zlib\crc32.c"
+"V:\Fusion\External\src\zlib\deflate.c"
+"V:\Fusion\External\src\zlib\gvmat32c.c"
+"V:\Fusion\External\src\zlib\gzio.c"
+"V:\Fusion\External\src\zlib\infblock.c"
+"V:\Fusion\External\src\zlib\infcodes.c"
+"V:\Fusion\External\src\zlib\inffast.c"
+"V:\Fusion\External\src\zlib\inflate.c"
+"V:\Fusion\External\src\zlib\inftrees.c"
+"V:\Fusion\External\src\zlib\infutil.c"
+"V:\Fusion\External\src\zlib\maketree.c"
+"V:\Fusion\External\src\zlib\trees.c"
+"V:\Fusion\External\src\zlib\uncompr.c"
+"V:\Fusion\External\src\zlib\zutil.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP68F.tmp" 
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP690.tmp" with contents
+[
+/nologo /out:"../../lib/libZIP_st.lib" 
+.\Release\VFSTransport.obj
+.\Release\VFSHandle_ZIP_Static.obj
+.\Release\VFSHandle_file.obj
+.\Release\VFSHandle_ZIP.obj
+.\Release\adler32.obj
+.\Release\compress.obj
+.\Release\crc32.obj
+.\Release\deflate.obj
+.\Release\gvmat32c.obj
+.\Release\gzio.obj
+.\Release\infblock.obj
+.\Release\infcodes.obj
+.\Release\inffast.obj
+.\Release\inflate.obj
+.\Release\inftrees.obj
+.\Release\infutil.obj
+.\Release\maketree.obj
+.\Release\trees.obj
+.\Release\uncompr.obj
+.\Release\zutil.obj
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP690.tmp"
+<h3>Output Window</h3>
+Compiling...
+VFSTransport.cpp
+VFSHandle_ZIP_Static.cpp
+VFSHandle_file.cpp
+VFSHandle_ZIP.cpp
+Generating Code...
+Compiling...
+adler32.c
+compress.c
+crc32.c
+deflate.c
+gvmat32c.c
+gzio.c
+infblock.c
+infcodes.c
+inffast.c
+inflate.c
+inftrees.c
+infutil.c
+maketree.c
+trees.c
+uncompr.c
+zutil.c
+Generating Code...
+Creating library...
+<h3>
+--------------------Configuration: BuildFusion_STATIC - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+
+
+
+<h3>Results</h3>
+BuildFusion_STATIC - 0 error(s), 0 warning(s)
+<h3>
+--------------------Configuration: libVFS_st - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP692.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fo"Debug\static\libVFS/" /Fd"Debug\static\libVFS/" /FD /GZ /c 
+"V:\Fusion\src\VirtualFS\VirtualFS.cpp"
+"V:\Fusion\src\VirtualFS\VFSTransport.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_file.cpp"
+"V:\Fusion\src\VirtualFS\VFSPlugin_BIN.cpp"
+"V:\Fusion\src\VirtualFS\VFSPlugin_TXT.cpp"
+"V:\Fusion\src\VirtualFS\VirtualFS_static.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP692.tmp" 
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP693.tmp" with contents
+[
+/nologo /out:"../../lib/libVFS_st_d.lib" 
+.\Debug\static\libVFS\VirtualFS.obj
+.\Debug\static\libVFS\VFSTransport.obj
+.\Debug\static\libVFS\VFSHandle_file.obj
+.\Debug\static\libVFS\VFSPlugin_BIN.obj
+.\Debug\static\libVFS\VFSPlugin_TXT.obj
+.\Debug\static\libVFS\VirtualFS_static.obj
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP693.tmp"
+<h3>Output Window</h3>
+Compiling...
+VirtualFS.cpp
+VFSTransport.cpp
+VFSHandle_file.cpp
+VFSPlugin_BIN.cpp
+VFSPlugin_TXT.cpp
+VirtualFS_static.cpp
+Generating Code...
+Creating library...
+<h3>
+--------------------Configuration: libZIP_st - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP695.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "v:\fusion\external\include\zlib" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"V:\Fusion\src\VirtualFS\VFSTransport.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_ZIP_Static.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_file.cpp"
+"V:\Fusion\src\VirtualFS\VFSHandle_ZIP.cpp"
+"V:\Fusion\External\src\zlib\adler32.c"
+"V:\Fusion\External\src\zlib\compress.c"
+"V:\Fusion\External\src\zlib\crc32.c"
+"V:\Fusion\External\src\zlib\deflate.c"
+"V:\Fusion\External\src\zlib\gvmat32c.c"
+"V:\Fusion\External\src\zlib\gzio.c"
+"V:\Fusion\External\src\zlib\infblock.c"
+"V:\Fusion\External\src\zlib\infcodes.c"
+"V:\Fusion\External\src\zlib\inffast.c"
+"V:\Fusion\External\src\zlib\inflate.c"
+"V:\Fusion\External\src\zlib\inftrees.c"
+"V:\Fusion\External\src\zlib\infutil.c"
+"V:\Fusion\External\src\zlib\maketree.c"
+"V:\Fusion\External\src\zlib\trees.c"
+"V:\Fusion\External\src\zlib\uncompr.c"
+"V:\Fusion\External\src\zlib\zutil.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP695.tmp" 
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP696.tmp" with contents
+[
+/nologo /out:"../../lib/libZIP_st_d.lib" 
+.\Debug\VFSTransport.obj
+.\Debug\VFSHandle_ZIP_Static.obj
+.\Debug\VFSHandle_file.obj
+.\Debug\VFSHandle_ZIP.obj
+.\Debug\adler32.obj
+.\Debug\compress.obj
+.\Debug\crc32.obj
+.\Debug\deflate.obj
+.\Debug\gvmat32c.obj
+.\Debug\gzio.obj
+.\Debug\infblock.obj
+.\Debug\infcodes.obj
+.\Debug\inffast.obj
+.\Debug\inflate.obj
+.\Debug\inftrees.obj
+.\Debug\infutil.obj
+.\Debug\maketree.obj
+.\Debug\trees.obj
+.\Debug\uncompr.obj
+.\Debug\zutil.obj
+]
+Creating command line "link.exe -lib @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP696.tmp"
+<h3>Output Window</h3>
+Compiling...
+VFSTransport.cpp
+VFSHandle_ZIP_Static.cpp
+VFSHandle_file.cpp
+VFSHandle_ZIP.cpp
+Generating Code...
+Compiling...
+adler32.c
+compress.c
+crc32.c
+deflate.c
+gvmat32c.c
+gzio.c
+infblock.c
+infcodes.c
+inffast.c
+inflate.c
+inftrees.c
+infutil.c
+maketree.c
+trees.c
+uncompr.c
+zutil.c
+Generating Code...
+Creating library...
+<h3>
+--------------------Configuration: BuildFusion_STATIC - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+
+
+
+<h3>Results</h3>
+BuildFusion_STATIC - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

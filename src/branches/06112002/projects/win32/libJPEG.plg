@@ -1,0 +1,363 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: libJPEG - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP60E.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "v:\fusion\external\include\jpeg-6b" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "LIBJPEG_EXPORTS" /Fo"Debug\libJPEG/" /Fd"Debug\libJPEG/" /FD /GZ /c 
+"V:\Fusion\projects\win32\src\libJPEG.cpp"
+"V:\Fusion\src\VirtualFS\VFSPlugin_JPEG.cpp"
+"V:\Fusion\External\src\jpeg-6b\jutils.c"
+"V:\Fusion\External\src\jpeg-6b\cdjpeg.c"
+"V:\Fusion\External\src\jpeg-6b\cjpeg.c"
+"V:\Fusion\External\src\jpeg-6b\ckconfig.c"
+"V:\Fusion\External\src\jpeg-6b\djpeg.c"
+"V:\Fusion\External\src\jpeg-6b\example.c"
+"V:\Fusion\External\src\jpeg-6b\jcapimin.c"
+"V:\Fusion\External\src\jpeg-6b\jcapistd.c"
+"V:\Fusion\External\src\jpeg-6b\jccoefct.c"
+"V:\Fusion\External\src\jpeg-6b\jccolor.c"
+"V:\Fusion\External\src\jpeg-6b\jcdctmgr.c"
+"V:\Fusion\External\src\jpeg-6b\jchuff.c"
+"V:\Fusion\External\src\jpeg-6b\jcinit.c"
+"V:\Fusion\External\src\jpeg-6b\jcmainct.c"
+"V:\Fusion\External\src\jpeg-6b\jcmarker.c"
+"V:\Fusion\External\src\jpeg-6b\jcmaster.c"
+"V:\Fusion\External\src\jpeg-6b\jcomapi.c"
+"V:\Fusion\External\src\jpeg-6b\jcparam.c"
+"V:\Fusion\External\src\jpeg-6b\jcphuff.c"
+"V:\Fusion\External\src\jpeg-6b\jcprepct.c"
+"V:\Fusion\External\src\jpeg-6b\jcsample.c"
+"V:\Fusion\External\src\jpeg-6b\jctrans.c"
+"V:\Fusion\External\src\jpeg-6b\jdapimin.c"
+"V:\Fusion\External\src\jpeg-6b\jdapistd.c"
+"V:\Fusion\External\src\jpeg-6b\jdatadst.c"
+"V:\Fusion\External\src\jpeg-6b\jdatasrc.c"
+"V:\Fusion\External\src\jpeg-6b\jdcoefct.c"
+"V:\Fusion\External\src\jpeg-6b\jdcolor.c"
+"V:\Fusion\External\src\jpeg-6b\jddctmgr.c"
+"V:\Fusion\External\src\jpeg-6b\jdhuff.c"
+"V:\Fusion\External\src\jpeg-6b\jdinput.c"
+"V:\Fusion\External\src\jpeg-6b\jdmainct.c"
+"V:\Fusion\External\src\jpeg-6b\jdmarker.c"
+"V:\Fusion\External\src\jpeg-6b\jdmaster.c"
+"V:\Fusion\External\src\jpeg-6b\jdmerge.c"
+"V:\Fusion\External\src\jpeg-6b\jdphuff.c"
+"V:\Fusion\External\src\jpeg-6b\jdpostct.c"
+"V:\Fusion\External\src\jpeg-6b\jdsample.c"
+"V:\Fusion\External\src\jpeg-6b\jdtrans.c"
+"V:\Fusion\External\src\jpeg-6b\jerror.c"
+"V:\Fusion\External\src\jpeg-6b\jfdctflt.c"
+"V:\Fusion\External\src\jpeg-6b\jfdctfst.c"
+"V:\Fusion\External\src\jpeg-6b\jfdctint.c"
+"V:\Fusion\External\src\jpeg-6b\jidctflt.c"
+"V:\Fusion\External\src\jpeg-6b\jidctfst.c"
+"V:\Fusion\External\src\jpeg-6b\jidctint.c"
+"V:\Fusion\External\src\jpeg-6b\jidctred.c"
+"V:\Fusion\External\src\jpeg-6b\jmemansi.c"
+"V:\Fusion\External\src\jpeg-6b\jmemdos.c"
+"V:\Fusion\External\src\jpeg-6b\jmemmac.c"
+"V:\Fusion\External\src\jpeg-6b\jmemmgr.c"
+"V:\Fusion\External\src\jpeg-6b\jmemname.c"
+"V:\Fusion\External\src\jpeg-6b\jmemnobs.c"
+"V:\Fusion\External\src\jpeg-6b\jpegtran.c"
+"V:\Fusion\External\src\jpeg-6b\jquant1.c"
+"V:\Fusion\External\src\jpeg-6b\jquant2.c"
+"V:\Fusion\External\src\jpeg-6b\ansi2knr.c"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP60E.tmp" 
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP60F.tmp" with contents
+[
+/nologo /dll /incremental:yes /pdb:"Debug\libJPEG/libJPEG.pdb" /debug /machine:I386 /out:"../../bin/debug/libJPEG.dll" /implib:"Debug\libJPEG/libJPEG.lib" /pdbtype:sept 
+.\Debug\libJPEG\libJPEG.obj
+.\Debug\libJPEG\VFSPlugin_JPEG.obj
+.\Debug\libJPEG\jutils.obj
+.\Debug\libJPEG\cdjpeg.obj
+.\Debug\libJPEG\cjpeg.obj
+.\Debug\libJPEG\ckconfig.obj
+.\Debug\libJPEG\djpeg.obj
+.\Debug\libJPEG\example.obj
+.\Debug\libJPEG\jcapimin.obj
+.\Debug\libJPEG\jcapistd.obj
+.\Debug\libJPEG\jccoefct.obj
+.\Debug\libJPEG\jccolor.obj
+.\Debug\libJPEG\jcdctmgr.obj
+.\Debug\libJPEG\jchuff.obj
+.\Debug\libJPEG\jcinit.obj
+.\Debug\libJPEG\jcmainct.obj
+.\Debug\libJPEG\jcmarker.obj
+.\Debug\libJPEG\jcmaster.obj
+.\Debug\libJPEG\jcomapi.obj
+.\Debug\libJPEG\jcparam.obj
+.\Debug\libJPEG\jcphuff.obj
+.\Debug\libJPEG\jcprepct.obj
+.\Debug\libJPEG\jcsample.obj
+.\Debug\libJPEG\jctrans.obj
+.\Debug\libJPEG\jdapimin.obj
+.\Debug\libJPEG\jdapistd.obj
+.\Debug\libJPEG\jdatadst.obj
+.\Debug\libJPEG\jdatasrc.obj
+.\Debug\libJPEG\jdcoefct.obj
+.\Debug\libJPEG\jdcolor.obj
+.\Debug\libJPEG\jddctmgr.obj
+.\Debug\libJPEG\jdhuff.obj
+.\Debug\libJPEG\jdinput.obj
+.\Debug\libJPEG\jdmainct.obj
+.\Debug\libJPEG\jdmarker.obj
+.\Debug\libJPEG\jdmaster.obj
+.\Debug\libJPEG\jdmerge.obj
+.\Debug\libJPEG\jdphuff.obj
+.\Debug\libJPEG\jdpostct.obj
+.\Debug\libJPEG\jdsample.obj
+.\Debug\libJPEG\jdtrans.obj
+.\Debug\libJPEG\jerror.obj
+.\Debug\libJPEG\jfdctflt.obj
+.\Debug\libJPEG\jfdctfst.obj
+.\Debug\libJPEG\jfdctint.obj
+.\Debug\libJPEG\jidctflt.obj
+.\Debug\libJPEG\jidctfst.obj
+.\Debug\libJPEG\jidctint.obj
+.\Debug\libJPEG\jidctred.obj
+.\Debug\libJPEG\jmemansi.obj
+.\Debug\libJPEG\jmemdos.obj
+.\Debug\libJPEG\jmemmac.obj
+.\Debug\libJPEG\jmemmgr.obj
+.\Debug\libJPEG\jmemname.obj
+.\Debug\libJPEG\jmemnobs.obj
+.\Debug\libJPEG\jpegtran.obj
+.\Debug\libJPEG\jquant1.obj
+.\Debug\libJPEG\jquant2.obj
+.\Debug\libJPEG\ansi2knr.obj
+]
+Creating command line "link.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP60F.tmp"
+<h3>Output Window</h3>
+Compiling...
+VFSPlugin_JPEG.cpp
+v:\fusion\src\virtualfs\vfsplugin_jpeg.cpp(13) : error C2065: 'jpeg_error' : undeclared identifier
+Generating Code...
+Compiling...
+jutils.c
+cdjpeg.c
+cjpeg.c
+ckconfig.c
+djpeg.c
+example.c
+v:\fusion\external\src\jpeg-6b\example.c(116) : warning C4013: 'exit' undefined; assuming extern returning int
+v:\fusion\external\src\jpeg-6b\example.c(379) : warning C4013: 'put_scanline_someplace' undefined; assuming extern returning int
+jcapimin.c
+jcapistd.c
+jccoefct.c
+jccolor.c
+jcdctmgr.c
+jchuff.c
+jcinit.c
+jcmainct.c
+jcmarker.c
+jcmaster.c
+jcomapi.c
+jcparam.c
+jcphuff.c
+jcprepct.c
+Generating Code...
+Compiling...
+jcsample.c
+jctrans.c
+jdapimin.c
+jdapistd.c
+jdatadst.c
+jdatasrc.c
+jdcoefct.c
+jdcolor.c
+jddctmgr.c
+jdhuff.c
+jdinput.c
+jdmainct.c
+jdmarker.c
+jdmaster.c
+jdmerge.c
+jdphuff.c
+jdpostct.c
+jdsample.c
+jdtrans.c
+jerror.c
+Generating Code...
+Compiling...
+jfdctflt.c
+jfdctfst.c
+jfdctint.c
+jidctflt.c
+jidctfst.c
+jidctint.c
+jidctred.c
+jmemansi.c
+jmemdos.c
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2061: syntax error : identifier 'forgot'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2061: syntax error : identifier 'define'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2061: syntax error : identifier 'in'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2143: syntax error : missing '{' before '.'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(81) : error C2059: syntax error : '.'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(85) : error C2059: syntax error : 'bad suffix on number'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(97) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(100) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(104) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(107) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(107) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(107) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(108) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(109) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(110) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(111) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(112) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(113) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C2143: syntax error : missing ')' before '*'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C2143: syntax error : missing '{' before '*'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(114) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C2143: syntax error : missing ')' before '*'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C2143: syntax error : missing '{' before '*'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(115) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(116) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(117) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(117) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(247) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(247) : warning C4244: 'function' : conversion from 'long ' to 'short ', possible loss of data
+v:\fusion\external\src\jpeg-6b\jmemdos.c(247) : error C2198: 'jdos_seek' : too few actual parameters
+v:\fusion\external\src\jpeg-6b\jmemdos.c(252) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(252) : warning C4047: 'function' : 'short ' differs in levels of indirection from 'void *'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(252) : warning C4024: 'jdos_read' : different types for formal and actual parameter 1
+v:\fusion\external\src\jpeg-6b\jmemdos.c(253) : warning C4022: 'jdos_read' : pointer mismatch for actual parameter 2
+v:\fusion\external\src\jpeg-6b\jmemdos.c(253) : error C2198: 'jdos_read' : too few actual parameters
+v:\fusion\external\src\jpeg-6b\jmemdos.c(263) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(263) : warning C4244: 'function' : conversion from 'long ' to 'short ', possible loss of data
+v:\fusion\external\src\jpeg-6b\jmemdos.c(263) : error C2198: 'jdos_seek' : too few actual parameters
+v:\fusion\external\src\jpeg-6b\jmemdos.c(268) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(268) : warning C4047: 'function' : 'short ' differs in levels of indirection from 'void *'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(268) : warning C4024: 'jdos_write' : different types for formal and actual parameter 1
+v:\fusion\external\src\jpeg-6b\jmemdos.c(269) : warning C4022: 'jdos_write' : pointer mismatch for actual parameter 2
+v:\fusion\external\src\jpeg-6b\jmemdos.c(269) : error C2198: 'jdos_write' : too few actual parameters
+v:\fusion\external\src\jpeg-6b\jmemdos.c(277) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(277) : error C2198: 'jdos_close' : too few actual parameters
+v:\fusion\external\src\jpeg-6b\jmemdos.c(294) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(294) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(299) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(314) : error C2061: syntax error : identifier 'xms_driver'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(314) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(318) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(323) : error C2061: syntax error : identifier 'XMSH'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(325) : error C2061: syntax error : identifier 'dst_handle'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(325) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(327) : error C2059: syntax error : '}'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(338) : error C2065: 'XMSspec' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(338) : error C2146: syntax error : missing ';' before identifier 'spec'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(338) : error C2065: 'spec' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(339) : error C2143: syntax error : missing ';' before 'type'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(345) : error C2224: left of '.length' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(346) : error C2224: left of '.src_handle' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(346) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(347) : error C2224: left of '.src' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(348) : error C2224: left of '.dst_handle' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(349) : error C2224: left of '.dst' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(351) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(353) : warning C4013: 'jxms_calldriver' undefined; assuming extern returning int
+v:\fusion\external\src\jpeg-6b\jmemdos.c(353) : error C2065: 'xms_driver' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(353) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(358) : error C2065: 'endbuffer' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(360) : error C2109: subscript requires array or pointer type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(371) : error C2146: syntax error : missing ';' before identifier 'spec'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(372) : error C2143: syntax error : missing ';' before 'type'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(378) : error C2224: left of '.length' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(379) : error C2224: left of '.src_handle' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(380) : error C2224: left of '.src' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(381) : error C2224: left of '.dst_handle' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(381) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(382) : error C2224: left of '.dst' must have struct/union type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(384) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(386) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(393) : error C2109: subscript requires array or pointer type
+v:\fusion\external\src\jpeg-6b\jmemdos.c(393) : error C2106: '=' : left operand must be l-value
+v:\fusion\external\src\jpeg-6b\jmemdos.c(405) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(407) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(408) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(420) : warning C4013: 'jxms_getdriver' undefined; assuming extern returning int
+v:\fusion\external\src\jpeg-6b\jmemdos.c(420) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(420) : error C2065: 'XMSDRIVER' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(420) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(421) : warning C4047: '==' : 'int ' differs in levels of indirection from 'void *'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(426) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(433) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(438) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(464) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(500) : error C2065: 'EMSH' : undeclared identifier
+v:\fusion\external\src\jpeg-6b\jmemdos.c(500) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(504) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(507) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(509) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(525) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(528) : error C2059: syntax error : ')'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(532) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(534) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(546) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(547) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(548) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+v:\fusion\external\src\jpeg-6b\jmemdos.c(565) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(571) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(578) : error C4226: nonstandard extension used : 'far' is an obsolete keyword
+v:\fusion\external\src\jpeg-6b\jmemdos.c(583) : error C2039: 'handle' : is not a member of 'backing_store_struct'
+        v:\fusion\external\include\jpeg-6b\jmemsys.h(139) : see declaration of 'backing_store_struct'
+jmemmac.c
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2061: syntax error : identifier 'forgot'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2061: syntax error : identifier 'define'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2061: syntax error : identifier 'in'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2059: syntax error : ';'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2143: syntax error : missing '{' before '.'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(58) : error C2059: syntax error : '.'
+v:\fusion\external\src\jpeg-6b\jmemmac.c(62) : fatal error C1083: Cannot open include file: 'Files.h': No such file or directory
+jmemmgr.c
+jmemname.c
+v:\fusion\external\src\jpeg-6b\jmemname.c(130) : warning C4013: 'mktemp' undefined; assuming extern returning int
+jmemnobs.c
+jpegtran.c
+jquant1.c
+jquant2.c
+ansi2knr.c
+v:\fusion\external\src\jpeg-6b\ansi2knr.c(346) : warning C4013: 'exit' undefined; assuming extern returning int
+v:\fusion\external\src\jpeg-6b\ansi2knr.c(518) : warning C4018: '==' : signed/unsigned mismatch
+Generating Code...
+Skipping... (no relevant changes detected)
+libJPEG.cpp
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+libJPEG.dll - 119 error(s), 16 warning(s)
+</pre>
+</body>
+</html>

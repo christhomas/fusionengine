@@ -1,0 +1,25 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: libFusionUtil - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP104.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Fp"Debug/libFusionUtil.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"V:\Fusion\src\VirtualFS\VFSHandle_ZIP_Static.cpp"
+"V:\Fusion\src\VirtualFS\VirtualFS_static.cpp"
+"V:\Fusion\src\FusionUtil.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\kosh\LOCALS~1\Temp\RSP104.tmp" 
+Creating command line "link.exe -lib /nologo /out:"Debug\libFusionUtil.lib"  .\Debug\VFSHandle_ZIP_Static.obj .\Debug\VirtualFS_static.obj .\Debug\FusionUtil.obj "
+<h3>Output Window</h3>
+Compiling...
+VFSHandle_ZIP_Static.cpp
+cl.exe terminated at user request.
+
+</pre>
+</body>
+</html>

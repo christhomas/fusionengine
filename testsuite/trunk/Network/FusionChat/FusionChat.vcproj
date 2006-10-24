@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="7.10"
+	Name="FusionChat"
+	ProjectGUID="{DE4D3823-DDA5-4B46-AE23-DAD842A65643}"
+	Keyword="Win32Proj">
+	<Platforms>
+		<Platform
+			Name="Win32"/>
+	</Platforms>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="$(SolutionDir)bin\Network\$(ProjectName)"
+			IntermediateDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)"
+			ConfigurationType="1"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="$(SolutionDir);$(SolutionDir)fusion\include;$(SolutionDir)fusion\include\arch\win32;$(ProjectDir);$(SolutionDir)fusion\external\include\pthread;C:\Program Files\Common Files\GTK\2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GTK-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GLIB-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\PANGO-1.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\ATK-1.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GTKGLEXT-1.0;C:\Program Files\Common Files\GTK\2.0\LIB\GTK-2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\LIB\GLIB-2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\LIB\GTKGLEXT-1.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\INCLUDE\LIBGLADE-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\LIBXML2"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
+				MinimalRebuild="TRUE"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				StructMemberAlignment="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="TRUE"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libFusionCore_d.lib libxml2.lib gdk-win32-2.0.lib pango-1.0.lib gobject-2.0.lib gtk-win32-2.0.lib glib-2.0.lib glade-2.0.lib gthread-2.0.lib"
+				OutputFile="$(OutDir)/$(ProjectName)_d.exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(SolutionDir)fusion\lib;$(SolutionDir)fusion\external\lib;C:\Program Files\Common Files\GTK\2.0\LIB"
+				GenerateDebugInformation="TRUE"
+				ProgramDatabaseFile="$(IntDir)\$(ProjectName).pdb"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(SolutionDir)bin\*.xml&quot; &quot;$(OutDir)&quot;
+copy &quot;$(ProjectDir)\interface.glade&quot; &quot;$(OutDir)&quot;
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="$(SolutionDir)bin\Network\$(ProjectName)"
+			IntermediateDirectory="$(SolutionDir)bin\$(ConfigurationName)\$(ProjectName)"
+			ConfigurationType="1"
+			CharacterSet="2">
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalIncludeDirectories="$(SolutionDir);$(SolutionDir)fusion\include;$(SolutionDir)fusion\include\arch\win32;$(ProjectDir);$(SolutionDir)fusion\external\include\pthread;C:\Program Files\Common Files\GTK\2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GTK-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GLIB-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\PANGO-1.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\ATK-1.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\GTKGLEXT-1.0;C:\Program Files\Common Files\GTK\2.0\LIB\GTK-2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\LIB\GLIB-2.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\LIB\GTKGLEXT-1.0\INCLUDE;C:\Program Files\Common Files\GTK\2.0\INCLUDE\LIBGLADE-2.0;C:\Program Files\Common Files\GTK\2.0\INCLUDE\LIBXML2"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				RuntimeLibrary="2"
+				StructMemberAlignment="0"
+				UsePrecompiledHeader="0"
+				WarningLevel="3"
+				Detect64BitPortabilityProblems="TRUE"
+				DebugInformationFormat="3"/>
+			<Tool
+				Name="VCCustomBuildTool"/>
+			<Tool
+				Name="VCLinkerTool"
+				AdditionalDependencies="libFusionCore.lib pthreadVC.lib libxml2.lib gdk-win32-2.0.lib pango-1.0.lib gobject-2.0.lib gtk-win32-2.0.lib glib-2.0.lib glade-2.0.lib gthread-2.0.lib"
+				OutputFile="$(OutDir)/$(ProjectName).exe"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="$(SolutionDir)fusion\lib;$(SolutionDir)fusion\external\lib;C:\Program Files\Common Files\GTK\2.0\LIB"
+				GenerateDebugInformation="FALSE"
+				SubSystem="2"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				OptimizeForWindows98="1"
+				EntryPointSymbol="mainCRTStartup"
+				TargetMachine="1"/>
+			<Tool
+				Name="VCMIDLTool"/>
+			<Tool
+				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;$(SolutionDir)bin\*.xml&quot; &quot;$(OutDir)&quot;
+copy &quot;$(ProjectDir)\interface.glade&quot; &quot;$(OutDir)&quot;
+"/>
+			<Tool
+				Name="VCPreBuildEventTool"/>
+			<Tool
+				Name="VCPreLinkEventTool"/>
+			<Tool
+				Name="VCResourceCompilerTool"/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
+			<Tool
+				Name="VCManagedWrapperGeneratorTool"/>
+			<Tool
+				Name="VCAuxiliaryManagedWrapperGeneratorTool"/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<File
+			RelativePath=".\command.cpp">
+		</File>
+		<File
+			RelativePath=".\FusionChat.cpp">
+		</File>
+		<File
+			RelativePath=".\FusionChat.h">
+		</File>
+		<File
+			RelativePath=".\interface.cpp">
+		</File>
+		<File
+			RelativePath=".\Network.cpp">
+		</File>
+	</Files>
+	<Globals>
+		<Global
+			Name="DevPartner_IsInstrumented"
+			Value="0"/>
+	</Globals>
+</VisualStudioProject>

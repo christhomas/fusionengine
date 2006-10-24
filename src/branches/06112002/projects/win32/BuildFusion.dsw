@@ -1,0 +1,407 @@
+Microsoft Developer Studio Workspace File, Format Version 6.00
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
+
+###############################################################################
+
+Project: "BuildFusion"=.\BuildFusion.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libNetwork
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libOpenGL
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libVFS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libDirectGraphics8
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libFMOD
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libDG8
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libDI8
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name lib3DS
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libJPEG
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libLWO
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libPCX
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libQuake2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libQuake3
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libTGA
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libZIP
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "lib3DS"=.\lib3DS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libDG8"=.\libDG8.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libGraphics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libDI8"=.\libDI8.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libInput
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libDI8_2"=..\..\External\Include\Graphics\libDI8_2\libDI8_2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libInput2
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libFMOD"=.\libFMOD.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libFusion"=.\libFusion.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libFusionUtil"=.\libFusionUtil.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libGraphics"=.\libGraphics.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libInput"=.\libInput.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libInput2"=..\..\External\Include\Graphics\libInput2\libInput2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libJPEG"=.\libJPEG.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libLWO"=.\libLWO.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libMaths"=.\libMaths.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libNetwork"=.\libNetwork.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libOpenGL"=.\libOpenGL.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libGraphics
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libPCX"=.\libPCX.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libQuake2"=.\libQuake2.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libQuake3"=.\libQuake3.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libMaths
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libTGA"=.\libTGA.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libVFS"=.\libVFS.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libFusion
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name libVFS_st
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libVFS_st"=.\libVFS_st.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Project: "libZIP"=.\libZIP.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name libZIP_st
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "libZIP_st"=.\libZIP_st.dsp - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
+Global:
+
+Package=<5>
+{{{
+}}}
+
+Package=<3>
+{{{
+}}}
+
+###############################################################################
+

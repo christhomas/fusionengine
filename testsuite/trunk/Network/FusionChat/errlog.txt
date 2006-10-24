@@ -1,0 +1,2 @@
+xmlLoadConfig(): failed to load external entity "fusion_d.xml"
+
